@@ -1,0 +1,53 @@
+
+@page{size:A4;margin:16mm 16mm 18mm 16mm}
+:root{--navy:#0a1628;--gold:#c9a84c;--gold-dk:#7a5f12;--cream:#f7f3ec;--ink:#1e2530;--ink2:#3c4352;--line:#cfc6b4;--bad:#8f1d21}
+*{box-sizing:border-box}
+body{margin:0;font-family:Carlito,Calibri,"DejaVu Sans",sans-serif;font-size:11pt;line-height:1.45;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+h1,h2,h3{font-family:Caladea,Cambria,Georgia,serif;color:var(--navy);margin:0;line-height:1.15}
+.mono{font-family:"DejaVu Sans Mono",monospace}
+.band{background:var(--navy);color:#fff;padding:9mm 9mm 8mm;margin:0;border-bottom:3px solid var(--gold)}
+.band .eb{font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.band h1{color:#fff;font-size:28pt;margin-top:4mm}
+.band .sub{font-size:12.5pt;color:#e6e0d2;margin-top:2mm;max-width:150mm}
+.band .meta{margin-top:5mm;display:flex;gap:3mm;flex-wrap:wrap}
+.band .meta span{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;border:1px solid var(--gold);color:var(--gold);padding:1mm 2.2mm;border-radius:2px}
+.part{break-after:avoid;display:flex;align-items:baseline;gap:4mm;margin:8mm 0 3mm;padding-bottom:2mm;border-bottom:2px solid var(--navy)}
+.part .tag{font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.12em;text-transform:uppercase;background:var(--navy);color:#fff;padding:1mm 2.5mm}
+.part h2{font-size:18pt}
+h3{font-size:13pt;margin:5mm 0 1.5mm}
+p{margin:0 0 2.2mm}
+.use{border:1.5px solid var(--navy);padding:3mm 4mm;margin-top:6mm;background:var(--cream)}
+.use b{color:var(--navy)}
+.use table{width:100%;border-collapse:collapse;font-size:10pt;margin-top:1.5mm}
+.use td{padding:1.2mm 2mm;border-top:1px solid var(--line);vertical-align:top}
+.use td:first-child{font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;color:var(--gold-dk);white-space:nowrap;width:24mm}
+.ex{border:1px solid var(--line);margin:3mm 0;break-inside:avoid}
+.ex .h{background:var(--navy);color:#fff;font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.1em;text-transform:uppercase;padding:1.5mm 3mm}
+.ex .h b{color:var(--gold)}
+table.d{width:100%;border-collapse:collapse;font-size:10pt}
+table.d th{background:var(--cream);text-align:left;font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);padding:1.8mm 3mm;border-bottom:1px solid var(--line)}
+table.d td{padding:1.8mm 3mm;border-bottom:1px solid var(--line);vertical-align:top}
+table.d tr:last-child td{border-bottom:0}
+table.d td.n{font-family:"DejaVu Sans Mono",monospace;font-weight:bold;color:var(--navy);white-space:nowrap}
+.src{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--ink2)}
+.st{font-family:"DejaVu Sans Mono",monospace;font-size:7pt;padding:.3mm 1.4mm;border:1px solid;border-radius:2px;white-space:nowrap}
+.st.auto{color:var(--gold-dk);border-color:var(--gold-dk)}
+.st.ind{color:#155c30;border-color:#155c30}
+.st.mix{color:var(--ink2);border-color:var(--ink2)}
+.flow{display:flex;gap:1.5mm;margin:2mm 0 1mm;font-size:9.5pt}
+.flow div{flex:1;border:1.5px solid var(--navy);padding:2mm;text-align:center;background:#fff}
+.flow div b{display:block;font-family:"DejaVu Sans Mono",monospace;font-size:8pt;color:var(--gold-dk)}
+.q{border-left:3px solid var(--gold);padding:1mm 0 1mm 4mm;margin:2mm 0;break-inside:avoid}
+.q .k{font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dk)}
+.q ol{margin:1mm 0 0;padding-left:5mm}
+.q li{margin-bottom:1.2mm}
+.quote{font-family:Caladea,Georgia,serif;font-size:13pt;color:var(--navy);border-left:3px solid var(--navy);padding:1mm 0 1mm 4mm;margin:3mm 0}
+.warn{break-inside:avoid;border:1.5px dashed var(--bad);color:var(--bad);padding:2mm 3mm;font-size:9.5pt;margin:3mm 0}
+.pb{break-before:page}
+.seal{float:right;font-family:"DejaVu Sans Mono",monospace;font-size:8pt;color:#fff;background:var(--bad);padding:1.2mm 2.5mm;margin-top:1mm}
+.refs p{font-size:9pt;padding-left:5mm;text-indent:-5mm;margin-bottom:1.4mm;color:var(--ink2)}
+.refs a{color:var(--gold-dk);font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;word-break:break-all}
+
+h3{break-after:avoid}
+.refs{break-before:avoid}
+.flow{break-inside:avoid}

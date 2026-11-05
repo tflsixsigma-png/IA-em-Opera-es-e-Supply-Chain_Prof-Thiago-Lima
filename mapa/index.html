@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IA em Operações e Supply Chain · Mapa conceitual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: app de tela cheia com barra fixa, mapa de forças e vistas de leitura; tema escuro único, alto contraste para projetor */
+  :root{
+    --bg:#0a1020; --bg2:#0e1629; --panel:#121c33; --panel2:#1a2744;
+    --ink:#f4f7fc; --body:#e3e9f4; --muted:#b6c2d6; --line:#2c3a5c;
+    --core:#facc15; --teoria:#c4b5fd; --autor:#fdba74; --pratica:#4ade80;
+    --tec:#67e8f9; --barreira:#f87171; --lacuna:#f0abfc;
+    --accent:#facc15; --onaccent:#1a1400;
+    --f-ui:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --f-data:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:var(--f-ui);
+    background:var(--bg) radial-gradient(1200px 800px at 70% -10%,#1b2748 0%,var(--bg) 55%);
+    color:var(--ink);overflow:hidden;
+  }
+  /* ---------- Top bar ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;height:62px;z-index:30;
+    display:flex;align-items:center;gap:18px;padding:0 22px;
+    background:linear-gradient(180deg,rgba(10,16,32,.95),rgba(10,16,32,.78));
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.3px;flex:none}
+  .brand>div{white-space:nowrap;line-height:1.18}
+  .brand .dot{width:13px;height:13px;border-radius:50%;background:var(--core);flex:none;
+    box-shadow:0 0 0 4px rgba(250,204,21,.18),0 0 18px rgba(250,204,21,.6)}
+  .brand small{display:block;font-weight:500;font-size:11px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase}
+  nav{display:flex;gap:6px;margin-left:6px;overflow-x:auto;min-width:0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  nav::-webkit-scrollbar{display:none}
+  nav button{
+    background:transparent;border:1px solid transparent;color:var(--muted);flex:none;white-space:nowrap;
+    padding:8px 15px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;
+    transition:.15s;font-family:inherit;letter-spacing:.2px;
+  }
+  nav button:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+  nav button.active{color:var(--onaccent);background:var(--core);border-color:var(--core)}
+  .vbadge{background:var(--core);color:var(--onaccent);font-weight:700;font-size:11px;letter-spacing:.4px;
+    padding:4px 9px;border-radius:20px;white-space:nowrap}
+  .spacer{flex:1}
+  .searchbox{position:relative}
+  .searchbox input{
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    padding:8px 12px 8px 32px;border-radius:9px;font-size:13px;width:200px;font-family:inherit;outline:none;
+  }
+  .searchbox input:focus{border-color:var(--core)}
+  .searchbox svg{position:absolute;left:10px;top:9px;opacity:.5}
+  /* ---------- Views ---------- */
+  .view{position:fixed;inset:62px 0 0 0;display:none}
+  .view.active{display:block}
+  /* ---------- Map ---------- */
+  #stage{width:100%;height:100%;cursor:grab;display:block;touch-action:none}
+  #stage.grabbing{cursor:grabbing}
+  .legend{
+    position:absolute;left:18px;top:16px;z-index:10;background:rgba(18,28,51,.82);
+    border:1px solid var(--line);border-radius:13px;padding:13px 15px;backdrop-filter:blur(6px);max-width:230px;
+  }
+  .legend h4{margin:0 0 9px;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .legend .item{display:flex;align-items:center;gap:9px;font-size:13px;padding:4px 6px;border-radius:7px;cursor:pointer;transition:.12s;user-select:none}
+  .legend .item:hover{background:rgba(255,255,255,.05)}
+  .legend .item.off{opacity:.32}
+  .legend .swatch{width:12px;height:12px;border-radius:50%;flex:none}
+  .hint{position:absolute;left:18px;bottom:16px;z-index:10;font-size:12px;color:var(--muted);
+    background:rgba(18,28,51,.7);border:1px solid var(--line);border-radius:9px;padding:8px 12px;max-width:260px;line-height:1.5}
+  .ctrls{position:absolute;right:calc(18px + var(--panelw,0px));bottom:16px;z-index:10;display:flex;gap:8px;transition:right .25s}
+  .ctrls button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:rgba(18,28,51,.85);
+    color:var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit}
+  .ctrls button:hover{border-color:var(--core);color:var(--core)}
+  /* nodes */
+  .link{stroke:var(--line);stroke-width:1.4;transition:stroke .2s,stroke-width .2s,opacity .2s}
+  .link.hot{stroke:var(--core);stroke-width:2.4;opacity:1}
+  .node{cursor:pointer}
+  .node circle{stroke:var(--bg);stroke-width:2.5;transition:r .15s}
+  .node text{fill:var(--ink);font-size:11.5px;font-weight:600;pointer-events:none;paint-order:stroke;
+    stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+  .node.dim{opacity:.16}
+  .link.dim{opacity:.06}
+  .node.sel circle{stroke:#fff;stroke-width:3.5}
+  /* ---------- Detail panel ---------- */
+  #panel{
+    position:fixed;top:62px;right:0;bottom:0;width:380px;z-index:25;
+    background:linear-gradient(180deg,var(--panel),var(--bg2));border-left:1px solid var(--line);
+    transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;
+  }
+  #panel.open{transform:translateX(0)}
+  .pclose{position:absolute;top:13px;right:14px;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);
+    background:transparent;color:var(--muted);cursor:pointer;font-size:17px}
+  .pclose:hover{color:var(--ink);border-color:var(--core)}
+  .pbody{padding:26px 26px 30px;overflow-y:auto}
+  .ptag{display:inline-block;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;
+    padding:5px 11px;border-radius:30px;margin-bottom:14px}
+  #panel h2{margin:0 0 4px;font-size:23px;line-height:1.2}
+  .pauthor{color:var(--core);font-size:13.5px;font-weight:600;margin-bottom:18px}
+  .pdesc{font-size:14.5px;line-height:1.62;color:var(--body);margin-bottom:20px}
+  .pblock{margin-bottom:18px}
+  .pblock h5{margin:0 0 8px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .pblock ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.6;color:var(--body)}
+  .pblock li{margin-bottom:5px}
+  .chip{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;
+    padding:5px 12px;font-size:12px;margin:0 6px 7px 0;color:var(--body)}
+  .relnode{display:inline-flex;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:9px;padding:7px 11px;font-size:12.5px;margin:0 7px 7px 0;cursor:pointer;transition:.12s}
+  .relnode:hover{border-color:var(--core);transform:translateY(-1px)}
+  .relnode .sw{width:9px;height:9px;border-radius:50%;flex:none}
+  /* ---------- Content views (timeline/table/synth) ---------- */
+  .scroller{height:100%;overflow-y:auto;padding:46px 8vw 80px}
+  .scroller h1{font-size:30px;margin:0 0 6px;font-weight:800;letter-spacing:-.5px}
+  .scroller .sub{color:var(--muted);font-size:15px;margin-bottom:40px;max-width:680px;line-height:1.6}
+  /* timeline */
+  .tl{position:relative;max-width:880px}
+  .tl::before{content:"";position:absolute;left:88px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .tlitem{position:relative;padding:0 0 30px 130px;cursor:pointer}
+  .tlitem .yr{position:absolute;left:0;top:-2px;width:72px;text-align:right;font-weight:600;font-size:18px;color:var(--autor);font-family:var(--f-data);font-variant-numeric:tabular-nums}
+  .tlitem .nub{position:absolute;left:81px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--autor);
+    border:3px solid var(--bg);box-shadow:0 0 0 3px rgba(253,186,116,.18)}
+  .tlcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 19px;transition:.15s}
+  .tlitem:hover .tlcard{border-color:var(--autor);transform:translateX(3px)}
+  .tlcard h3{margin:0 0 3px;font-size:17px}
+  .tlcard .who{color:var(--core);font-size:13px;font-weight:600;margin-bottom:8px}
+  .tlcard p{margin:0;font-size:13.5px;line-height:1.55;color:var(--body)}
+  /* table */
+  .ctable{width:100%;max-width:980px;border-collapse:separate;border-spacing:0;font-size:14px}
+  .ctable th,.ctable td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  .ctable thead th{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .ctable tbody tr{transition:.12s}
+  .ctable tbody tr:hover{background:rgba(250,204,21,.05)}
+  .ctable .nm{font-weight:700;font-size:15px}
+  .ctable .nm small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;margin-top:3px;letter-spacing:.3px}
+  .scopebar{height:7px;border-radius:5px;background:linear-gradient(90deg,var(--core),var(--pratica));margin-top:9px}
+  /* synth */
+  .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:920px;margin-bottom:46px}
+  .scard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;position:relative;overflow:hidden}
+  .scard .n{font-size:34px;font-weight:800;color:var(--core);opacity:.32;position:absolute;top:12px;right:18px}
+  .scard h3{margin:0 0 9px;font-size:16px;color:var(--core)}
+  .scard p{margin:0;font-size:14px;line-height:1.6;color:var(--body)}
+  .qbox{max-width:920px}
+  .qbox h2{font-size:21px;margin:0 0 18px}
+  .q{display:flex;gap:16px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:18px 20px;margin-bottom:13px}
+  .q .qn{font-size:24px;font-weight:800;color:var(--lacuna);line-height:1;flex:none}
+  .q p{margin:0;font-size:15px;line-height:1.55}
+  .pullquote{max-width:820px;margin:8px 0 40px;font-size:21px;line-height:1.5;font-weight:600;
+    color:var(--ink);border-left:3px solid var(--lacuna);padding-left:22px;font-style:italic}
+  .pullquote cite{display:block;font-style:normal;font-size:13px;color:var(--muted);margin-top:12px;font-weight:500}
+  /* cases */
+  .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(390px,1fr));gap:20px;max-width:1120px}
+  .case{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column}
+  .case .ch{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:3px}
+  .case h3{margin:0;font-size:18px}
+  .case .loc{font-size:11px;color:var(--muted);letter-spacing:.5px;white-space:nowrap;text-transform:uppercase;flex:none}
+  .case .tag{font-size:14.5px;font-style:italic;color:var(--pratica);font-weight:600;margin:7px 0 13px}
+  .case p.cd{margin:0 0 16px;font-size:13.5px;line-height:1.58;color:var(--body)}
+  .case .row{display:flex;gap:12px;font-size:12.5px;padding:9px 0;border-top:1px solid var(--line)}
+  .case .row .k{flex:none;width:62px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:10px;padding-top:2px}
+  .case .row .v{color:var(--body);line-height:1.5}
+  .case .row .v b{color:var(--autor);font-weight:700}
+  .loop-chip{display:inline-block;font:700 11px/1 ui-monospace,monospace;color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.34);border-radius:20px;padding:5px 11px;letter-spacing:.04em;text-transform:uppercase;margin:2px 0 4px}
+  .case .gomap{margin-top:16px;align-self:flex-start;background:transparent;border:1px solid var(--line);color:var(--core);
+    border-radius:9px;padding:8px 15px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:.13s}
+  .case .gomap:hover{border-color:var(--core);background:rgba(250,204,21,.08);transform:translateY(-1px)}
+  /* refs */
+  .refgroup{font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--core);font-weight:700;margin:36px 0 6px;max-width:1000px}
+  .refrow{max-width:1000px;padding:13px 0 13px 30px;text-indent:-30px;border-bottom:1px solid var(--line);
+    font-size:14px;line-height:1.6;color:var(--body)}
+  .refrow i{color:var(--ink)}
+  .refrow a{color:var(--core);text-decoration:none;font-size:13px;word-break:break-all}
+  .refrow a:hover{text-decoration:underline}
+  .refrow.hide{display:none}
+  .reffilter{background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:9px;
+    font-size:13px;font-family:inherit;outline:none;margin-left:10px;width:240px}
+  .reffilter:focus{border-color:var(--core)}
+  /* shared "ver no mapa" button */
+  .gomap{margin-top:16px;align-self:flex-start;background:transparent;border:1px solid var(--line);color:var(--core);
+    border-radius:9px;padding:8px 15px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:.13s}
+  .gomap:hover{border-color:var(--core);background:rgba(250,204,21,.08);transform:translateY(-1px)}
+  /* quadro teórico */
+  .qtable{display:flex;flex-direction:column;gap:16px;max-width:1080px}
+  .qrow{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 24px;transition:.13s}
+  .qrow:hover{border-color:var(--line)}
+  .qhead{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:6px}
+  .qdotwrap{position:relative;display:inline-flex;flex:none}
+  .qdot{width:15px;height:15px;border-radius:50%;cursor:help;flex:none;box-shadow:0 0 0 3px rgba(255,255,255,.05)}
+  .qtip{position:absolute;left:24px;top:50%;transform:translateY(-50%);z-index:25;width:330px;max-width:72vw;
+    background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;
+    box-shadow:0 14px 34px rgba(0,0,0,.55);display:none;font-size:12.5px;line-height:1.5;color:var(--body)}
+  .qdotwrap:hover .qtip{display:block}
+  .qtip .c{display:block;font-weight:700;margin-bottom:7px;font-size:13.5px}
+  .qtip h6{margin:0 0 5px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .qconcept{font-weight:700;font-size:14.5px;padding:5px 13px;border-radius:30px;flex:none}
+  .qauthor{font-weight:700;font-size:15.5px}
+  .qpaper{font-style:italic;color:var(--muted);font-size:12.5px;margin-bottom:4px}
+  .qbody{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:14px}
+  .qcol h6{margin:0 0 6px;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .qcol p{margin:0;font-size:13.5px;line-height:1.56;color:var(--body)}
+  /* intro / how-to-use modal */
+  .helpbtn{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--core);
+    font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;flex:none}
+  .helpbtn:hover{border-color:var(--core)}
+  .introwrap{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;
+    background:rgba(4,8,18,.74);backdrop-filter:blur(7px)}
+  .introwrap.show{display:flex}
+  .introcard{position:relative;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);
+    border-radius:20px;max-width:580px;width:100%;padding:34px 36px;box-shadow:0 30px 80px rgba(0,0,0,.55);
+    max-height:88vh;overflow-y:auto}
+  .introcard .ptag{display:inline-block;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;
+    padding:5px 11px;border-radius:30px;margin-bottom:14px;background:rgba(250,204,21,.16);color:var(--core)}
+  .introcredit{font-size:12.5px;color:var(--core);font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:12px}
+  .introcard h2{margin:0 0 12px;font-size:25px;line-height:1.2}
+  .introcard .lead{font-size:15px;line-height:1.62;color:var(--body);margin:0 0 22px}
+  .introsteps{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+  .introsteps .s{display:flex;gap:12px;font-size:13.5px;line-height:1.5;color:var(--body)}
+  .introsteps .s .sw{width:10px;height:10px;border-radius:50%;flex:none;margin-top:5px}
+  .introsteps .s b{color:var(--ink)}
+  .introgo{background:var(--core);color:var(--onaccent);border:none;border-radius:11px;padding:12px 24px;font-size:14.5px;
+    font-weight:700;cursor:pointer;font-family:inherit}
+  .introgo:hover{filter:brightness(1.08)}
+  .introx{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);
+    background:transparent;color:var(--muted);cursor:pointer;font-size:16px}
+  .introx:hover{color:var(--ink);border-color:var(--core)}
+  /* apresentação / viewer */
+  .apswrap{height:100%;display:flex;flex-direction:column;padding:22px 4vw 16px}
+  .apstop{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:13px;gap:14px;flex-wrap:wrap}
+  .apstop h1{font-size:22px;margin:0}
+  .apssub{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .apsactions{display:flex;gap:8px}
+  .apsbtn{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px 14px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .apsbtn:hover{border-color:var(--core);color:var(--core)}
+  .apsstage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+    background:#070b17;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .apsstage img{max-width:100%;max-height:100%;object-fit:contain;display:block;cursor:pointer}
+  .apsmaplink{position:absolute;top:12px;right:12px;background:var(--core);color:var(--onaccent);border:none;
+    border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;
+    box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .apsmaplink:hover{filter:brightness(1.08)}
+  .apsnav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+    background:rgba(18,28,51,.82);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .apsnav:hover{border-color:var(--core);color:var(--core)}
+  .apsprev{left:14px}.apsnext{right:14px}
+  .apscounter{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(10,16,32,.82);
+    border:1px solid var(--line);border-radius:20px;padding:5px 14px;font-size:12.5px;color:var(--muted)}
+  .apsmeta{margin:13px 0 9px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .apsmeta .t{font-weight:700;font-size:15px}
+  .apschips{display:flex;flex-wrap:wrap;gap:7px}
+  .apschip{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:20px;padding:5px 12px;font-size:12px;cursor:pointer;transition:.12s}
+  .apschip:hover{border-color:var(--core);transform:translateY(-1px)}
+  .apschip .sw{width:8px;height:8px;border-radius:50%;flex:none}
+  .apsthumbs{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 2px}
+  .apsthumb{flex:none;width:104px;height:58px;border-radius:7px;border:2px solid transparent;overflow:hidden;cursor:pointer;opacity:.5;background:#000;transition:.12s}
+  .apsthumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .apsthumb.active{opacity:1;border-color:var(--core)}
+  .apsthumb:hover{opacity:1}
+  /* tela cheia */
+  .fswrap{position:fixed;inset:0;z-index:80;display:none;background:#000;align-items:center;justify-content:center}
+  .fswrap.show{display:flex}
+  .fswrap img{max-width:100vw;max-height:100vh;object-fit:contain}
+  .fsx{position:absolute;top:16px;right:18px;width:40px;height:40px;border-radius:9px;border:1px solid #333;
+    background:rgba(0,0,0,.5);color:#fff;font-size:17px;cursor:pointer}
+  .fsx:hover{border-color:var(--core);color:var(--core)}
+  .fsnav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid #444;
+    background:rgba(0,0,0,.4);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+  .fsnav:hover{border-color:var(--core);color:var(--core)}
+  .fsprev{left:20px}.fsnext{right:20px}
+  .fscounter{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:#bbb;font-size:13px}
+  .fsmaplink{position:absolute;bottom:14px;right:20px;background:var(--core);color:var(--onaccent);border:none;
+    border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+    box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  .fsmaplink:hover{filter:brightness(1.08)}
+  .bfybox{max-width:1040px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .bfybox svg{width:100%;height:auto;display:block}
+  .bfyacts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .bfyacts .gomap{margin-top:0;text-decoration:none}
+  .agh{font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:var(--core);font-weight:700;margin:36px 0 14px}
+  #view-agenda .scard .gomap{margin-top:14px}
+  @media(max-width:760px){.qbody{grid-template-columns:1fr;gap:14px}.introcard{padding:26px 22px}
+    .apswrap{padding:16px 14px}.apsnav{width:36px;height:36px;font-size:18px}}
+  @media(max-width:760px){
+    .grid4{grid-template-columns:1fr}.scroller{padding:34px 22px 80px}
+    header{gap:10px;padding:0 12px}
+    nav{flex:1;margin-left:0}
+    nav button{padding:8px 11px;font-size:12.5px}
+    .searchbox{display:none}.vbadge{display:none}.spacer{display:none}
+    #panel{width:100%}.brand small{display:none}
+  }
+
+  body{height:100%}
+  header{padding-top:env(safe-area-inset-top,0px)}
+  button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--core);outline-offset:2px}
+  .scroller .sub b{color:var(--ink)}
+  .vbadge,.tlcard .who,.pauthor{font-variant-numeric:tabular-nums}
+  /* fases da linha do tempo */
+  .tlphase{position:relative;padding:6px 0 22px 130px;max-width:880px}
+  .tlphase h2{margin:10px 0 4px;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--core);font-weight:700}
+  .tlphase p{margin:0;font-size:14px;line-height:1.55;color:var(--muted);max-width:640px}
+  .tlphase::before{content:"";position:absolute;left:83px;top:12px;width:12px;height:12px;background:var(--core);transform:rotate(45deg)}
+  /* slides em HTML */
+  .slide{container-type:inline-size;aspect-ratio:16/9;width:min(100%, calc((100vh - 330px) * 16 / 9));max-width:100%;
+    background:#0b1224;border:1px solid var(--line);border-radius:10px;padding:5.5cqw 7cqw;color:var(--ink);cursor:pointer;
+    display:flex;flex-direction:column;justify-content:center;gap:2.2cqw;overflow:hidden;text-align:left}
+  .apsstage .slide{min-width:0}
+  .slide .eyebrow{font-family:var(--f-data);font-size:1.7cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--core)}
+  .slide h2{margin:0;font-size:5cqw;line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .slide p,.slide li{font-size:2.35cqw;line-height:1.45;color:var(--body)}
+  .slide ul,.slide ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:.9cqw}
+  .slide b{color:var(--core);font-weight:600}
+  .slide .big{font-size:3cqw;line-height:1.35;color:var(--ink);max-width:80%;margin:0}
+  .slide .note{font-size:1.9cqw;color:var(--muted);margin:0}
+  .slide .formula{font-family:var(--f-data);font-size:3.4cqw;color:var(--core);border:2px solid var(--core);border-radius:8px;padding:1.2cqw 2.2cqw;align-self:flex-start}
+  .slide .cols2,.slide .cols3{display:grid;gap:2.2cqw}
+  .slide .cols2{grid-template-columns:1fr 1fr}.slide .cols3{grid-template-columns:repeat(3,1fr)}
+  .slide .cols2>div,.slide .cols3>div{border-top:3px solid var(--core);padding-top:1.4cqw}
+  .slide h3{margin:0 0 .8cqw;font-size:2.6cqw;color:var(--ink)}
+  .slide .cols2 p,.slide .cols3 p{margin:0;font-size:2.1cqw}
+  .slide .phases{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4cqw}
+  .slide .phases div{border-left:3px solid var(--core);padding:.6cqw 0 .6cqw 1.4cqw;display:flex;flex-direction:column;gap:.5cqw}
+  .slide .phases b{font-family:var(--f-data);font-size:3.6cqw;color:var(--core)}
+  .slide .phases span{font-size:2.1cqw;font-weight:600}
+  .slide .phases em{font-style:normal;font-family:var(--f-data);font-size:1.7cqw;color:var(--muted)}
+  .slide .sl-cover{display:flex;flex-direction:column;gap:2.4cqw}
+  .slide .sl-cover h2{font-size:7.4cqw;color:var(--core)}
+  .slide .sl-foot{font-family:var(--f-data);font-size:1.8cqw;color:var(--muted)}
+  .fswrap .fsslide{width:min(94vw, calc(94vh * 16 / 9));border-radius:0;cursor:default}
+  .apsthumb{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:150px;height:auto;min-height:58px;padding:7px 9px;
+    background:var(--panel);color:var(--body);font:500 11.5px/1.3 var(--f-ui);text-align:left;border:2px solid var(--line)}
+  .apsthumb b{font-family:var(--f-data);color:var(--core);font-size:12px}
+  .apsthumb span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .apsthumb.active{border-color:var(--core)}
+  .refrow a{color:var(--core)}
+  .bfybox{overflow-x:auto}
+  .bfybox svg{min-width:680px}
+  @media(max-width:760px){.slide{width:100%}.slide .cols3,.slide .phases{grid-template-columns:1fr 1fr}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  /* evidência */
+  .evt{width:100%;border-collapse:collapse;margin:14px 0 26px;font-size:13.5px;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .evt th{background:var(--panel2);color:var(--core);text-align:left;padding:10px 12px;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--line)}
+  .evt td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--body);line-height:1.45}
+  .evt tr:last-child td{border-bottom:0}
+  .evt td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+  .evt .nv{color:var(--barreira);font-family:var(--f-data);font-size:11px}
+  .evt .ok{color:var(--pratica);font-family:var(--f-data);font-size:11px}
+  .evt .au{color:var(--autor);font-family:var(--f-data);font-size:11px}
+  .evwrap{overflow-x:auto}
+  .refrow a{word-break:break-all;overflow-wrap:anywhere}
+  @media (max-width:760px){.evt{font-size:12.5px}.evt td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+
+<style id="disc-back-css">
+.disc-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;margin-right:12px;padding:6px 11px;border-radius:6px;
+background:#e3b54e;color:#0a1628!important;font:700 13px/1.1 'DM Sans',system-ui,sans-serif;text-decoration:none!important;white-space:nowrap;letter-spacing:0;text-transform:none}
+.disc-back:hover{background:#fff}.disc-back:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.disc-back .bk{font-weight:500;opacity:.85}
+@media(max-width:560px){.disc-back .bk{display:none}header .header-meta{display:none}header .header-title{font-size:.95rem;line-height:1.2}}
+@media print{.disc-back{display:none}}
+</style>
+<style id="mobile-patch">
+@media (max-width:700px){
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+  th{font-size:12px!important} td{font-size:14px!important;line-height:1.5}
+  .tab-btn{font-size:14px!important;min-height:44px}
+}
+@media (max-width:760px){
+  header{height:auto!important;flex-wrap:wrap;padding:8px 10px 0!important;gap:8px 10px!important}
+  header .brand{flex:1;min-width:0}
+  header nav{order:10;flex:1 0 100%!important;margin:0 -10px!important;padding:0 10px 8px;border-top:1px solid var(--line);padding-top:8px}
+  header nav button{padding:9px 12px!important;font-size:13.5px!important;min-height:40px}
+  .helpbtn{min-width:40px;min-height:40px}
+  .view{inset:var(--hh,108px) 0 0 0!important}
+  #panel{top:var(--hh,108px)!important}
+  .legend{top:10px!important;left:10px!important;padding:8px 12px!important;max-width:72vw!important}
+  .legend h4{cursor:pointer;margin:0!important;font-size:12px!important}
+  .legend h4::after{content:" ▾";text-transform:none}
+  .legend.open h4{margin-bottom:8px!important}
+  .legend.open h4::after{content:" ▴"}
+  .legend:not(.open) #legendItems{display:none}
+  .legend .item{font-size:14px!important;padding:7px 6px!important}
+  .hint{display:none!important}
+  .pdesc,.pblock li{font-size:15.5px!important}
+  .pbody{padding:22px 18px 40px!important}
+  .pclose{width:40px!important;height:40px!important}
+}
+
+@media (max-width:760px){
+  .apsstage{padding-bottom:52px!important}
+  .apsnav{top:auto!important;bottom:8px!important;transform:none!important}
+  .apsprev{left:calc(50% - 88px)!important}
+  .apsnext{right:calc(50% - 88px)!important}
+  .apscounter{bottom:14px!important}
+}
+</style>
+
+<header>
+  <div class="brand"><span class="dot"></span><div>IA em Operações e Supply Chain<small>Seminário · Ênfase em IA · Framework ELO</small></div></div>
+  <span class="vbadge">v2 · nov 2026</span>
+  <nav id="nav">
+    <button data-view="apresentacao" class="active">Apresentação</button>
+    <button data-view="map">Mapa Conceitual</button>
+    <button data-view="diagrama">Diagrama</button>
+    <button data-view="timeline">Linha do Tempo</button>
+    <button data-view="cases">Casos Práticos</button>
+    <button data-view="quadro">Quadro Teórico</button>
+    <button data-view="evidencia">Evidência</button>
+    <button data-view="agenda">Agenda</button>
+    <button data-view="refs">Referências</button>
+  </nav>
+  <div class="spacer"></div>
+  <button id="helpBtn" class="helpbtn" title="Como usar / comece aqui">?</button>
+  <div class="searchbox">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="search" placeholder="Buscar conceito ou autor…" autocomplete="off">
+  </div>
+</header>
+
+<!-- ============ MAP ============ -->
+<section class="view" id="view-map">
+  <svg id="stage"></svg>
+  <div class="legend">
+    <h4>Categorias <span style="font-weight:500;text-transform:none;letter-spacing:0">(clique p/ filtrar)</span></h4>
+    <div id="legendItems"></div>
+  </div>
+  <div class="hint">Clique num nó para detalhes · arraste para reorganizar · roda do mouse para zoom</div>
+  <div class="ctrls" id="ctrls">
+    <button id="zin" title="Aproximar">+</button>
+    <button id="zout" title="Afastar">−</button>
+    <button id="zfit" title="Centralizar" style="font-size:14px">⤢</button>
+  </div>
+</section>
+
+<!-- ============ APRESENTAÇÃO ============ -->
+<section class="view active" id="view-apresentacao">
+  <div class="apswrap">
+    <div class="apstop">
+      <div><h1>Apresentação da Aula</h1><div class="apssub">IA aplicada a Operações, Processos e Supply Chain: da filosofia da IA ao diagnóstico ELO, em três sessões · Prof. Dr. Thiago Lima</div></div>
+      <div class="apsactions">
+        <button class="apsbtn" id="apsFull">⛶ Tela cheia</button>
+      </div>
+    </div>
+    <div class="apsstage">
+      <button class="apsnav apsprev" id="apsPrev" aria-label="anterior">‹</button>
+      <div class="slide" id="apsSlide"></div>
+      <button class="apsnav apsnext" id="apsNext" aria-label="próximo">›</button>
+      <div class="apscounter" id="apsCounter"></div>
+      <button class="apsmaplink" id="apsMapLink">⊕ Explorar no mapa →</button>
+    </div>
+    <div class="apsmeta">
+      <span class="t" id="apsTitle"></span>
+      <span class="apschips" id="apsChips"></span>
+    </div>
+    <div class="apsthumbs" id="apsThumbs"></div>
+  </div>
+</section>
+
+<!-- ============ DIAGRAMA ============ -->
+<section class="view" id="view-diagrama">
+  <div class="scroller">
+<h1>Diagrama do Framework ELO</h1>
+    <p class="sub">A imagem-síntese do seminário. Entre uma ferramenta de IA que funciona e um resultado que a empresa consegue medir há <b>seis condições</b>, cada uma necessária e nenhuma suficiente. As duas do meio não são propriedades da ferramenta: são capacidades da organização, e é nelas que o valor mais se perde. À direita, o classificador separa o que a evidência mede do algoritmo do que mede a organização.</p>
+    <div class="bfybox">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 700" font-family="'IBM Plex Sans',Arial,Helvetica,sans-serif" role="img" aria-label="Framework ELO: seis condições entre a ferramenta e o resultado, e classificador de evidência">
+        <rect width="1180" height="700" fill="#0a1020"/>
+        <defs><marker id="elo-arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#facc15"/></marker></defs>
+        <text x="400" y="44" text-anchor="middle" fill="#facc15" font-size="19" font-weight="700">ELO · EVIDÊNCIA · LÓGICA ORGANIZACIONAL · OPERAÇÃO</text>
+        <text x="400" y="68" text-anchor="middle" fill="#e8eef8" font-size="14">seis condições entre a ferramenta e o resultado · Lima &amp; Araujo (COPPEAD/UFRJ)</text>
+        <!-- owner bands -->
+        <rect x="30" y="92" width="240" height="26" rx="6" fill="#67e8f9" opacity=".18"/><text x="150" y="110" text-anchor="middle" fill="#67e8f9" font-size="13" font-weight="700">A FERRAMENTA</text>
+        <rect x="282" y="92" width="240" height="26" rx="6" fill="#fdba74" opacity=".22"/><text x="402" y="110" text-anchor="middle" fill="#fdba74" font-size="13" font-weight="700">A ORGANIZAÇÃO</text>
+        <rect x="534" y="92" width="236" height="26" rx="6" fill="#4ade80" opacity=".18"/><text x="652" y="110" text-anchor="middle" fill="#4ade80" font-size="13" font-weight="700">O RESULTADO</text>
+        <!-- six boxes -->
+        <g font-size="13.5" fill="#e8eef8">
+        <rect x="30" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#67e8f9" stroke-width="2.5"/>
+        <text x="87" y="158" text-anchor="middle" fill="#67e8f9" font-size="26" font-weight="700">0</text>
+        <text x="87" y="184" text-anchor="middle" font-weight="700">Base de</text><text x="87" y="202" text-anchor="middle" font-weight="700">evidências</text>
+        <text x="87" y="232" text-anchor="middle" font-size="12">já produziu</text><text x="87" y="248" text-anchor="middle" font-size="12">resultado medido</text><text x="87" y="264" text-anchor="middle" font-size="12">em operação real?</text>
+        <rect x="156" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#67e8f9" stroke-width="2.5"/>
+        <text x="213" y="158" text-anchor="middle" fill="#67e8f9" font-size="26" font-weight="700">1</text>
+        <text x="213" y="184" text-anchor="middle" font-weight="700">Capacidade</text><text x="213" y="202" text-anchor="middle" font-weight="700">em operação</text>
+        <text x="213" y="232" text-anchor="middle" font-size="12">performa na rotina,</text><text x="213" y="248" text-anchor="middle" font-size="12">com dados locais,</text><text x="213" y="264" text-anchor="middle" font-size="12">no limiar em uso?</text>
+        <rect x="282" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#fdba74" stroke-width="4"/>
+        <text x="339" y="158" text-anchor="middle" fill="#fdba74" font-size="26" font-weight="700">2</text>
+        <text x="339" y="184" text-anchor="middle" font-weight="700">Integração</text><text x="339" y="202" text-anchor="middle" font-weight="700">ao fluxo</text>
+        <text x="339" y="232" text-anchor="middle" font-size="12">chega a quem decide</text><text x="339" y="248" text-anchor="middle" font-size="12">com a decisão</text><text x="339" y="264" text-anchor="middle" font-size="12">ainda aberta?</text>
+        <rect x="408" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#fdba74" stroke-width="4"/>
+        <text x="465" y="158" text-anchor="middle" fill="#fdba74" font-size="26" font-weight="700">3</text>
+        <text x="465" y="184" text-anchor="middle" font-weight="700">Tradução</text><text x="465" y="202" text-anchor="middle" font-weight="700">em ação</text>
+        <text x="465" y="232" text-anchor="middle" font-size="12">há dono, recurso</text><text x="465" y="248" text-anchor="middle" font-size="12">e capacidade</text><text x="465" y="264" text-anchor="middle" font-size="12">para agir?</text>
+        <rect x="534" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#4ade80" stroke-width="2.5"/>
+        <text x="591" y="158" text-anchor="middle" fill="#4ade80" font-size="26" font-weight="700">4</text>
+        <text x="591" y="184" text-anchor="middle" font-weight="700">Resultado</text><text x="591" y="202" text-anchor="middle" font-weight="700">organizacional</text>
+        <text x="591" y="232" text-anchor="middle" font-size="12">indicador, fonte,</text><text x="591" y="248" text-anchor="middle" font-size="12">linha de base e</text><text x="591" y="264" text-anchor="middle" font-size="12">comparador?</text>
+        <rect x="656" y="130" width="114" height="150" rx="12" fill="#121c33" stroke="#4ade80" stroke-width="2.5"/>
+        <text x="713" y="158" text-anchor="middle" fill="#4ade80" font-size="26" font-weight="700">5</text>
+        <text x="713" y="184" text-anchor="middle" font-weight="700">Valor</text><text x="713" y="202" text-anchor="middle" font-weight="700">líquido</text>
+        <text x="713" y="232" text-anchor="middle" font-size="12">quanto custa o</text><text x="713" y="248" text-anchor="middle" font-size="12">ganho e quem</text><text x="713" y="264" text-anchor="middle" font-size="12">paga por ele?</text>
+        </g>
+        <line x1="144" y1="205" x2="156" y2="205" stroke="#facc15" stroke-width="3"/><line x1="270" y1="205" x2="282" y2="205" stroke="#facc15" stroke-width="3"/><line x1="396" y1="205" x2="408" y2="205" stroke="#facc15" stroke-width="3"/><line x1="522" y1="205" x2="534" y2="205" stroke="#facc15" stroke-width="3"/><line x1="648" y1="205" x2="656" y2="205" stroke="#facc15" stroke-width="3"/>
+        <!-- failure mechanisms -->
+        <text x="400" y="318" text-anchor="middle" fill="#f87171" font-size="14" font-weight="700">MECANISMOS DE FALHA OBSERVADOS EM IMPLEMENTAÇÕES REAIS</text>
+        <g font-size="12.5" fill="#e8eef8">
+        <text x="87" y="344" text-anchor="middle">só estudos de</text><text x="87" y="360" text-anchor="middle">modelagem</text>
+        <text x="213" y="344" text-anchor="middle">acurácia cai fora</text><text x="213" y="360" text-anchor="middle">do desenvolvimento</text>
+        <text x="339" y="344" text-anchor="middle" fill="#fdba74" font-weight="700">adoção · momento</text><text x="339" y="360" text-anchor="middle">ignorado ou tardio</text>
+        <text x="465" y="344" text-anchor="middle" fill="#fdba74" font-weight="700">alcance · execução</text><text x="465" y="360" text-anchor="middle">sem dono ou recurso</text>
+        <text x="591" y="344" text-anchor="middle">percepção não</text><text x="591" y="360" text-anchor="middle">confirmada por registro</text>
+        <text x="713" y="344" text-anchor="middle">ganho realocado</text><text x="713" y="360" text-anchor="middle">para outra pessoa</text>
+        </g>
+        <!-- verdict -->
+        <rect x="30" y="392" width="740" height="76" rx="12" fill="#121c33" stroke="#facc15" stroke-width="2.5"/>
+        <text x="400" y="423" text-anchor="middle" fill="#facc15" font-size="20" font-weight="700">Veredito sem nota: a cadeia rompe na primeira condição que não é um "sim" claro</text>
+        <text x="400" y="450" text-anchor="middle" fill="#e8eef8" font-size="14.5">se rompe em 2 ou 3, o problema é da organização e nenhum fornecedor o resolve · se "não medido", o próximo passo é medir, não gastar</text>
+        <!-- reading of a case -->
+        <rect x="30" y="486" width="740" height="196" rx="12" fill="#121c33" stroke="#2c3a5c" stroke-width="1.5"/>
+        <text x="50" y="514" fill="#e8eef8" font-size="16" font-weight="700">Leitura de um caso · alerta de risco de atraso de fornecedor, 92% de acurácia</text>
+        <text x="50" y="543" fill="#e8eef8" font-size="14"><tspan fill="#67e8f9" font-weight="700">1 · </tspan>acurácia medida nos pedidos desta empresa, no limiar em uso, contando só os alertas anteriores à percepção do comprador</text>
+        <text x="50" y="567" fill="#e8eef8" font-size="14"><tspan fill="#fdba74" font-weight="700">2 · </tspan>o alerta chega ao comprador responsável antes de o pedido fechar, e ele o lê (taxa de uso medida)</text>
+        <text x="50" y="591" fill="#e8eef8" font-size="14"><tspan fill="#fdba74" font-weight="700">3 · </tspan>há dono da ação, fornecedor alternativo homologado e alçada para frete expresso</text>
+        <text x="50" y="615" fill="#e8eef8" font-size="14"><tspan fill="#4ade80" font-weight="700">4 · </tspan>OTIF por fornecedor no ERP, linha de base de 6 meses, famílias ainda não cobertas como comparador</text>
+        <text x="50" y="639" fill="#e8eef8" font-size="14"><tspan fill="#4ade80" font-weight="700">5 · </tspan>custo do frete expresso e das horas do comprador contados contra o atraso evitado</text>
+        <text x="50" y="667" fill="#facc15" font-size="14" font-weight="700">92% de acurácia responde apenas à condição 1, e só se foi medida aqui.</text>
+        <!-- right: evidence classifier -->
+        <line x1="795" y1="30" x2="795" y2="680" stroke="#2c3a5c" stroke-width="1.5"/>
+        <text x="985" y="44" text-anchor="middle" fill="#c4b5fd" font-size="18" font-weight="700">CLASSIFICADOR DE EVIDÊNCIA</text>
+        <text x="985" y="66" text-anchor="middle" fill="#e8eef8" font-size="13.5">o que o gestor recebe como prova de valor</text>
+        <g font-size="13" fill="#e8eef8">
+        <rect x="820" y="92" width="330" height="92" rx="10" fill="#121c33" stroke="#67e8f9" stroke-width="2"/>
+        <text x="836" y="116" fill="#67e8f9" font-size="14" font-weight="700">Métrica do modelo</text>
+        <text x="836" y="138">acurácia, MAPE, AUROC, F1</text><text x="836" y="156">medida no conjunto de desenvolvimento</text><text x="836" y="174" fill="#f87171" font-weight="700">mede o algoritmo</text>
+        <rect x="820" y="196" width="330" height="92" rx="10" fill="#121c33" stroke="#67e8f9" stroke-width="2"/>
+        <text x="836" y="220" fill="#67e8f9" font-size="14" font-weight="700">Simulação ou otimização</text>
+        <text x="836" y="242">"teria economizado 12% de estoque"</text><text x="836" y="260">sobre dados históricos, sem implantação</text><text x="836" y="278" fill="#f87171" font-weight="700">mede o algoritmo</text>
+        <rect x="820" y="300" width="330" height="92" rx="10" fill="#121c33" stroke="#4ade80" stroke-width="3"/>
+        <text x="836" y="324" fill="#4ade80" font-size="14" font-weight="700">Resultado organizacional observado</text>
+        <text x="836" y="346">indicador de gestão após a implantação</text><text x="836" y="364">com comparador concorrente</text><text x="836" y="382" fill="#4ade80" font-weight="700">mede a organização</text>
+        <rect x="820" y="404" width="330" height="92" rx="10" fill="#121c33" stroke="#f0abfc" stroke-width="2"/>
+        <text x="836" y="428" fill="#f0abfc" font-size="14" font-weight="700">Percepção ou autorrelato</text>
+        <text x="836" y="450">"os planejadores ganharam 40% de tempo"</text><text x="836" y="468">pesquisa de satisfação, entrevista</text><text x="836" y="486" fill="#f87171" font-weight="700">diverge do registro</text>
+        </g>
+        <rect x="820" y="520" width="330" height="150" rx="10" fill="#121c33" stroke="#facc15" stroke-width="2"/>
+        <text x="985" y="548" text-anchor="middle" fill="#facc15" font-size="14.5" font-weight="700">Perguntas para cada item</text>
+        <text x="836" y="574" fill="#e8eef8" font-size="13">· foi medido após implantação real?</text>
+        <text x="836" y="596" fill="#e8eef8" font-size="13">· houve grupo de comparação concorrente?</text>
+        <text x="836" y="618" fill="#e8eef8" font-size="13">· converge com outros casos da categoria?</text>
+        <text x="836" y="640" fill="#e8eef8" font-size="13">· o autor tem vínculo com o fornecedor?</text>
+        <text x="985" y="664" text-anchor="middle" fill="#facc15" font-size="13" font-weight="700">só o resultado observado responde à condição 4</text>
+        </svg>
+    </div>
+    <div class="bfyacts">
+      <button class="gomap" data-go="elo">Ver o ELO no mapa →</button>
+      <button class="gomap" data-go="classificador">Ver o classificador de evidência →</button>
+      <button class="gomap" data-go="divida">Ver a dívida filosófica no mapa →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVIDÊNCIA ============ -->
+<section class="view" id="view-evidencia">
+  <div class="scroller">
+<h1>Evidência · o que a literatura sustenta em cada condição</h1>
+    <p class="sub">Síntese da pesquisa de novembro de 2026 (revisões sistemáticas, competições, prêmios com júri, surveys de praticantes e casos verificados), organizada pelas seis condições do ELO. A regra de leitura: resultados auditados são modestos (1–4%) e vêm de otimização; resultados grandes são auto-reportados e vêm de ML ou IA generativa; evidência independente aparece sobretudo quando algo falha. <span class="au">AUTO</span> = reportado pela empresa ou fornecedor · <span class="ok">INDEP</span> = júri, regulador, experimento ou revisão por pares · <span class="nv">A CONFERIR</span> = não verificado na fonte primária.</p>
+    <h3 class="agh">Por condição do ELO</h3>
+    <div class="evwrap"><table class="evt">
+      <thead><tr><th>Condição</th><th>O que a literatura mostra</th><th>Evidência-chave</th><th>Lacuna</th></tr></thead>
+      <tbody>
+        <tr><td>0 · Base de evidências</td><td>Desempenho majoritariamente perceptual ou de estudo único; não há meta-análise; validação do fornecedor não é validação externa.</td><td>Culot et al. 2024: 123 estudos, benefícios "expectativas ou percepções" <span class="ok">INDEP</span> · Zamani 2023: 13 de 23 são surveys · Epic: AUC 0,63 vs 0,76–0,83 alegados <span class="ok">INDEP</span></td><td>Nenhuma revisão quantifica a fração que nunca sai da simulação; sem effect sizes agregados.</td></tr>
+        <tr><td>1 · Capacidade em operação</td><td>Robusta em previsão agregada e classificação; frágil a drift, janela de validação e granularidade.</td><td>M5: +22,4% no agregado, ~3% no produto-loja; só 7,5% batem o benchmark <span class="ok">INDEP</span> · Instacart 93%→61% <span class="au">AUTO</span> · Sculley: 5% ML, 95% cola</td><td>Post-mortems publicados de queda de desempenho após implantação não localizados.</td></tr>
+        <tr><td>2 · Integração ao fluxo</td><td>Obstáculo nº 1 em todas as fontes; exige padronização prévia e redesenho de processo.</td><td>Davenport &amp; Ronanki: 47% · Culot: estrutura/processos em 54% · McKinsey 2025: redesenho 3× entre high performers · Fountaine: 90% vs 23% do orçamento em adoção</td><td>Estudos empíricos em OM que testem o paradoxo automação–aumento.</td></tr>
+        <tr><td>3 · Tradução em ação</td><td>Humanos abandonam após erro visível ou sobrescrevem com ajustes pequenos e otimistas; controle limitado aumenta o uso.</td><td>Dietvorst 2018 · Fildes 2009 (&gt;60.000 previsões) · Glikson &amp; Woolley 2020 · ORION "pensar como motorista" <span class="ok">INDEP</span></td><td>Frequência de overrides em APS/ERP modernos; efeito do desenho da interação sobre o resultado.</td></tr>
+        <tr><td>4 · Resultado organizacional</td><td>Onde há júri ou experimento, ganhos modestos e plausíveis; cifras grandes são auto-reportadas.</td><td>Zara +3–4% · ECCO –1,09% · ORION US$ 300–400 mi/ano · Walmart 2023 US$ 91,5 mi <span class="ok">INDEP</span> · vs Morrisons "–30%" <span class="nv">A CONFERIR</span>, Ocado "40%" <span class="au">AUTO</span></td><td>Nenhum estudo independente de ML puro com comparador em serviço ou estoque; control towers, PdM e WFM sem resultado.</td></tr>
+        <tr><td>5 · Valor líquido</td><td>Percepção superestima; retorno vem com atraso e mal medido; manutenção cresce; adoção exige metade do orçamento.</td><td>METR 2025: –19% medido vs +20% percebido · Humlum &amp; Vestergaard: 2,8% auto-relatado, ~0 em salários e horas · curva J · Gartner: 30% de abandono · MIT SMR/BCG: 10%</td><td>Viés antes–depois e realocação de ganhos não quantificados em OM/SCM.</td></tr>
+      </tbody>
+    </table></div>
+    <h3 class="agh">Por área de aplicação</h3>
+    <div class="evwrap"><table class="evt">
+      <thead><tr><th>Área</th><th>Melhor evidência independente</th><th>Cifras típicas auto-reportadas</th><th>Lacuna</th></tr></thead>
+      <tbody>
+        <tr><td>Previsão / S&amp;OP</td><td>M5 (IJF 2022): ML +22,4% vs benchmark no agregado, ~3% no SKU-loja; sem ligação a custo</td><td>Amazon "acurácia 15× em dois anos"; Unilever "98% de disponibilidade"; Ocado "até 40% mais acurado" <span class="au">AUTO</span></td><td>Nenhum estudo independente liga acurácia de ML a serviço ou estoque em operação</td></tr>
+        <tr><td>Estoque / reposição</td><td>Zara +3–4% (experimento de campo, 2010); ECCO –1,09%; Microsoft IFS (Edelman 2026)</td><td>Morrisons/Blue Yonder "–30% gôndolas vazias" <span class="nv">A CONFERIR</span>; "+15% serviço" (relatório encomendado)</td><td>Efeito isolado da previsão por ML dentro do pacote previsão + otimização</td></tr>
+        <tr><td>Logística</td><td>UPS ORION US$ 300–400 mi/ano (2016); Walmart US$ 91,5 mi (2023); ambos otimização</td><td>Uber DeepETA "melhoria imediata" sem números; Amazon Sequoia "–25% tempo de processamento" <span class="au">AUTO</span></td><td>Control towers: zero evidência independente; ETA B2B só de fornecedor</td></tr>
+        <tr><td>Compras</td><td>Classificação de spend 94%/90% de acurácia (prova de conceito, MIT CTL)</td><td>Walmart–Pactum 64%→68% de acordos, 1,5%→3% de economia (coautoria Walmart, sem controle) <span class="au">AUTO</span></td><td>Score de risco de fornecedor e copilotos de RFQ sem evidência independente</td></tr>
+        <tr><td>Manufatura</td><td>Nenhuma com resultado organizacional e comparador</td><td>"–40–45% downtime" (blogs de fornecedor); "30–50%" atribuído à McKinsey 2017 <span class="nv">A CONFERIR</span></td><td>Manutenção preditiva é benchmark de bancada; relatos de drift são anedóticos</td></tr>
+        <tr><td>Força de trabalho</td><td>Nenhuma (só Microsoft IFS: –23% de carga da equipe)</td><td>Fornecedores de WFM sem números auditados</td><td>Área mais vazia das sete</td></tr>
+        <tr><td>IA generativa</td><td>Microsoft OptiGuide como camada de explicação sobre otimizador (Edelman 2026; efeito do LLM não isolado)</td><td>DHL/BCG, Maersk, NVIDIA: nenhum número <span class="au">AUTO</span>; Gartner: 30% dos projetos abandonados após o piloto</td><td>Nenhum estudo revisado por pares com resultado organizacional de LLM em supply chain</td></tr>
+      </tbody>
+    </table></div>
+    <h3 class="agh">Pesquisas de praticantes: o que medem e com que amostra</h3>
+    <div class="evwrap"><table class="evt">
+      <thead><tr><th>Fonte</th><th>Cifra citada</th><th>Amostra e método</th><th>Ressalva</th></tr></thead>
+      <tbody>
+        <tr><td>McKinsey 2025</td><td>88% usam IA; 39% algum impacto no EBIT (maioria &lt;5%); ~6% high performers</td><td>1.993 respondentes, 105 países, ponderado por PIB; auto-relato</td><td>"Leading indicators", não resultado medido; supply chain não destacada entre funções com benefício</td></tr>
+        <tr><td>MIT SMR/BCG 2019–2020</td><td>7 em 10 com impacto mínimo ou nulo; 10% com benefício financeiro significativo</td><td>&gt;2.500 e &gt;3.000 gestores; auto-relato</td><td>Organizações com loops humano–IA 6× mais propensas a amplificar sucesso</td></tr>
+        <tr><td>MIT NANDA 2025</td><td>95% dos pilotos de GenAI sem impacto em P&amp;L; 5% chegam a produção com ROI</td><td>150 entrevistas, 350 respondentes, 300 implantações; sucesso = ROI em 6 meses</td><td>Viés de amostra admitido; "US$ 30–40 bi investidos" <span class="nv">A CONFERIR</span></td></tr>
+        <tr><td>RAND 2024</td><td>&gt;80% dos projetos de IA falham, o dobro de projetos de TI</td><td>65 entrevistas qualitativas</td><td>Causa nº 1: problema mal definido (teleologia); título do relatório <span class="nv">A CONFERIR</span></td></tr>
+        <tr><td>Davenport &amp; Ronanki 2018</td><td>Integração com processos é o obstáculo nº 1 (47%)</td><td>152 projetos, 250 executivos</td><td>"Sistemas cognitivos executam tarefas, não empregos inteiros"</td></tr>
+      </tbody>
+    </table></div>
+    <div class="bfyacts">
+      <button class="gomap" data-go="escada">Ver a escada de evidência no mapa →</button>
+      <button class="gomap" data-go="auditado">Ver "auditado = otimização" no mapa →</button>
+      <button class="gomap" data-go="surveys">Ver as pesquisas de praticantes no mapa →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AGENDA ============ -->
+<section class="view" id="view-agenda">
+  <div class="scroller">
+<h1>Lacunas e Agenda de Pesquisa</h1>
+    <p class="sub">A literatura sobre IA em operações e supply chain é farta em métricas de modelo e pobre em resultados organizacionais medidos. O ELO nasceu de uma revisão de implementações hospitalares e é transposto aqui como estrutura de diagnóstico, não como resultado validado. As lacunas abaixo são, ao mesmo tempo, matéria de aula e agenda do pós-doutorado. <em>Culot et al. (2024); Toorajipour et al. (2021); Brynjolfsson et al. (2021); Lima &amp; Araujo (em andamento).</em></p>
+    <h3 class="agh">O que a literatura empírica costuma deixar de medir</h3>
+    <div class="grid4">
+      <div class="scard"><h3>Desempenho local, no limiar em uso</h3><p><b>Evidência:</b> a acurácia publicada vem do conjunto de desenvolvimento. <b>Oportunidade:</b> relatar sensibilidade contando só os alertas anteriores ao reconhecimento pela própria equipe (condição 1).</p></div>
+      <div class="scard"><h3>Taxa de uso efetivo</h3><p><b>Evidência:</b> adoção raramente é medida; um resultado nulo não distingue modelo ruim de modelo ignorado. <b>Oportunidade:</b> logs de acesso e resposta a alertas como variável obrigatória (condição 2).</p></div>
+      <div class="scard"><h3>Recursos da ação</h3><p><b>Evidência:</b> a ação recomendada é tratada como automática. <b>Oportunidade:</b> medir dono, alçada, fornecedor alternativo e capacidade antes de atribuir o resultado ao modelo (condição 3).</p></div>
+      <div class="scard"><h3>Comparador concorrente</h3><p><b>Evidência:</b> antes-e-depois sem grupo concorrente confunde efeito com tendência. <b>Oportunidade:</b> comparar com a solução organizacional já existente, não com a ausência de solução (condição 4).</p></div>
+      <div class="scard"><h3>Medida objetiva em vez de autorrelato</h3><p><b>Evidência:</b> economias de tempo percebidas não foram confirmadas por registros. <b>Oportunidade:</b> indicadores registrados automaticamente em ERP, WMS, TMS (condição 4).</p></div>
+      <div class="scard"><h3>Quem paga pelo ganho</h3><p><b>Evidência:</b> ganhos realocam recursos fixos: itens despriorizados, trabalho deslocado, esforço de verificação. <b>Oportunidade:</b> contabilizar o custo do ganho (condição 5).</p></div>
+    </div>
+    <h3 class="agh">Três debates de fronteira</h3>
+    <div class="grid4">
+      <div class="scard"><h3 style="color:var(--lacuna)">IA cria capacidade ou ativo?</h3><p>Pelo VCAP, a IA comprada entra em A, às vezes em P. Só vira C se a empresa ficar melhor em melhorar sem o sistema. Se todos compram a mesma solução, o resultado é convergência, não vantagem.</p><button class="gomap" data-go="convergencia">Ver no mapa →</button></div>
+      <div class="scard"><h3 style="color:var(--lacuna)">Automação ou aumento?</h3><p>Raisch e Krakowski mostram que automação e aumento se reforçam e se tensionam ao longo do tempo. A condição 3 pergunta se há alguém para interpretar; a automação completa retira essa pessoa.</p><button class="gomap" data-go="automacao">Ver no mapa →</button></div>
+      <div class="scard"><h3 style="color:var(--lacuna)">O ELO vale fora do hospital?</h3><p>A cadeia de seis condições foi derivada de implementações hospitalares. A transposição para supply chain é estrutural; a base de evidências por categoria de aplicação ainda precisa ser levantada.</p><button class="gomap" data-go="validacao">Ver no mapa →</button></div>
+    </div>
+    <h3 class="agh">Direções de tese · perguntas em aberto</h3>
+    <div class="qbox">
+      <div class="q"><span class="qn">?</span><p>Em que condição da cadeia as implementações de IA em supply chain mais frequentemente rompem, e esse padrão coincide com o observado em hospitais (condições 2 e 3)?</p></div>
+      <div class="q"><span class="qn">?</span><p>A articulação prévia da teleologia (hierarquia de objetivos escrita) prediz menor ruptura nas condições 2 a 5? Dívida filosófica como variável explicativa.</p></div>
+      <div class="q"><span class="qn">?</span><p>Como medir se a adoção de IA amplia a capacidade organizacional (C) ou apenas adiciona um ativo (A) que os concorrentes também compram?</p></div>
+      <div class="q"><span class="qn">?</span><p>Os pareceres ELO produzidos por executivos em sala convergem com auditorias pós-implantação independentes? Validação do instrumento com turmas como fonte.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="view" id="view-timeline">
+  <div class="scroller">
+    <h1>Encadeamento Teórico do Campo</h1>
+    <p class="sub">Do problema que a IA promete resolver (Fisher, 1997; Lee et al., 1997) ao diagnóstico ELO (Lima &amp; Araujo). Quatro fases: a operação aprende a decidir com dados, a IA entra na operação, a evidência empírica é organizada, e a filosofia e o diagnóstico passam a anteceder a compra. Cada fase responde a um problema deixado pela anterior.</p>
+    <div class="tl" id="tl"></div>
+  </div>
+</section>
+
+<!-- ============ QUADRO TEÓRICO ============ -->
+<section class="view" id="view-quadro">
+  <div class="scroller">
+    <h1>Quadro Teórico · do autor à prática</h1>
+    <p class="sub">Os trabalhos que sustentam o seminário, lidos da teoria à prática. Cada linha conecta o autor ao conceito-chave, à sua principal contribuição e à prática que dela deriva. A cor do conceito segue a legenda do mapa; use “ver no mapa” para localizá-lo na rede.</p>
+    <div class="qtable" id="quadroRows"></div>
+  </div>
+</section>
+
+<!-- ============ CASES ============ -->
+<section class="view" id="view-cases">
+  <div class="scroller">
+    <h1>Casos Práticos · da teoria à prática</h1>
+    <p class="sub">Cada caso conecta uma implementação de IA (ou algo vendido como IA) à condição do ELO em que a cadeia rompeu, ou se sustentou. Zillow é o caso de abertura; o caso hospitalar é fictício e ilustra o instrumento. Use “ver no mapa” para abrir o nó relacionado.</p>
+    <div class="cases" id="caseList"></div>
+  </div>
+</section>
+
+<!-- ============ REFERENCES ============ -->
+<section class="view" id="view-refs">
+  <div class="scroller">
+    <h1>Referências Citadas</h1>
+    <p class="sub"><span id="refCount"></span> obras citadas ou recomendadas para o seminário, em APA 7. Quando disponível, clique no link para abrir a fonte original.
+      <input class="reffilter" id="refFilter" placeholder="filtrar por autor, título…" autocomplete="off"></p>
+    <div id="refGroups"></div>
+  </div>
+</section>
+
+<!-- ============ INTRO / COMO USAR ============ -->
+<div class="introwrap" id="intro">
+  <div class="introcard">
+    <button class="introx" id="introClose">✕</button>
+    <div class="introcredit">Material produzido por Prof. Dr. Thiago Lima · COPPEAD/UFRJ</div>
+    <div class="ptag">Comece por aqui · como usar</div>
+    <h2>O que precisa ser verdade para a IA virar resultado?</h2>
+    <p class="lead">Modelos com 92% de acurácia convivem com indicadores que não se mexem. O seminário pergunta <b>o que precisa ser verdade, além do algoritmo funcionar</b>, para que a IA produza um resultado que a empresa consiga medir. Três sessões: a filosofia que a IA carrega (Schrage &amp; Kiron), onde ela entra em operações e supply chain (Culot et al.), e o <b>ELO</b>, seis condições entre a ferramenta e o resultado. Este app organiza o tema nas seguintes áreas:</p>
+    <div class="introsteps">
+      <div class="s"><span class="sw" style="background:var(--core)"></span><div><b>Mapa Conceitual</b> · clique nas bolinhas para abrir cada conceito com sua explicação, o autor de referência e as conexões. Cada conceito leva ao slide correspondente.</div></div>
+      <div class="s"><span class="sw" style="background:var(--pratica)"></span><div><b>Apresentação</b> · os slides das três sessões, navegáveis e em tela cheia; clique no slide para saltar ao conceito no mapa.</div></div>
+      <div class="s"><span class="sw" style="background:var(--tec)"></span><div><b>Diagrama</b> · a cadeia de seis condições do ELO e o classificador de evidência, lado a lado.</div></div>
+      <div class="s"><span class="sw" style="background:var(--autor)"></span><div><b>Linha do Tempo</b> · como o campo se formou em quatro fases, de Fisher (1997) ao ELO (2026).</div></div>
+      <div class="s"><span class="sw" style="background:var(--teoria)"></span><div><b>Quadro Teórico</b> · autor → paper → conceito-chave → contribuição → prática.</div></div>
+      <div class="s"><span class="sw" style="background:var(--barreira)"></span><div><b>Casos Práticos</b> · Zillow, UPS ORION, Zara, Walmart, Pactum, Ocado, Microsoft, Instacart, Epic, Knight Capital e um hospital fictício, com cifras verificadas e status da fonte, ligados à condição do ELO.</div></div>
+      <div class="s"><span class="sw" style="background:#5eead4"></span><div><b>Evidência</b> · o que a literatura sustenta em cada condição do ELO, por área de aplicação, e o que as pesquisas de praticantes realmente medem.</div></div>
+      <div class="s"><span class="sw" style="background:var(--lacuna)"></span><div><b>Agenda</b> · o que a literatura não mede, debates de fronteira, governança (AI Act, PL 2338) e direções de tese.</div></div>
+      <div class="s"><span class="sw" style="background:var(--muted)"></span><div><b>Referências</b> · todas as obras citadas em APA 7, com DOI clicável.</div></div>
+    </div>
+    <button class="introgo" id="introGo">Começar a explorar →</button>
+  </div>
+</div>
+
+<!-- ============ TELA CHEIA ============ -->
+<div class="fswrap" id="fs">
+  <button class="fsx" id="fsClose" aria-label="fechar">✕</button>
+  <button class="fsnav fsprev" id="fsPrev" aria-label="anterior">‹</button>
+  <div class="slide fsslide" id="fsSlide"></div>
+  <button class="fsnav fsnext" id="fsNext" aria-label="próximo">›</button>
+  <div class="fscounter" id="fsCounter"></div>
+  <button class="fsmaplink" id="fsMapLink">⊕ Explorar no mapa →</button>
+</div>
+
+<!-- ============ DETAIL PANEL ============ -->
+<aside id="panel">
+  <button class="pclose" id="pclose">✕</button>
+  <div class="pbody" id="pbody"></div>
+</aside>
+
+<script>
+/* ====================== DATA ====================== */
+const CAT = {
+  core:    {name:"Núcleo · ELO",             color:"#facc15"},
+  teoria:  {name:"Lentes teóricas",          color:"#c4b5fd"},
+  autor:   {name:"Autores principais",       color:"#fdba74"},
+  pratica: {name:"Aplicações em Ops & SC",   color:"#4ade80"},
+  tec:     {name:"Técnicas & dados",         color:"#67e8f9"},
+  barreira:{name:"Mecanismos de falha",      color:"#f87171"},
+  lacuna:  {name:"Lacunas & agenda",         color:"#f0abfc"},
+  gov:     {name:"Governança & regulação",   color:"#5eead4"},
+};
+const SHORT = {
+  "ELO · seis condições entre a ferramenta e o resultado":"ELO · seis condições",
+  "0 · Base de evidências":"0 · Evidências",
+  "1 · Capacidade técnica em operação":"1 · Capacidade em op.",
+  "2 · Integração ao fluxo de trabalho":"2 · Integração ao fluxo",
+  "3 · Tradução em ação":"3 · Tradução em ação",
+  "4 · Resultado organizacional":"4 · Resultado org.",
+  "5 · Valor líquido":"5 · Valor líquido",
+  "Classificador de evidência":"Classificador",
+  "Veredito sem nota":"Veredito",
+  "Três pilares · filosofia come a IA":"Três pilares",
+  "Teleologia · o que foi mandado querer":"Teleologia",
+  "Epistemologia · o que conta como saber":"Epistemologia",
+  "Ontologia · o que consegue ver":"Ontologia",
+  "Dívida filosófica":"Dívida filosófica",
+  "Modelo VCAP · V = C × (A + P)":"VCAP · V = C×(A+P)",
+  "Competir em analytics":"Competir em analytics",
+  "Quatro temas dos estudos empíricos":"Quatro temas",
+  "Paradoxo automação–aumento":"Automação × aumento",
+  "Curva J da produtividade":"Curva J",
+  "Previsão barata, julgamento caro":"Previsão × julgamento",
+  "Cinco objetivos de desempenho":"Cinco objetivos",
+  "Previsão de demanda e S&OP":"Previsão e S&OP",
+  "Reposição e otimização de estoque":"Estoque e reposição",
+  "Roteirização e torre de controle":"Rotas e torre de controle",
+  "Sourcing e risco de fornecedor":"Compras e risco",
+  "Manutenção preditiva e qualidade":"Manutenção preditiva",
+  "Capacidade, escalas e força de trabalho":"Capacidade e escalas",
+  "Copilotos e IA generativa":"IA generativa",
+  "Aprendizado de máquina supervisionado":"ML supervisionado",
+  "Modelos de linguagem (LLM)":"LLM",
+  "Otimização com regras humanas (fora do escopo)":"Otimização c/ regras",
+  "Requisitos de dados e sistemas":"Dados e sistemas",
+  "Adoção e momento":"Adoção e momento",
+  "Alcance e barreira de execução":"Alcance e execução",
+  "Deriva de dados":"Deriva de dados",
+  "Percepção diverge da medida":"Percepção ≠ medida",
+  "Ganho realocado":"Ganho realocado",
+  "Proxy no lugar do objetivo":"Proxy ≠ objetivo",
+  "Base de evidências em supply chain":"Base em SC",
+  "Validação prospectiva do ELO":"Validação do ELO",
+  "IA cria capacidade ou ativo?":"IA: C ou A?",
+  "Medir adoção e resultado":"Medir adoção",
+  "Culot, Podrecca & Nassimbeni · 2024":"Culot et al. · 2024",
+  "Toorajipour et al. · 2021":"Toorajipour · 2021",
+  "Brynjolfsson, Rock & Syverson · 2021":"Brynjolfsson · 2021",
+  "Raisch & Krakowski · 2021":"Raisch & Krak. · 2021",
+  "Agrawal, Gans & Goldfarb · 2018":"Agrawal et al. · 2018",
+  "Makridakis et al. · 2022 (M5)":"M5 · 2022",
+  "Dietvorst, Simmons & Massey · 2018":"Dietvorst · 2018",
+  "Fildes, Goodwin, Lawrence & Nikolopoulos · 2009":"Fildes et al. · 2009",
+  "Glikson & Woolley · 2020":"Glikson & Woolley · 2020",
+  "Sculley et al. · 2015":"Sculley · 2015",
+  "Hendriksen · 2023":"Hendriksen · 2023",
+  "Kellogg, Valentine & Christin · 2020":"Kellogg · 2020",
+  "Brynjolfsson, Li & Raymond · 2025":"Brynjolfsson · 2025",
+  "Caro & Gallien · 2010 (Zara)":"Caro & Gallien · 2010",
+  "Escada de evidência (quatro degraus)":"Escada de evidência",
+  "Ganho auditado vem da otimização":"Auditado = otimização",
+  "Aversão a algoritmos e override":"Aversão e override",
+  "Confiança em IA embutida":"Confiança em IA",
+  "Dívida técnica em sistemas de ML":"Dívida técnica (ML)",
+  "AI Integration · nível × autonomia":"AI Integration (AII)",
+  "Gestão algorítmica · os 6 Rs":"Gestão algorítmica",
+  "88% usam, ~6% têm resultado":"88% usam · 6% resultado",
+  "AI Act · deveres do deployer (Art. 26)":"AI Act · Art. 26",
+  "PL 2338/2023 · marco legal da IA no Brasil":"PL 2338/2023",
+  "ISO/IEC 42001 e NIST AI RMF":"ISO 42001 · NIST",
+  "Fountaine, McCarthy & Saleh · 2019":"Fountaine · 2019",
+  "Lee, Padmanabhan & Whang · 1997":"Lee et al. · 1997",
+  "Schrage & Kiron · 2025":"Schrage & Kiron · 2025",
+  "Lima & Araujo · ELO (em andamento)":"Lima & Araujo · ELO",
+};
+
+const NODES = [
+  // ---- núcleo
+  {id:"elo", label:"ELO · seis condições entre a ferramenta e o resultado", cat:"core", r:34, author:"Lima & Araujo (COPPEAD/UFRJ), pesquisa em andamento",
+   desc:"Evidência · Lógica organizacional · Operação. Entre uma ferramenta de IA que funciona e um resultado que a empresa consegue medir há seis condições. Cada uma é necessária; nenhuma é suficiente: uma ruptura em qualquer elo interrompe o efeito, por melhores que sejam os elos anteriores.",
+   bullets:["Condições 0 e 1 pertencem à ferramenta; 2 e 3, à organização; 4 e 5, ao resultado","Derivado de uma revisão sistemática de implementações hospitalares; transposto a operações e supply chain como estrutura, não como resultado validado","Instrumento de apoio à decisão: diagnóstico antes da adoção ou auditoria pós-implantação","Não produz pontuação, de propósito"]},
+  {id:"c0", label:"0 · Base de evidências", cat:"core", r:22, author:"Lima & Araujo · ELO",
+   desc:"Esse tipo de aplicação já produziu resultado medido em uma operação real? A resposta parte de estudos que implementaram IA de verdade e mediram um resultado de gestão, organizados por categoria de aplicação.",
+   bullets:["Verificar: implantação real (não simulação); comparador concorrente; convergência entre casos da mesma categoria; vínculo dos autores com o fornecedor","Sinal de falha: muitos estudos de modelagem sem implementação medida"]},
+  {id:"c1", label:"1 · Capacidade técnica em operação", cat:"core", r:22, author:"Lima & Araujo · ELO",
+   desc:"O modelo continua performando quando roda na rotina desta empresa? O desempenho que importa é o medido com dados locais, no limiar efetivamente em uso, contando só os alertas que chegam antes de a equipe perceber por conta própria.",
+   bullets:["O MAPE do fornecedor foi calculado em SKUs classe A de outro cliente; na operação com cauda longa e promoções, a acurácia cai e deriva","Sinal de falha: sensibilidade real muito abaixo quando contados só os alertas úteis"]},
+  {id:"c2", label:"2 · Integração ao fluxo de trabalho", cat:"core", r:24, author:"Lima & Araujo · ELO",
+   desc:"O resultado chega a quem decide enquanto a decisão ainda está em aberto? Está definido quem recebe, em que etapa do fluxo aparece e se é de fato usado. Não é propriedade da ferramenta: é capacidade da organização.",
+   bullets:["Exemplo: a sugestão de reposição é gerada à noite; o comprador consolida pedidos de manhã em planilha própria e nunca abre a tela","Mecanismos de falha observados: adoção e momento","Medida obrigatória: taxa de uso efetivo (acessos, resposta aos alertas)"]},
+  {id:"c3", label:"3 · Tradução em ação", cat:"core", r:24, author:"Lima & Araujo · ELO",
+   desc:"Quando o resultado chega, há alguém capaz de interpretá-lo e agir sobre ele? Dono nomeado da ação, recursos e dependências disponíveis, capacidade da unidade de absorver a ação. Segunda capacidade organizacional da cadeia.",
+   bullets:["Exemplo: o alerta de atraso é correto, mas não há fornecedor homologado alternativo nem alçada para frete expresso","Mecanismos de falha observados: alcance e barreira de execução","Casos corretamente identificados sem capacidade de agir não geram resultado"]},
+  {id:"c4", label:"4 · Resultado organizacional", cat:"core", r:22, author:"Lima & Araujo · ELO · Slack et al. (2022)",
+   desc:"Que indicador de gestão deve mudar, e como será medido sem depender de opinião? Dimensão de desempenho (custo, qualidade, velocidade, confiabilidade, flexibilidade), indicador, fonte dos dados, linha de base e comparador precisam existir antes da adoção ou na auditoria.",
+   bullets:["'Reduzir estoque' vira 'dias de cobertura por família, no ERP, 48 dias nos 6 meses anteriores, comparado com famílias ainda não migradas'","Medida objetiva (registro, log, contagem), não autorrelato","Sem comparador concorrente, o efeito se confunde com a tendência"]},
+  {id:"c5", label:"5 · Valor líquido", cat:"core", r:22, author:"Lima & Araujo · ELO",
+   desc:"Quanto custará o ganho, e quem arcará com esse custo? Os ganhos observados frequentemente realocam um recurso fixo. Registrar quem paga, mesmo que a resposta seja 'não se aplica'.",
+   bullets:["Itens ou clientes despriorizados","Trabalho deslocado para outros horários ou pessoas","Esforço de verificar conteúdo gerado, e quem audita a taxa de erro"]},
+  {id:"classificador", label:"Classificador de evidência", cat:"core", r:22, author:"Lima & Araujo · ELO",
+   desc:"O que o gestor recebeu como prova de valor? Cada item apresentado pelo fornecedor, pela literatura ou por um piloto interno é classificado: métrica de modelo, simulação sobre dados históricos, resultado organizacional observado, percepção de usuários. Só o terceiro mede a organização.",
+   bullets:["Registrar também a fonte (fornecedor, publicação independente, piloto interno) e o vínculo do autor com o fornecedor","A maior parte do que se apresenta para no modelo ou na simulação"]},
+  {id:"veredito", label:"Veredito sem nota", cat:"core", r:21, author:"Lima & Araujo · ELO",
+   desc:"O instrumento não produz pontuação. Produz três coisas: a primeira condição que não é um 'sim' claro (o achado); as medidas que faltam; e, onde há IA, quantos pilares ninguém escreveu. Uma nota única esconderia onde a cadeia para.",
+   bullets:["Ruptura em 2 ou 3: o problema é da organização e nenhum fornecedor o resolve","'Não medido': o próximo passo é medir, não gastar","Decisão: prosseguir · prosseguir sob condições nomeadas · pausar · não prosseguir, com primeiro passo e dono"]},
+  // ---- teoria
+  {id:"pilares", label:"Três pilares · filosofia come a IA", cat:"teoria", r:24, author:"Schrage & Kiron, 2025",
+   desc:"Toda solução de IA carrega, escrita ou não, uma teleologia (o que foi mandada querer), uma epistemologia (o que pode contar como saber) e uma ontologia (o que consegue ver). A pergunta gerencial não é se o sistema é bom, mas se a organização articulou essas premissas.",
+   bullets:["Teleologia é a mais crítica e a mais frequentemente pulada","Barata de escrever antes da implantação; cara depois de dois anos de o sistema agir sobre a hierarquia implícita"]},
+  {id:"teleologia", label:"Teleologia · o que foi mandado querer", cat:"teoria", r:19, author:"Schrage & Kiron, 2025",
+   desc:"O número que o sistema de fato maximiza ou minimiza (erro de previsão, custo por pedido) e, quando objetivos conflitam (custo, nível de serviço, risco, sustentabilidade), qual vence. Quando falta: otimiza uma métrica brilhantemente e ninguém sabe dizer o que foi trocado por ela.",bullets:[]},
+  {id:"epistemologia", label:"Epistemologia · o que conta como saber", cat:"teoria", r:19, author:"Schrage & Kiron, 2025",
+   desc:"Como o sistema adquire conhecimento, o valida e expressa certeza. Sabe quando não sabe? Baixa confiança escala para um humano? Que evento invalidaria os dados de treinamento? Quando falta: responde com alta confiança em condições que não se parecem mais com os dados de origem.",bullets:[]},
+  {id:"ontologia", label:"Ontologia · o que consegue ver", cat:"teoria", r:19, author:"Schrage & Kiron, 2025",
+   desc:"Quais entidades o sistema reconhece, quais relações modela, quais variáveis não existem para ele. Um fornecedor representado só por preço e prazo, numa decisão que dependia de geopolítica. O mapa não é o território.",bullets:[]},
+  {id:"divida", label:"Dívida filosófica", cat:"teoria", r:24, author:"Lima, 2026 (Cap. 5)",
+   desc:"O que se acumula quando as três perguntas ficam sem resposta escrita. Uma premissa que ninguém registrou é uma premissa que ninguém pode auditar nem melhorar. A dívida filosófica é causa frequente das rupturas nas condições 2 a 5 do ELO: um sistema cuja teleologia ninguém escreveu produz um resultado que ninguém sabe medir.",
+   bullets:["Quatro dívidas no parecer: técnica, filosófica, de adoção, de capacidade","A auditoria pergunta se a premissa foi articulada, não se o sistema é bom"]},
+  {id:"vcap", label:"Modelo VCAP · V = C × (A + P)", cat:"teoria", r:23, author:"Lima, 2026 (Cap. 1)",
+   desc:"Valor = Capacidades × (Ativos + Processos). Uma ferramenta de IA entra no parêntese: quase sempre é A, às vezes também P. Só muda C se a empresa ficar melhor em melhorar seus processos sem o sistema. O erro que destrói business cases é pagar por A e contabilizar o benefício como se C tivesse mudado.",
+   bullets:["Teste: o que a empresa saberá fazer depois, sem o sistema? Se ninguém responde em uma frase, é A","Ponte entre a filosofia da Sessão 1 e o business case"]},
+  {id:"analytics", label:"Competir em analytics", cat:"teoria", r:21, author:"Davenport, 2006 · Davenport & Harris, 2007",
+   desc:"As empresas que competem em analytics têm patrocínio da alta direção, cultura de teste e medida, analistas próximos da decisão e dados tratados como ativo. O software é a parte barata. Vinte anos antes da IA generativa, a mesma lição: é decisão de organização, não de ferramenta.",bullets:[]},
+  {id:"temas4", label:"Quatro temas dos estudos empíricos", cat:"teoria", r:22, author:"Culot, Podrecca & Nassimbeni, 2024",
+   desc:"A revisão sistemática dos estudos empíricos sobre IA em supply chain organiza os achados em quatro temas: requisitos de dados e sistemas; processo de implantação da tecnologia; integração organizacional e interorganizacional; implicações de desempenho. Restringir-se a estudos empíricos é a forma de atravessar o hype.",
+   bullets:["Dados e sistemas → condição 1","Implantação → condições 1 e 4","Integração → condições 2 e 3","Desempenho → condições 4 e 5"]},
+  {id:"automacao", label:"Paradoxo automação–aumento", cat:"teoria", r:20, author:"Raisch & Krakowski, 2021",
+   desc:"Automação (a máquina substitui o humano) e aumento (humano e máquina colaboram) são interdependentes ao longo do tempo e entre níveis da organização: investir só em uma gera tensões. Para o ELO, a automação completa retira a pessoa de quem a condição 3 depende.",bullets:[]},
+  {id:"jcurve", label:"Curva J da produtividade", cat:"teoria", r:19, author:"Brynjolfsson, Rock & Syverson, 2021",
+   desc:"Tecnologias de propósito geral exigem investimentos complementares intangíveis (processos, treinamento, dados) que não aparecem nas contas; a produtividade medida cai antes de subir. Explica por que a condição 4 demora e por que o 'antes-e-depois' curto engana.",bullets:[]},
+  {id:"predicao", label:"Previsão barata, julgamento caro", cat:"teoria", r:19, author:"Agrawal, Gans & Goldfarb, 2018",
+   desc:"A IA reduz o custo da previsão; o valor do julgamento humano (decidir o que fazer com a previsão) sobe. A condição 3 do ELO é, em termos econômicos, a disponibilidade de julgamento e de ação onde a previsão chega.",bullets:[]},
+  {id:"desempenho5", label:"Cinco objetivos de desempenho", cat:"teoria", r:19, author:"Slack, Brandon-Jones & Burgess, 2022",
+   desc:"Custo, qualidade, velocidade, confiabilidade e flexibilidade. Substituem, na versão para operações, as dimensões hospitalares do instrumento original. A condição 4 exige escolher a dimensão, o indicador, a fonte e o comparador.",bullets:[]},
+  // ---- autores
+  {id:"schrage", label:"Schrage & Kiron · 2025", cat:"autor", r:20, author:"MIT Sloan Management Review",
+   desc:"Philosophy Eats AI. Teleologia, epistemologia e ontologia como as três perguntas que toda organização precisa responder sobre seus sistemas de IA, antes que o sistema as responda sozinho.",bullets:[]},
+  {id:"davenport", label:"Davenport · 2006", cat:"autor", r:19, author:"Harvard Business Review",
+   desc:"Competing on Analytics. A capacidade analítica como vantagem competitiva depende de liderança, cultura e pessoas, não de software.",bullets:[]},
+  {id:"culot", label:"Culot, Podrecca & Nassimbeni · 2024", cat:"autor", r:21, author:"Computers in Industry",
+   desc:"Revisão sistemática restrita a estudos empíricos de IA em supply chain management, organizada em quatro temas, com fatores contextuais e direções de pesquisa.",bullets:[]},
+  {id:"toorajipour", label:"Toorajipour et al. · 2021", cat:"autor", r:18, author:"Journal of Business Research",
+   desc:"Revisão sistemática de IA em supply chain: técnicas (redes neurais, agentes, algoritmos genéticos, fuzzy) e subcampos (produção, logística, estoque, compras). Mapa das aplicações; poucos resultados implantados.",bullets:[]},
+  {id:"lima", label:"Lima · 2026", cat:"autor", r:20, author:"Excelência Operacional (Atena Editora)",
+   desc:"Livro-base do curso. Capítulo 1: o Modelo VCAP. Capítulo 5: os três pilares aplicados a operações e a dívida filosófica.",bullets:[]},
+  {id:"limaaraujo", label:"Lima & Araujo · ELO (em andamento)", cat:"autor", r:21, author:"COPPEAD/UFRJ",
+   desc:"Pesquisa de pós-doutorado. Revisão sistemática de implementações de IA em hospitais com resultado de gestão medido; derivação das seis condições; protótipo do instrumento ELO. Não validado prospectivamente.",bullets:[]},
+  {id:"raisch", label:"Raisch & Krakowski · 2021", cat:"autor", r:18, author:"Academy of Management Review",
+   desc:"Artificial intelligence and management: the automation–augmentation paradox.",bullets:[]},
+  {id:"brynjolfsson", label:"Brynjolfsson, Rock & Syverson · 2021", cat:"autor", r:18, author:"AEJ: Macroeconomics",
+   desc:"The productivity J-curve: intangíveis complementares e o atraso entre investimento e produtividade medida.",bullets:[]},
+  {id:"agrawal", label:"Agrawal, Gans & Goldfarb · 2018", cat:"autor", r:18, author:"Prediction Machines (HBR Press)",
+   desc:"A economia da IA como queda no custo da previsão; o julgamento como complemento que se valoriza.",bullets:[]},
+  {id:"makridakis", label:"Makridakis et al. · 2022 (M5)", cat:"autor", r:19, author:"International Journal of Forecasting 38(4)",
+   desc:"Competição M5 sobre 42.840 séries hierárquicas da Walmart, 5.507 equipes. O vencedor (LightGBM, ensemble) foi 22,4% melhor que a suavização exponencial bottom-up no agregado, mas só ~3% no nível produto-loja, onde a reposição acontece. Apenas 7,5% das equipes bateram o benchmark estatístico com a submissão que escolheram (12,2% com a melhor), por overfitting à janela de validação. A acurácia não foi ligada a custo operacional.",
+   bullets:["Lição para a condição 1: acurácia publicada precisa ser reproduzida nos dados locais, na granularidade da decisão","Ma & Fildes: a abordagem vencedora não é robusta entre janelas de avaliação"]},
+  {id:"dietvorst", label:"Dietvorst, Simmons & Massey · 2018", cat:"autor", r:18, author:"Management Science 64(3)",
+   desc:"Aversão a algoritmos: pessoas abandonam o algoritmo depois de vê-lo errar, mesmo quando ele supera o humano. Mas usam muito mais o algoritmo imperfeito quando podem modificar a saída, ainda que pouco, e o desempenho melhora. Querem algum controle, não controle máximo.",bullets:[]},
+  {id:"fildes09", label:"Fildes, Goodwin, Lawrence & Nikolopoulos · 2009", cat:"autor", r:18, author:"International Journal of Forecasting 25(1)",
+   desc:"Mais de 60.000 previsões em quatro empresas de supply chain. Ajustes de julgamento melhoram a acurácia em média em três das quatro, mas ajustes pequenos frequentemente a pioram e ajustes para cima raramente ajudam (viés de otimismo), consumindo esforço gerencial substancial. O resultado medido reflete modelo + override, não o modelo.",bullets:[]},
+  {id:"glikson", label:"Glikson & Woolley · 2020", cat:"autor", r:18, author:"Academy of Management Annals 14(2)",
+   desc:"Revisão sobre confiança humana em IA. Para IA embutida em sistemas (planejamento, WMS), a confiança começa alta, cai fortemente após erros visíveis e recupera lentamente. Um único stockout atribuído ao algoritmo destrói confiança de forma desproporcional.",bullets:[]},
+  {id:"sculley", label:"Sculley et al. · 2015", cat:"autor", r:18, author:"NeurIPS 2015 · Hidden technical debt in ML systems",
+   desc:"Sistemas de ML são rápidos e baratos de construir e difíceis e caros de manter: entrelaçamento (mudar qualquer coisa muda tudo), dependências de dados instáveis, loops de feedback diretos e ocultos, glue code. Um sistema maduro pode ser 5% código de ML e 95% cola.",bullets:[]},
+  {id:"hendriksen", label:"Hendriksen · 2023", cat:"autor", r:18, author:"Journal of Supply Chain Management 59(3)",
+   desc:"Artigo conceitual: a teoria de SCM está despreparada para a IA. Propõe o framework AI Integration (integração na cadeia × papel assistivo ou autônomo), sete interpretações de sensemaking e o 'AI-bullwhip effect': firmas que dependem da mesma análise falha propagam o erro.",bullets:[]},
+  {id:"kellogg", label:"Kellogg, Valentine & Christin · 2020", cat:"autor", r:18, author:"Academy of Management Annals 14(1)",
+   desc:"Algorithms at work: algoritmos como novo terreno de controle, com seis mecanismos (restringir, recomendar, registrar, avaliar, substituir, recompensar) e resistência via 'algoactivism'. Lente para auditar qualquer WMS/TMS com IA sobre pessoas.",bullets:[]},
+  {id:"blr2025", label:"Brynjolfsson, Li & Raymond · 2025", cat:"autor", r:18, author:"Quarterly Journal of Economics 140(2)",
+   desc:"Generative AI at work: rollout escalonado de um assistente de IA generativa para 5.172 agentes de suporte, +15% de produtividade média, concentrada nos menos experientes. A ferramenta comprável codifica o conhecimento tácito dos melhores e o difunde; se o fornecedor a incorpora ao produto, a capacidade vira ativo que todos acessam.",bullets:[]},
+  {id:"caro", label:"Caro & Gallien · 2010 (Zara)", cat:"autor", r:18, author:"Interfaces 40(1)",
+   desc:"Modelo de pesquisa operacional para decidir remessas de dois CDs para ~1.500 lojas da Zara, avaliado por experimento de campo controlado: +3–4% de vendas (≈US$ 233 mi em 2007, US$ 353 mi em 2008). Os autores relatam dificuldades técnicas e humanas significativas na implantação.",bullets:[]},
+  {id:"fountaine", label:"Fountaine, McCarthy & Saleh · 2019", cat:"autor", r:18, author:"Harvard Business Review",
+   desc:"Building the AI-powered organization: a barreira é cultura, processo e integração, não tecnologia. Reescrita gerencial da condição 2.",bullets:[]},
+  {id:"fisher", label:"Fisher · 1997", cat:"autor", r:18, author:"Harvard Business Review",
+   desc:"What is the right supply chain for your product? Produtos funcionais pedem cadeia eficiente; inovadores, cadeia responsiva. A pergunta anterior a qualquer IA: que problema a cadeia tem?",bullets:[]},
+  {id:"lee", label:"Lee, Padmanabhan & Whang · 1997", cat:"autor", r:18, author:"Sloan Management Review",
+   desc:"O efeito chicote: amplificação da variabilidade da demanda cadeia acima. Boa parte da IA em supply chain promete atacá-lo com previsão melhor; a condição 4 pergunta se o chicote medido de fato diminuiu.",bullets:[]},
+  {id:"escada", label:"Escada de evidência (quatro degraus)", cat:"teoria", r:22, author:"Síntese da pesquisa · Culot et al., 2024 · Zamani et al., 2023",
+   desc:"Métrica de modelo (acurácia, MAPE) → benefício esperado → percepção em survey → dados transacionais antes/depois com comparador. A quase totalidade da literatura ocupa os dois primeiros degraus. Culot et al. (123 estudos empíricos com dados reais, 2010–2024): os benefícios são 'frequentemente expectativas ou resultados percebidos'; Zamani et al.: 13 de 23 estudos primários são surveys de percepção.",
+   bullets:["Nenhuma meta-análise com effect sizes de IA sobre desempenho operacional foi localizada","50–80% do tempo de projeto vai para coleta e limpeza de dados (Bodendorf et al., em Culot et al.)","Pergunta em sala: em que degrau está a prova de valor que você recebeu?"]},
+  {id:"auditado", label:"Ganho auditado vem da otimização", cat:"teoria", r:22, author:"Edelman/INFORMS 2010–2026 · síntese da pesquisa",
+   desc:"Onde há júri independente ou experimento de campo, os ganhos são modestos e plausíveis (1–4%) e a tecnologia central é pesquisa operacional: Zara +3–4% vendas (2010), UPS ORION US$ 300–400 mi/ano (2016), Walmart US$ 91,5 mi (2023), ECCO –1,09% de custos e Microsoft IFS –50% de ciclo (2026). Os números dramáticos de ML puro e de IA generativa (–30% rupturas, +40% acurácia, –45% downtime) são auto-reportados, sem comparador.",
+   bullets:["Isso não diz que ML não gera valor; diz que a literatura ainda não o mediu de forma independente","No único resultado auditado com LLM (Microsoft, 2026), o LLM é camada de explicação sobre um otimizador, não o decisor","Regra de leitura: quanto mais 'IA' no nome e menos 'otimização' na descrição técnica, menor a chance de resultado auditado"]},
+  {id:"aversao", label:"Aversão a algoritmos e override", cat:"teoria", r:21, author:"Dietvorst et al., 2018 · Fildes et al., 2009",
+   desc:"O resultado no P&L reflete a combinação modelo + ajuste humano, não o modelo. Planejadores abandonam o algoritmo depois de um erro visível e sobrescrevem a previsão estatística com ajustes pequenos e otimistas que pioram a acurácia. Permitir modificação limitada e filtrar ajustes pequenos e para cima são intervenções baratas, com evidência.",
+   bullets:["Comparador natural que já existe e raramente é logado: a previsão estatística não ajustada","Condição 3 do ELO: quem interpreta a saída pode piorá-la"]},
+  {id:"confianca", label:"Confiança em IA embutida", cat:"teoria", r:19, author:"Glikson & Woolley, 2020 · Atf & Lewis, 2025",
+   desc:"Confiança em IA embutida em sistemas começa alta, cai abruptamente após erros e recupera devagar. A meta-análise de Atf & Lewis (90 estudos) encontra correlação pequena entre explicabilidade e confiança (r ≈ 0,20): XAI não é a solução principal; confiabilidade nos primeiros ciclos e governança pesam mais.",bullets:[]},
+  {id:"dividatec", label:"Dívida técnica em sistemas de ML", cat:"teoria", r:20, author:"Sculley et al., 2015",
+   desc:"O que se acumula silenciosamente depois do piloto: limiares fixos que o mundo invalida, dependências de dados instáveis, loops de feedback (o pedido sugerido vira o dado de treino do mês seguinte), glue code. Irmã da dívida filosófica: uma é sobre o código, a outra sobre a premissa.",bullets:[]},
+  {id:"aii", label:"AI Integration · nível × autonomia", cat:"teoria", r:19, author:"Hendriksen, 2023",
+   desc:"Dois eixos: integração parcial ou total na cadeia × papel assistivo ou autônomo na decisão. Quatro quadrantes, do 'Human Sherlock, Robot Watson' ao 'AI Ecosystem'. A pergunta que a agenda editorial de JSCM, JOM e POM passou a fazer: quem decide e quem responde.",bullets:[]},
+  {id:"gestaoalg", label:"Gestão algorítmica · os 6 Rs", cat:"teoria", r:19, author:"Kellogg, Valentine & Christin, 2020",
+   desc:"Quando a IA gere pessoas (armazéns, última milha, escalas): restringir, recomendar, registrar, avaliar, substituir, recompensar. É também a categoria de alto risco do AI Act (alocação de tarefas e avaliação de trabalhadores) e do PL 2338.",bullets:[]},
+  // ---- aplicações
+  {id:"previsao", label:"Previsão de demanda e S&OP", cat:"pratica", r:22, author:"Culot et al., 2024 · Makridakis et al., 2022",
+   desc:"A aplicação mais estudada e mais vendida. Modelos de aprendizado de máquina sobre histórico de vendas, promoções e variáveis externas. Evidência abundante em acurácia; escassa em redução de estoque ou ruptura medida após a implantação.",
+   bullets:["Pergunta ELO: o MAPE foi medido aqui, por SKU, no horizonte usado pelo S&OP?","Quem recebe a previsão, e o planejador a sobrescreve? (condição 2)"]},
+  {id:"estoque", label:"Reposição e otimização de estoque", cat:"pratica", r:20, author:"Culot et al., 2024",
+   desc:"Sugestão automática de pedido, níveis de segurança dinâmicos, alocação entre centros. Ganho esperado em dias de cobertura e nível de serviço; ruptura frequente na condição 2 (sugestão ignorada) e na 5 (nível de serviço dos itens C cai).",bullets:[]},
+  {id:"rotas", label:"Roteirização e torre de controle", cat:"pratica", r:20, author:"Culot et al., 2024",
+   desc:"Otimização de rotas, previsão de ETA, visibilidade em tempo real. Parte dessas soluções é otimização com regras humanas, fora do escopo do ELO; a parte aprendida (ETA, risco de atraso) entra.",bullets:[]},
+  {id:"compras", label:"Sourcing e risco de fornecedor", cat:"pratica", r:20, author:"Culot et al., 2024",
+   desc:"Scores de risco de atraso ou falência, classificação de gastos, copilotos de RFQ. Ontologia frágil: fornecedor visto por preço e prazo, não por fragilidade própria ou geopolítica. Condição 3 depende de fornecedor alternativo homologado e de alçada.",bullets:[]},
+  {id:"manutencao", label:"Manutenção preditiva e qualidade", cat:"pratica", r:20, author:"Culot et al., 2024",
+   desc:"Detecção de anomalias em sensores, previsão de falha, inspeção visual por imagem. Evidência relativamente melhor (indicadores de parada não programada são registrados automaticamente). Condição 3: há janela e equipe para intervir quando o alerta chega?",bullets:[]},
+  {id:"capacidade", label:"Capacidade, escalas e força de trabalho", cat:"pratica", r:19, author:"Lima & Araujo · ELO",
+   desc:"Dimensionamento de turnos, previsão de absenteísmo, alocação de pessoas. Na base hospitalar do ELO, categoria sem estudos elegíveis com resultado medido. Em operações, idem: a base de evidências precisa ser levantada à parte.",bullets:[]},
+  {id:"genai", label:"Copilotos e IA generativa", cat:"pratica", r:20, author:"Schrage & Kiron, 2025",
+   desc:"Redação de RFQs, resumos de contratos, consulta em linguagem natural a dados de operação. Ganho de tempo relatado por percepção; condição 5 exige contar o esforço de verificar o conteúdo gerado e quem audita a taxa de erro.",bullets:[]},
+  // ---- técnicas
+  {id:"ml", label:"Aprendizado de máquina supervisionado", cat:"tec", r:19, author:"Agrawal et al., 2018",
+   desc:"Modelos cuja lógica de decisão é aprendida a partir de dados rotulados: previsão, classificação, score de risco. É o escopo do ELO. Deriva quando as condições que geraram os dados mudam.",bullets:[]},
+  {id:"llm", label:"Modelos de linguagem (LLM)", cat:"tec", r:18, author:"Schrage & Kiron, 2025",
+   desc:"Geram texto plausível; não sabem quando não sabem a menos que o fluxo force verificação. Epistemologia e condição 5 (esforço de verificação) são as perguntas centrais.",bullets:[]},
+  {id:"otim", label:"Otimização com regras humanas (fora do escopo)", cat:"tec", r:19, author:"Lima & Araujo · ELO",
+   desc:"Solvers, heurísticas e automações cujas regras foram inteiramente especificadas por pessoas (MRP, roteirização clássica). Frequentemente rotulados como IA. Ficam fora do ELO: quando a regra foi escrita por alguém, a pergunta é outra. Em sala: 'quem escreveu a regra?'",bullets:[]},
+  {id:"dados", label:"Requisitos de dados e sistemas", cat:"tec", r:19, author:"Culot et al., 2024",
+   desc:"Grão, latência e qualidade dos dados que o modelo precisa, dentro do ERP, WMS e TMS existentes. Primeiro tema da revisão empírica; pré-condição da condição 1.",bullets:[]},
+  // ---- barreiras
+  {id:"adocao", label:"Adoção e momento", cat:"barreira", r:20, author:"Lima & Araujo · ELO · Fountaine et al., 2019",
+   desc:"Os dois mecanismos de falha da condição 2: o resultado é ignorado pela maior parte da equipe, ou chega depois de a decisão já ter sido tomada. Uma ferramenta que funciona e não é usada é dívida de adoção.",bullets:[]},
+  {id:"execucao", label:"Alcance e barreira de execução", cat:"barreira", r:20, author:"Lima & Araujo · ELO",
+   desc:"Os dois mecanismos de falha da condição 3: o caso corretamente identificado não é alcançado (o fornecedor não responde, o cliente não atende), ou a ação depende de recurso indisponível (capacidade, alçada, pessoal).",bullets:[]},
+  {id:"deriva", label:"Deriva de dados", cat:"barreira", r:19, author:"Schrage & Kiron, 2025 · Makridakis et al., 2022",
+   desc:"O modelo aprendeu as condições que geraram seus dados. Quando elas mudam (pandemia, regulação, reorganização, novo canal), a acurácia cai sem aviso. Epistemologia não escrita vira ruptura na condição 1.",bullets:[]},
+  {id:"percepcao", label:"Percepção diverge da medida", cat:"barreira", r:19, author:"Lima & Araujo · ELO",
+   desc:"Economias de tempo relatadas pelos usuários não foram confirmadas pelos registros do sistema em implementações reais. A condição 4 exige medida objetiva; pesquisa de satisfação não substitui log.",bullets:[]},
+  {id:"realocacao", label:"Ganho realocado", cat:"barreira", r:19, author:"Lima & Araujo · ELO",
+   desc:"Priorizar pedidos de alta margem na expedição elevou o OTIF dos clientes A e reduziu o dos clientes C. O ganho não foi criado; foi movido. Condição 5.",bullets:[]},
+  {id:"proxy", label:"Proxy no lugar do objetivo", cat:"barreira", r:19, author:"Schrage & Kiron, 2025",
+   desc:"A empresa quer fidelidade e entrega ao sistema recência, frequência e gasto; quer resiliência e entrega preço e prazo. O sistema otimiza o proxy. Ontologia: o que o substituto deixa de ver.",bullets:[]},
+  {id:"surveys", label:"88% usam, ~6% têm resultado", cat:"barreira", r:22, author:"McKinsey 2025 · MIT SMR/BCG 2019–2020 · MIT NANDA 2025 · RAND 2024",
+   desc:"McKinsey (1.993 respondentes, 2025): 88% usam IA regularmente, 39% atribuem algum impacto no EBIT (a maioria abaixo de 5%), ~6% são 'high performers', quase 3× mais propensos a terem redesenhado workflows. MIT SMR/BCG (2020, >3.000 gestores): só 10% obtêm benefício financeiro significativo. MIT NANDA (2025): 5% dos pilotos de GenAI chegam a impacto mensurável em P&L. Davenport & Ronanki (2018): integração com processos existentes é o obstáculo nº 1 (47%).",
+   bullets:["Tudo percepção auto-relatada; NANDA admite viés de amostra; RAND baseia-se em 65 entrevistas","A distância entre 88% e 6% é a quantificação das condições 2 a 5 do ELO"]},
+  // ---- governança
+  {id:"aiact", label:"AI Act · deveres do deployer (Art. 26)", cat:"gov", r:22, author:"Regulamento (UE) 2024/1689 · Digital Omnibus (acordo de 06/05/2026)",
+   desc:"Para quem implanta IA de alto risco: supervisão humana por pessoas com competência, formação e autoridade (§2); dados de entrada relevantes e representativos (§4); monitoramento e suspensão em incidente (§5); logs por ao menos seis meses (§6); informar trabalhadores e seus representantes antes do uso no local de trabalho (§7). Alto risco inclui componentes de segurança de infraestruturas críticas e alocação de tarefas e avaliação de trabalhadores (Anexo III).",
+   bullets:["Digital Omnibus adiou o Anexo III para 02/12/2027 e o Anexo I para 02/08/2028; publicação no Jornal Oficial a confirmar","Art. 26(2) e (4) exigem competência interna que não se terceiriza ao fornecedor: ponto de contato com a tese capacidade × ativo","As condições 0, 2 e 3 do ELO transformadas em obrigação legal"]},
+  {id:"pl2338", label:"PL 2338/2023 · marco legal da IA no Brasil", cat:"gov", r:20, author:"Senado (aprovado em 10/12/2024) · Câmara (Comissão Especial)",
+   desc:"Aprovado no Senado em 10/12/2024; recebido na Câmara em 17/03/2025; em 04/11/2026 'aguardando parecer do relator' na Comissão Especial, com votação adiada para depois das eleições. Alto risco, segundo o texto do Senado, inclui seleção e avaliação de candidatos; a inclusão de infraestruturas críticas e repartição de tarefas (art. 14) e as multas de até R$ 50 mi ou 2% do faturamento vêm de fontes secundárias, a conferir.",
+   bullets:["Dificilmente em vigor antes de 2028; o AI Act é um bom proxy para antecipar obrigações"]},
+  {id:"iso42001", label:"ISO/IEC 42001 e NIST AI RMF", cat:"gov", r:19, author:"ISO/IEC 42001:2023 · NIST AI RMF 1.0 (2023) e AI 600-1 (2024)",
+   desc:"Soft law disponível hoje. NIST AI RMF: voluntário, funções Govern, Map, Measure, Manage, perfil para IA generativa de 26/07/2024. ISO/IEC 42001: primeira norma de sistema de gestão de IA, 38 controles em 9 categorias, avaliação de impacto do sistema de IA, certificável por terceira parte.",bullets:[]},
+  // ---- lacunas
+  {id:"baseSC", label:"Base de evidências em supply chain", cat:"lacuna", r:20, author:"Lima & Araujo · Culot et al., 2024",
+   desc:"A base da condição 0 foi levantada para hospitais. Para supply chain, a revisão de Culot et al. mapeia os estudos empíricos, mas a contagem por categoria de aplicação com resultado organizacional medido e comparador ainda precisa ser feita.",bullets:[]},
+  {id:"validacao", label:"Validação prospectiva do ELO", cat:"lacuna", r:21, author:"Lima & Araujo · ELO",
+   desc:"O framework de seis condições ainda não foi validado em implementações prospectivas; o instrumento apoia o diagnóstico, não prevê retorno. Pareceres produzidos por executivos em sala, com consentimento, são material candidato para a validação.",bullets:[]},
+  {id:"convergencia", label:"IA cria capacidade ou ativo?", cat:"lacuna", r:21, author:"Lima, 2026 · Brynjolfsson et al., 2021",
+   desc:"Se todas as empresas compram a mesma solução, a IA é um ativo que todos acessam e o resultado é convergência competitiva. Só os complementos intangíveis (processo, julgamento, dados próprios) viram C. Como medir essa diferença?",bullets:[]},
+  {id:"medir", label:"Medir adoção e resultado", cat:"lacuna", r:20, author:"Lima & Araujo · ELO",
+   desc:"Taxa de uso, disponibilidade dos recursos da ação, comparador concorrente e medida objetiva: as quatro medidas que a literatura de implementação costuma deixar de relatar. Sem elas, o diagnóstico não distingue sucesso de fracasso.",bullets:[]},
+];
+
+const LINKS = [
+  ["elo","c0","condição 0"],["elo","c1","condição 1"],["elo","c2","condição 2"],["elo","c3","condição 3"],["elo","c4","condição 4"],["elo","c5","condição 5"],
+  ["c0","c1","precede"],["c1","c2","precede"],["c2","c3","precede"],["c3","c4","precede"],["c4","c5","precede"],
+  ["elo","classificador","alimentado por"],["classificador","c0","informa"],["classificador","c4","informa"],
+  ["elo","veredito","produz"],["veredito","divida","ranqueia"],
+  ["elo","limaaraujo","proposto por"],["validacao","limaaraujo","pendente em"],["baseSC","c0","lacuna de"],["medir","veredito","exige"],
+  ["pilares","teleologia","pilar"],["pilares","epistemologia","pilar"],["pilares","ontologia","pilar"],["pilares","schrage","propostos por"],
+  ["pilares","divida","acumula"],["divida","lima","nomeada por"],["divida","elo","rompe 2–5"],
+  ["teleologia","proxy","quando falta"],["ontologia","proxy","quando falta"],["epistemologia","deriva","quando falta"],
+  ["vcap","lima","proposto por"],["vcap","convergencia","debate"],["vcap","divida","ponte"],["analytics","davenport","proposto por"],["analytics","vcap","antecipa"],["analytics","adocao","explica"],
+  ["temas4","culot","propostos por"],["temas4","dados","tema 1"],["temas4","c1","tema 2"],["temas4","c2","tema 3"],["temas4","c3","tema 3"],["temas4","c4","tema 4"],["temas4","baseSC","base para"],
+  ["toorajipour","previsao","mapeia"],["toorajipour","baseSC","mapeia"],
+  ["automacao","raisch","proposto por"],["automacao","c3","tensiona"],["jcurve","brynjolfsson","proposto por"],["jcurve","c4","explica atraso"],["jcurve","convergencia","complementos"],
+  ["predicao","agrawal","proposto por"],["predicao","c3","julgamento"],["predicao","ml","economia da"],
+  ["desempenho5","c4","dimensões"],["makridakis","previsao","lição para"],["makridakis","c1","lição para"],["fountaine","adocao","explica"],
+  ["fisher","previsao","problema anterior"],["lee","previsao","chicote"],["lee","c4","indicador"],
+  ["previsao","ml","usa"],["previsao","c2","planejador sobrescreve"],["estoque","c2","sugestão ignorada"],["estoque","realocacao","itens C"],["rotas","otim","parte é"],["rotas","ml","ETA aprendida"],
+  ["compras","proxy","ontologia frágil"],["compras","c3","fornecedor alternativo"],["compras","genai","copiloto de RFQ"],["manutencao","c3","janela de intervenção"],["manutencao","ml","anomalias"],
+  ["capacidade","baseSC","sem base"],["genai","llm","usa"],["genai","c5","verificação"],["genai","percepcao","tempo relatado"],
+  ["ml","deriva","sofre"],["llm","epistemologia","não sabe que não sabe"],["otim","elo","fora do escopo"],["dados","c1","pré-condição"],
+  ["adocao","c2","mecanismo"],["execucao","c3","mecanismo"],["deriva","c1","mecanismo"],["percepcao","c4","mecanismo"],["realocacao","c5","mecanismo"],
+  ["escada","classificador","fundamenta"],["escada","c0","degraus"],["escada","culot","evidência"],["escada","c4","último degrau"],
+  ["auditado","c4","resultados"],["auditado","otim","tecnologia"],["auditado","caro","Zara"],["auditado","genai","LLM como interface"],["auditado","classificador","vendor × júri"],
+  ["aversao","dietvorst","base"],["aversao","fildes09","base"],["aversao","c3","mecanismo"],["aversao","previsao","S&OP"],["aversao","execucao","override"],
+  ["confianca","glikson","base"],["confianca","c2","adoção"],["confianca","aversao","erro visível"],
+  ["dividatec","sculley","base"],["dividatec","divida","irmãs"],["dividatec","deriva","limiares"],["dividatec","c5","manutenção"],
+  ["aii","hendriksen","base"],["aii","automacao","autonomia"],["aii","c3","quem decide"],
+  ["gestaoalg","kellogg","base"],["gestaoalg","capacidade","escalas"],["gestaoalg","aiact","alto risco"],["gestaoalg","pl2338","alto risco"],
+  ["surveys","c2","integração nº 1"],["surveys","c5","P&L"],["surveys","jcurve","atraso"],["surveys","percepcao","auto-relato"],["surveys","analytics","Davenport"],
+  ["aiact","c3","supervisão humana"],["aiact","c0","dados representativos"],["aiact","c2","logs"],["aiact","convergencia","competência interna"],["aiact","iso42001","soft law"],["pl2338","aiact","proxy"],["iso42001","veredito","asseguração"],
+  ["blr2025","convergencia","ativo que todos acessam"],["blr2025","genai","evidência"],["makridakis","escada","degrau 1"],
+];
+
+const TIMELINE = [
+  {phase:"Fase 0 · O problema que a IA promete resolver (1997)", sub:"Antes de qualquer algoritmo, a cadeia tem um problema de variabilidade e de ajuste entre produto e cadeia."},
+  {yr:"1997",node:"fisher",t:"A cadeia certa para o produto",who:"Fisher, M. L.",d:"Funcional pede cadeia eficiente; inovador pede cadeia responsiva. Confundir os dois é a causa de muitos estoques e rupturas."},
+  {yr:"1997",node:"lee",t:"O efeito chicote",who:"Lee, H. L., Padmanabhan, V. & Whang, S.",d:"A variabilidade se amplifica cadeia acima por previsão, lotes, preço e racionamento. Metade da IA em SC promete atacá-lo."},
+  {phase:"Fase I · Decidir com dados vira capacidade organizacional (2006–2018)", sub:"A vantagem analítica é de liderança, cultura e pessoas; o humano sobrescreve a máquina; a previsão fica barata e o julgamento, caro."},
+  {yr:"2006",node:"davenport",t:"Competing on Analytics",who:"Davenport, T. H.",d:"Competidores analíticos têm patrocínio do topo, cultura de teste e analistas junto à decisão. O software é a parte barata."},
+  {yr:"2009",node:"fildes09",t:"Ajustes de julgamento em previsões de supply chain",who:"Fildes, R., Goodwin, P., Lawrence, M. & Nikolopoulos, K.",d:">60.000 previsões em quatro empresas: ajustes pequenos e otimistas pioram a acurácia. O resultado é modelo + override."},
+  {yr:"2010",node:"caro",t:"Zara reengenharia a distribuição com OR",who:"Caro, F., Gallien, J. et al.",d:"Experimento de campo controlado: +3–4% de vendas. Primeiro resultado auditado da série, e é otimização, não aprendizado."},
+  {yr:"2015",node:"sculley",t:"Dívida técnica oculta em sistemas de ML",who:"Sculley, D. et al.",d:"Barato de construir, caro de manter: entrelaçamento, loops de feedback, glue code. 5% ML, 95% cola."},
+  {yr:"2016",node:"otim",t:"UPS ORION ganha o Edelman",who:"Holland, C. et al. (INFORMS)",d:"US$ 300–400 mi/ano com otimização heurística. 'As primeiras versões não funcionaram no campo': o algoritmo teve de pensar como um motorista."},
+  {yr:"2018",node:"agrawal",t:"Prediction Machines",who:"Agrawal, A., Gans, J. & Goldfarb, A.",d:"IA é previsão barata; o valor migra para julgamento, dados e ação. A condição 3 do ELO em termos econômicos."},
+  {yr:"2018",node:"dietvorst",t:"Superando a aversão a algoritmos",who:"Dietvorst, B., Simmons, J. & Massey, C.",d:"Pessoas usam o algoritmo imperfeito se puderem modificá-lo, mesmo que pouco. Algum controle, não controle máximo."},
+  {phase:"Fase II · A IA entra na operação (2019–2021)", sub:"Mapas de aplicação, evidência sobre acurácia e os primeiros alertas: integração, confiança, automação versus aumento, curva J, drift."},
+  {yr:"2019",node:"fountaine",t:"Building the AI-powered organization",who:"Fountaine, T., McCarthy, B. & Saleh, T.",d:"Quem escala gasta mais da metade do orçamento em adoção (90% vs 23%). A barreira é processo e integração, não tecnologia."},
+  {yr:"2020",node:"glikson",t:"Confiança humana em IA",who:"Glikson, E. & Woolley, A. W.",d:"Em IA embutida, a confiança cai abruptamente após erros visíveis e recupera devagar."},
+  {yr:"2020",node:"kellogg",t:"Algorithms at work",who:"Kellogg, K., Valentine, M. & Christin, A.",d:"Seis mecanismos de controle algorítmico e a resistência dos trabalhadores. Lente para WMS, TMS e escalas."},
+  {yr:"2020",node:"deriva",t:"Instacart: 93% → 61%",who:"Fortune, 9 jun 2020",d:"A acurácia do modelo de disponibilidade caiu em março de 2020. Correção operacional: janela de treino de 10 dias e scoring horário."},
+  {yr:"2021",node:"raisch",t:"Paradoxo automação–aumento",who:"Raisch, S. & Krakowski, S.",d:"Automação e aumento se reforçam e se tensionam ao longo do tempo; escolher só um gera problemas."},
+  {yr:"2021",node:"brynjolfsson",t:"A curva J da produtividade",who:"Brynjolfsson, E., Rock, D. & Syverson, C.",d:"Complementos intangíveis atrasam o resultado medido. O antes-e-depois curto engana."},
+  {yr:"2021",node:"toorajipour",t:"Revisão de IA em SCM",who:"Toorajipour, R. et al.",d:"64 estudos, 2008–2018: muita modelagem, 'poucos estudos testando usabilidade, aplicação ou generalização'."},
+  {yr:"2021",node:"epistemologia",t:"Zillow Offers encerra",who:"Zillow, 8-K de 2 nov 2021",d:"Baixa de ~US$ 304 mi no trimestre, corte de 25% do quadro: 'imprevisibilidade na previsão de preços que excedeu em muito o que antecipamos'."},
+  {phase:"Fase III · Evidência organizada, filosofia, diagnóstico e regulação (2022–2026)", sub:"M5 mede o que ML ganha de verdade; só estudos empíricos; as três perguntas que ninguém escreveu; o diagnóstico elo a elo; o deployer responde."},
+  {yr:"2022",node:"makridakis",t:"Competição M5",who:"Makridakis, S., Spiliotis, E. & Assimakopoulos, V.",d:"+22,4% no agregado, ~3% no produto-loja; só 7,5% das equipes bateram o benchmark estatístico. Acurácia não ligada a custo."},
+  {yr:"2023",node:"hendriksen",t:"IA para SCM: inovação disruptiva?",who:"Hendriksen, C.",d:"Framework AI Integration: integração × autonomia decisória. 'AI-bullwhip effect'. Evidência declarada 'early'."},
+  {yr:"2024",node:"culot",t:"Revisão sistemática de estudos empíricos",who:"Culot, G., Podrecca, M. & Nassimbeni, G.",d:"123 estudos com dados reais: benefícios 'frequentemente expectativas ou resultados percebidos'; falta ancoragem teórica."},
+  {yr:"2024",node:"aiact",t:"AI Act entra em vigor",who:"Regulamento (UE) 2024/1689, 1 ago 2024",d:"Deveres do deployer (Art. 26): supervisão humana competente, dados representativos, logs, informar trabalhadores."},
+  {yr:"2025",node:"schrage",t:"Philosophy Eats AI",who:"Schrage, M. & Kiron, D.",d:"Teleologia, epistemologia, ontologia: o que o sistema quer, sabe e vê. Perguntas que a organização responde ou o sistema responde por ela."},
+  {yr:"2025",node:"blr2025",t:"Generative AI at Work",who:"Brynjolfsson, E., Li, D. & Raymond, L.",d:"+15% de produtividade em 5.172 agentes, concentrada nos menos experientes. O conhecimento tácito dos melhores vira ativo comprável."},
+  {yr:"2025",node:"surveys",t:"88% usam, 6% são high performers",who:"McKinsey, State of AI 2025",d:"Quase dois terços não escalaram; a maioria dos que relatam impacto no EBIT fica abaixo de 5%. MIT NANDA: 5% dos pilotos de GenAI com P&L."},
+  {yr:"2026",node:"lima",t:"Excelência Operacional",who:"Lima, T. F.",d:"VCAP (cap. 1) e dívida filosófica (cap. 5): a IA entra no parêntese; a premissa não escrita é a que ninguém audita."},
+  {yr:"2026",node:"auditado",t:"Edelman 2026: Microsoft, ECCO, Chewy",who:"INFORMS",d:"Único resultado auditado com LLM: camada de explicação sobre otimizador (–50% de ciclo, –23% de carga). ECCO: –1,09% de custos."},
+  {yr:"2026",node:"limaaraujo",t:"ELO · seis condições",who:"Lima, T. F. & Araujo, C. A. S.",d:"Da revisão de implementações hospitalares ao instrumento de diagnóstico. Transposto a operações e supply chain neste seminário."},
+];
+
+const CASES = [
+  {title:"Zillow Offers", loc:"Mercado imobiliário · EUA · encerrado em 02/11/2021", loop:"Condição 1 → epistemologia",
+   tag:"O modelo de preço não sabia que não sabia.",
+   desc:"A Zillow comprava casas com base em seu modelo de precificação (redes neurais; erro mediano do Zestimate de 2,65% para imóveis listados, 7,26% fora de mercado) e as revendia. No 3T2021 registrou baixa de estoque de ~US$ 304 mi, previu perda adicional de US$ 240–265 mi no 4T e cortou ~25% do quadro; análise independente encontrou 64% de 963 anúncios abaixo do preço pago. O 8-K atribui a baixa a compras 'a preços acima das estimativas de preço futuro de venda' e o CEO à 'imprevisibilidade na previsão de preços que excedeu em muito o que antecipamos'. A Zillow já havia pausado compras em outubro por estar 'além da capacidade operacional' de reforma e revenda.",
+   practice:"Decisão de compra em escala acoplada a um modelo de previsão de preço, sem controle de volatilidade",
+   theory:"<b>Epistemologia</b> não escrita (que evento invalida os dados?) rompendo a <b>condição 1</b>; gargalo físico de reforma e revenda na <b>condição 3</b>",
+   author:"Zillow 8-K e 10-K (auto-reportado à SEC) · Business Insider (independente) · Schrage & Kiron, 2025", node:"deriva"},
+  {title:"UPS · ORION", loc:"Logística · EUA · Edelman 2016", loop:"Escopo do ELO · condição 2",
+   tag:"Quem escreveu a regra? Otimização não é aprendizado.",
+   desc:"Otimização heurística sobre telemática, sem ML: mais de dez anos de desenvolvimento, ~US$ 250 mi de investimento, 35.000 de 55.000 motoristas em dezembro de 2015, mais de US$ 320 mi já economizados e expectativa de US$ 300–400 mi/ano, 100 milhões de milhas e 10 milhões de galões a menos. Frequentemente citado como 'IA na logística'; pelo escopo do ELO fica fora, porque a lógica foi especificada por pessoas. O que o caso ensina é a condição 2 em estado puro: 'as primeiras tentativas do algoritmo não funcionaram bem no campo', a UPS teve de fazê-lo 'pensar mais como um motorista' e o júri chamou o buy-in dos motoristas de crucial.",
+   practice:"Roteirização otimizada com regras humanas; implantação centrada na adoção pelo motorista",
+   theory:"<b>Escopo</b> (regras humanas ≠ IA aprendida) e <b>condição 2</b>: adoção e momento",
+   author:"INFORMS/Edelman 2016 (auto-reportado, julgado por júri) · Fountaine et al., 2019", node:"otim"},
+  {title:"Zara · remessas para 1.500 lojas", loc:"Varejo de moda · Espanha · Interfaces 2010", loop:"Condição 4 com comparador",
+   tag:"O único resultado da série medido por experimento de campo controlado.",
+   desc:"Modelo de pesquisa operacional para decidir as remessas de dois centros de distribuição para cerca de 1.500 lojas, avaliado por 'experimento de campo rigoroso e controlado': aumento estimado de vendas de 3–4%, cerca de US$ 233 mi em 2007 e US$ 353 mi em 2008. Os autores relatam 'dificuldades técnicas e humanas significativas' na implantação. É o modelo do que a condição 4 exige: indicador, comparador concorrente e efeito modesto e defensável.",
+   practice:"Alocação de estoque por otimização alimentada por modelos de demanda",
+   theory:"<b>Condição 4</b> satisfeita por desenho de evidência; ganho auditado vem da <b>otimização</b>",
+   author:"Caro & Gallien et al., 2010 (revisado por pares; Edelman finalista)", node:"caro"},
+  {title:"Walmart · roteamento de entregas de mercearia", loc:"Varejo · EUA · Edelman 2023", loop:"Condição 4 e 3",
+   tag:"US$ 91,5 milhões em um ano, com rotas revisadas por um centro de comando humano.",
+   desc:"Programação inteira mista, simulação, roteamento e carregamento, sem ML de previsão: no ano fiscal 2023, US$ 91,5 mi economizados, 33 milhões de milhas e 108.000 rotas a menos, 98,6 milhões de libras de CO2 evitadas. As rotas geradas são revisadas por um centro de comando humano antes de ir para a operação: a condição 3 desenhada explicitamente.",
+   practice:"Otimização de rotas com revisão humana obrigatória",
+   theory:"<b>Condição 4</b> auditada; <b>condição 3</b> por desenho de fluxo (humano no laço)",
+   author:"INFORMS/Edelman 2023 (auto-reportado, julgado por júri)", node:"auditado"},
+  {title:"Walmart + Pactum · negociação automatizada", loc:"Compras · Canadá, EUA, Chile, África do Sul · 2021–2023", loop:"Classificador de evidência",
+   tag:"64% de acordos contra meta de 20%: o comparador é uma meta, não um grupo de controle.",
+   desc:"Piloto de três meses no Walmart Canadá com ~100 fornecedores de cauda, para bens não destinados à revenda: 64% fecharam acordo (meta de 20%), economia média de 1,5%, extensão de 35 dias no prazo de pagamento, ciclo de 11 dias. No rollout, 68% de fechamento e 3% de economia; ~75% dos fornecedores dizem preferir o chatbot. A tecnologia (função de valor e árvores de troca com camada conversacional) antecede os LLMs. Todos os números são auto-reportados, com coautoria da Walmart no artigo da HBR e sem grupo de fornecedores negociado por humanos no mesmo período: o ganho mais defensável é de cobertura da cauda longa, não de habilidade negocial.",
+   practice:"Negociação automatizada de contratos de cauda longa",
+   theory:"<b>Classificador de evidência</b>: resultado observado sem comparador concorrente; <b>condição 5</b>: quem paga pelo prazo estendido?",
+   author:"Van Hoek et al., HBR 2022 (coautoria Walmart) · Pactum · Bloomberg 2023", node:"classificador"},
+  {title:"Ocado e Kroger", loc:"Varejo online · Reino Unido e EUA · 2018–2025", loop:"Condições 1–4 encadeadas · contexto",
+   tag:"Previsão, robôs e fluxo desenhados juntos; o resultado dependia de uma variável que o fornecedor não controla.",
+   desc:"Supermercado online sem lojas, com centros automatizados onde robôs movem cestos sobre uma grade e modelos de deep learning orientam compra e alocação. A previsão (condição 1) chega a um fluxo desenhado para consumi-la automaticamente (condição 2) e os indicadores são registrados pelo próprio sistema (condição 4). Cifras auto-reportadas, sem comparador: desperdício de 0,02% (2018) e previsões 'até 40% mais acuradas' (2025). Em 18/11/2025 a Kroger anunciou o fechamento de três de oito centros, com compensação esperada acima de US$ 250 mi e queda de 17% na ação da Ocado: a tecnologia funcionava, mas o resultado dependia da densidade de demanda local.",
+   practice:"Previsão de demanda integrada a fulfillment automatizado",
+   theory:"<b>VCAP</b>: a IA entra em A e P; a condição 2 foi resolvida por desenho de processo; a <b>condição 4</b> dependia do contexto",
+   author:"Ocado (RNS, auto-reportado) · Reuters/Bloomberg (misto)", node:"c2"},
+  {title:"Microsoft · Intelligent Fulfillment Service", loc:"Supply chain de data centers · Edelman 2026 (vencedor)", loop:"LLM como interface",
+   tag:"O único resultado auditado com IA generativa: o LLM explica, o otimizador decide.",
+   desc:"ML, otimização e IA generativa para planejar remessas de infraestrutura de data centers: ciclo de planejamento reduzido à metade, carga de trabalho da equipe –23%, economia anual 'de dezenas a centenas de milhões de dólares', auditados pelo júri. O LLM (OptiGuide) é camada de explicabilidade e cenários sobre um otimizador determinístico, não o tomador de decisão, e o efeito isolado do LLM não foi reportado. Padrão arquitetural que chegou a resultado auditado: LLM como interface, OR como motor.",
+   practice:"Planejamento de remessas com otimizador e assistente generativo para cenários",
+   theory:"<b>Condição 3</b> preservada (humano decide com explicação); <b>condição 4</b> auditada; <b>genai</b> sem efeito isolado",
+   author:"INFORMS/Edelman 2026 (auto-reportado, julgado por júri)", node:"genai"},
+  {title:"Instacart · março de 2020", loc:"Entrega de supermercado · EUA", loop:"Condição 1 → deriva",
+   tag:"A acurácia da previsão de disponibilidade caiu quando o mundo mudou.",
+   desc:"A métrica interna de acurácia do modelo de disponibilidade de itens caiu de 93% para 61% a partir de meados de março de 2020, porque os dados de treino 'não levavam em conta a nova realidade do coronavírus'. A correção foi operacional: janela de treino reduzida para até dez dias, scoring de hora em hora em vez de a cada três horas; a recuperação chegou a ~85%. Fonte: Fortune citando o diretor de ML; a métrica não é definida e não há fonte primária da empresa. Exemplo didático da pergunta epistemológica: que evento invalidaria os dados de treinamento?",
+   practice:"Previsão de disponibilidade de itens para o aplicativo de compras",
+   theory:"<b>Epistemologia</b>: que evento invalida os dados? <b>Deriva</b> rompendo a <b>condição 1</b>",
+   author:"Fortune, 9 jun 2020 (misto) · Sculley et al., 2015", node:"epistemologia"},
+  {title:"Epic Sepsis Model", loc:"Saúde · EUA · JAMA Internal Medicine 2021", loop:"Condição 0 · validação externa",
+   tag:"A validação do fornecedor não é validação externa.",
+   desc:"Modelo proprietário de previsão de sepse, aprendido de dados de outros hospitais e usado por ~170 clientes. Validação externa independente em 38.455 hospitalizações: AUC 0,63 (IC 0,62–0,64) contra 0,76–0,83 alegados; sensibilidade 33%, valor preditivo positivo 12%; alertou em 18% dos pacientes, perdeu 67% dos casos e identificou apenas 7% dos casos não percebidos pelos clínicos. A métrica gerencial relevante é o valor incremental sobre o julgamento humano ao custo de alertar quase um em cada cinco pacientes, não a AUC. Ponte com a origem hospitalar do ELO.",
+   practice:"Alerta precoce a partir de score de risco embutido no prontuário",
+   theory:"<b>Condição 0</b>: evidência do fornecedor ≠ evidência independente; <b>condição 1</b>: desempenho local no limiar em uso",
+   author:"Wong et al., JAMA Internal Medicine, 2021 (independente, revisado por pares)", node:"c0"},
+  {title:"Knight Capital · 1º de agosto de 2012", loc:"Mercado financeiro · EUA · SEC 2013", loop:"Controle de implantação",
+   tag:"Não é IA. É o caso canônico de implantar automação sem controle.",
+   desc:"Um roteador de ordens por regras, implantado com código antigo reativado em parte dos servidores, enviou mais de 4 milhões de ordens em 45 minutos para atender 212 ordens de clientes: mais de 397 milhões de ações negociadas, perda acima de US$ 460 mi (SEC) ou US$ 440 mi pré-impostos (empresa), 97 e-mails de alerta ignorados antes da abertura, multa de US$ 12 mi. A SEC apontou ausência de comparação entre ordens que entravam e saíam, controles financeiros incapazes de parar ordens acima do capital e falta de procedimentos escritos de resposta a incidentes.",
+   practice:"Implantação de sistema automatizado de decisão sem verificação de saída",
+   theory:"<b>Condição 3</b> e <b>5</b> sem dono nem freio; dívida técnica (<b>Sculley</b>) no limite",
+   author:"SEC, press release 2013-222 (independente, regulador)", node:"dividatec"},
+  {title:"Hospital fictício · absenteísmo em exames", loc:"Caso ilustrativo do instrumento ELO", loop:"Condição 3 · alcance",
+   tag:"O modelo acertava quem faltaria; ninguém conseguia ligar para eles.",
+   desc:"Modelo de predição de absenteísmo em exames de imagem (AUROC 0,70) gera lista diária de prováveis faltosos para a central de agendamento telefonar. Auditoria pós-implantação: a lista chegava à central todos os dias (condição 2), mas grande parte dos pacientes não foi alcançada e não havia pessoal adicional para as ligações (condição 3). Absenteísmo sem diferença em relação ao grupo controle. O diagnóstico localiza a falha no elo 3, não no modelo. Caso fictício, construído para ilustrar o instrumento.",
+   practice:"Priorização de contatos a partir de score de risco",
+   theory:"<b>Condição 3</b>: alcance e barreira de execução; a avaliação centrada no modelo não faria a distinção",
+   author:"Lima & Araujo · ELO (exemplo do protótipo)", node:"execucao"},
+];
+
+const APS = [
+  {t:"Abertura · IA em Operações e Supply Chain", nodes:["elo"], h:`<div class="sl-cover"><div class="eyebrow">Seminário · Ênfase em IA · Prof. Dr. Thiago Lima</div><h2>IA aplicada a Operações, Processos e Supply Chain</h2><p class="big">O que precisa ser verdade, além do algoritmo funcionar, para que a IA produza um resultado que a empresa consiga medir?</p><div class="sl-foot">Três sessões · Filosofia da IA · Aplicações e evidência · Framework ELO</div></div>`},
+  {t:"S1 · O que a sua IA foi mandada querer?", nodes:["teleologia","pilares"], h:`<div class="eyebrow">Sessão 1 · prompt · escreva antes</div><h2>O que a sua IA foi mandada querer?</h2><p class="big">Em uma linha: o número que a solução de IA da sua empresa tenta maximizar ou minimizar. Não o objetivo de negócio. O número.</p><p class="note">"Reduzir ruptura" é objetivo. "Minimizar erro de previsão semanal por SKU" é o que o sistema faz. A distância entre os dois é a teleologia não escrita.</p>`},
+  {t:"S1 · Três perguntas que ninguém escreveu", nodes:["pilares","teleologia","epistemologia","ontologia"], h:`<div class="eyebrow">Schrage &amp; Kiron (2025) · Philosophy Eats AI</div><h2>Três perguntas que ninguém escreveu</h2><div class="cols3"><div><h3>Teleologia</h3><p>O que o sistema foi mandado querer; quando objetivos conflitam, qual vence</p></div><div><h3>Epistemologia</h3><p>O que ele pode contar como saber; sabe quando não sabe?</p></div><div><h3>Ontologia</h3><p>O que ele consegue ver; qual variável que importa não existe para ele</p></div></div><p class="note">A pergunta não é se o sistema é bom. É se a organização escreveu a premissa.</p>`},
+  {t:"S1 · Dívida filosófica", nodes:["divida","lima"], h:`<div class="eyebrow">Lima (2026), cap. 5</div><h2>Dívida filosófica</h2><ul><li>O que se acumula quando as três perguntas ficam sem resposta escrita</li><li>A premissa que ninguém registrou é a que ninguém pode auditar nem melhorar</li><li>Teleologia é barata antes da implantação e cara depois de dois anos de o sistema agir sobre a hierarquia implícita</li><li>No parecer: dívida técnica, filosófica, de adoção, de capacidade</li></ul>`},
+  {t:"S1 · Em que termo entra a sua ferramenta?", nodes:["vcap","convergencia"], h:`<div class="eyebrow">Sessão 1 · prompt · escreva antes</div><h2>V = C × (A + P): em que termo entra a sua ferramenta?</h2><div class="formula">V = C × (A + P)</div><ul><li><b>A</b> ativos: compráveis · <b>P</b> processos: mudam o fluxo · <b>C</b> capacidade de melhorar: coeficiente</li><li>Quase sempre A; às vezes A e P. Raramente C</li><li>Pagar por A e contabilizar como C é o erro que destrói business cases</li></ul>`},
+  {t:"S1 · Competir em analytics é decisão de organização", nodes:["analytics","davenport"], h:`<div class="eyebrow">Davenport (2006)</div><h2>O software é a parte barata</h2><div class="cols2"><div><h3>O que os competidores analíticos têm</h3><p>Patrocínio do topo, cultura de teste e medida, analistas junto à decisão, dados como ativo</p></div><div><h3>O que a IA generativa não mudou</h3><p>Vinte anos depois, a mesma lição: a vantagem é organizacional, e a ferramenta é o que todos podem comprar</p></div></div>`},
+  {t:"S2 · Onde a sua ferramenta entra?", nodes:["previsao","estoque","compras","rotas"], h:`<div class="eyebrow">Sessão 2 · prompt · marque no mapa de processos</div><h2>Onde a sua ferramenta entra?</h2><div class="phases"><div><b>P</b><span>Planejar</span><em>previsão · S&amp;OP · estoque</em></div><div><b>C</b><span>Comprar</span><em>sourcing · risco</em></div><div><b>F</b><span>Fazer</span><em>manutenção · qualidade</em></div><div><b>E</b><span>Entregar</span><em>rotas · torre de controle</em></div></div><p class="note">A concentração em planejar reproduz a literatura: muita modelagem, pouca implantação medida.</p>`},
+  {t:"S2 · Quatro temas dos estudos empíricos", nodes:["temas4","culot","dados"], h:`<div class="eyebrow">Culot, Podrecca &amp; Nassimbeni (2024)</div><h2>Só estudos empíricos: quatro temas</h2><ul><li><b>Requisitos de dados e sistemas</b> · o modelo tem o que precisa, no grão e na latência?</li><li><b>Processo de implantação</b> · quem configurou o limiar, houve piloto com comparador?</li><li><b>Integração (inter)organizacional</b> · o resultado atravessa a fronteira entre áreas e empresas?</li><li><b>Implicações de desempenho</b> · em qual objetivo o efeito aparece, à custa de qual?</li></ul>`},
+  {t:"S2 · O que o gestor recebe como prova de valor", nodes:["classificador","percepcao"], h:`<div class="eyebrow">Classificador de evidência</div><h2>O que o gestor recebe como prova de valor?</h2><div class="cols2"><div><h3>Mede o algoritmo</h3><p>Métrica de modelo (acurácia, MAPE, AUROC) · Simulação sobre dados históricos</p></div><div><h3>Mede a organização</h3><p>Resultado organizacional observado após a implantação, com comparador concorrente</p></div></div><p class="note">Percepção e autorrelato divergem do registro. A maior parte do que se apresenta para no modelo.</p>`},
+  {t:"S2 · 88% usam, 6% têm resultado", nodes:["surveys","jcurve","percepcao"], h:`<div class="eyebrow">O que as pesquisas de praticantes medem</div><h2>88% usam IA. ~6% têm resultado.</h2><div class="cols3"><div><h3>McKinsey 2025</h3><p>88% usam regularmente; 39% atribuem algum impacto no EBIT, a maioria abaixo de 5%; ~6% high performers</p></div><div><h3>MIT SMR/BCG 2020</h3><p>Só 10% obtêm benefício financeiro significativo (>3.000 gestores)</p></div><div><h3>MIT NANDA 2025</h3><p>5% dos pilotos de GenAI chegam a impacto mensurável em P&amp;L; viés de amostra admitido</p></div></div><p class="note">Tudo auto-relato. A distância entre 88% e 6% é o que as condições 2 a 5 do ELO explicam.</p>`},
+  {t:"S2 · Escada de evidência", nodes:["escada","culot","makridakis"], h:`<div class="eyebrow">Culot et al. (2024) · M5 (2022)</div><h2>Em que degrau está a prova que você recebeu?</h2><div class="phases"><div><b>1</b><span>Métrica de modelo</span><em>acurácia, MAPE, AUROC</em></div><div><b>2</b><span>Benefício esperado</span><em>simulação, business case</em></div><div><b>3</b><span>Percepção</span><em>survey, entrevista</em></div><div><b>4</b><span>Dado transacional</span><em>antes/depois com comparador</em></div></div><p class="note">123 estudos empíricos com dados reais: benefícios 'frequentemente expectativas ou resultados percebidos'. M5: +22% no agregado, ~3% no produto-loja, sem ligação a custo.</p>`},
+  {t:"S2 · O ganho auditado vem da otimização", nodes:["auditado","caro","otim","genai"], h:`<div class="eyebrow">Edelman/INFORMS 2010–2026</div><h2>Auditado: 1 a 4%, e é otimização</h2><div class="cols2"><div><h3>Com júri ou experimento</h3><p>Zara +3–4% vendas (2010) · UPS ORION US$ 300–400 mi/ano (2016) · Walmart US$ 91,5 mi (2023) · ECCO –1,09% custos · Microsoft –50% ciclo (2026)</p></div><div><h3>Auto-reportado, sem comparador</h3><p>'–30% rupturas' · 'acurácia 15× melhor' · '–45% downtime' · '40% mais acurado'</p></div></div><p class="note">Único resultado auditado com LLM: o LLM explica, o otimizador decide. Isso não diz que ML não gera valor; diz que ninguém o mediu de forma independente.</p>`},
+  {t:"S2 · Percepção diverge da medida", nodes:["percepcao","c4"], h:`<div class="eyebrow">Sessão 2 · prompt · escreva antes</div><h2>"40% menos tempo de planejamento"</h2><p class="big">Um fornecedor relata a economia, medida por pesquisa com os planejadores. O que você pediria antes de acreditar?</p><p class="note">O log do sistema: tempo registrado por ciclo, antes e depois, com comparador concorrente. Em implementações reais, economias relatadas não foram confirmadas pelos registros.</p>`},
+  {t:"S3 · Funcionava e não foi usada", nodes:["adocao","execucao"], h:`<div class="eyebrow">Sessão 3 · prompt · escreva antes</div><h2>Funcionava e não foi usada</h2><p class="big">Lembre uma ferramenta que funcionava tecnicamente e não produziu nada. Em uma palavra: o que faltou?</p><p class="note">Dono, tempo, gente, chegava tarde, ninguém abria. São os mecanismos de falha das condições 2 e 3. Não são propriedades da ferramenta; são capacidades da organização.</p>`},
+  {t:"S3 · Seis condições entre a ferramenta e o resultado", nodes:["elo","c0","c1","c2","c3","c4","c5"], h:`<div class="eyebrow">Framework ELO · Lima &amp; Araujo</div><h2>Seis condições entre a ferramenta e o resultado</h2><div class="cols3"><div><h3>A ferramenta</h3><p><b>0</b> Base de evidências<br><b>1</b> Capacidade técnica em operação</p></div><div><h3>A organização</h3><p><b>2</b> Integração ao fluxo<br><b>3</b> Tradução em ação</p></div><div><h3>O resultado</h3><p><b>4</b> Resultado organizacional<br><b>5</b> Valor líquido</p></div></div><p class="note">Cada uma é necessária; nenhuma é suficiente. Veja a aba Diagrama.</p>`},
+  {t:"S3 · O modelo acerta 92%. E daí?", nodes:["c1","c2","c3","c4","c5"], h:`<div class="eyebrow">Sessão 3 · prompt · escreva antes</div><h2>O modelo acerta 92%. E daí?</h2><p class="big">Um score de risco de atraso de fornecedor tem 92% de acurácia. Liste o que ainda precisa ser verdade para que o atraso evitado apareça no OTIF.</p><p class="note">Acurácia local no limiar em uso (1) · chega ao comprador antes de o pedido fechar e é lido (2) · dono, fornecedor alternativo, alçada (3) · OTIF com linha de base e comparador (4) · custo do frete expresso contado (5).</p>`},
+  {t:"S3 · O resultado é modelo + override", nodes:["aversao","fildes09","dietvorst","confianca"], h:`<div class="eyebrow">Condição 3 · Fildes et al. (2009) · Dietvorst et al. (2018)</div><h2>O resultado no P&amp;L é modelo + ajuste humano</h2><ul><li>>60.000 previsões em quatro empresas: ajustes pequenos e para cima pioram a acurácia (viés de otimismo)</li><li>Pessoas abandonam o algoritmo depois de um erro visível, mesmo quando ele é melhor</li><li>Usam muito mais se puderem modificá-lo, ainda que pouco: algum controle, não controle máximo</li><li>Confiança em IA embutida cai abruptamente após erros e recupera devagar (Glikson &amp; Woolley)</li></ul><p class="note">Comparador que já existe e raramente é logado: a previsão estatística não ajustada.</p>`},
+  {t:"S3 · Quem decide e quem responde", nodes:["aiact","pl2338","iso42001","gestaoalg"], h:`<div class="eyebrow">Governança · AI Act Art. 26 · PL 2338/2023</div><h2>O deployer responde</h2><div class="cols2"><div><h3>AI Act (UE), deveres de quem implanta alto risco</h3><p>Supervisão humana competente · dados de entrada representativos · logs por 6 meses · informar trabalhadores antes do uso. Anexo III adiado para 02/12/2027 (Omnibus, a confirmar no Jornal Oficial)</p></div><div><h3>Brasil</h3><p>PL 2338: Senado 10/12/2024; Câmara aguardando parecer em nov/2026. Enquanto isso: ISO/IEC 42001 (certificável) e NIST AI RMF (voluntário)</p></div></div><p class="note">As condições 0, 2 e 3 do ELO transformadas em obrigação legal. Competência interna não se terceiriza ao fornecedor.</p>`},
+  {t:"S3 · Veredito sem nota", nodes:["veredito","medir"], h:`<div class="eyebrow">Relatório ELO</div><h2>Veredito sem nota</h2><ul><li>A primeira condição que não é um "sim" claro: o achado</li><li>As medidas que faltam: adoção, recursos da ação, comparador, medida objetiva</li><li>Onde há IA: quantos pilares ninguém escreveu</li><li>Decisão: prosseguir · sob condições nomeadas · pausar · não prosseguir, com primeiro passo e dono</li></ul><p class="note">Se a resposta é "não medido", o próximo passo é medir, não gastar.</p>`},
+  {t:"S3 · E daí para a segunda-feira?", nodes:["elo","divida","vcap"], h:`<div class="eyebrow">Na sua organização</div><h2>E daí para a segunda-feira?</h2><ol><li>Escreva o número que o seu sistema otimiza e qual objetivo vence no conflito</li><li>Classifique cada prova de valor recebida: modelo, simulação, resultado, percepção</li><li>Nomeie quem recebe o resultado, quando, e quem é dono da ação</li><li>Defina indicador, fonte, linha de base e comparador antes de assinar</li><li>Diga em uma frase o que a empresa saberá fazer sem o sistema</li></ol>`},
+  {t:"Explore o mapa conceitual", nodes:[], h:`<div class="sl-cover"><div class="eyebrow">Ferramenta interativa</div><h2>Explore o mapa</h2><p class="big">Conceitos, autores, aplicações, mecanismos de falha, casos e referências conectados. Clique em qualquer slide para saltar ao conceito correspondente.</p></div>`},
+];
+
+const NODE2SLIDE={}; APS.forEach((sl,i)=>(sl.nodes||[]).forEach(n=>{if(!(n in NODE2SLIDE))NODE2SLIDE[n]=i+1;}));
+(function(){const F={automacao:"S3 · Seis condições",predicao:"S3 · O modelo acerta",desempenho5:"S2 · Percepção diverge",schrage:"S1 · Três perguntas",toorajipour:"S2 · Onde a sua ferramenta",limaaraujo:"S3 · Seis condições",raisch:"S3 · Seis condições",brynjolfsson:"S2 · 88% usam",agrawal:"S3 · O modelo acerta",glikson:"S3 · O resultado é modelo",sculley:"S1 · Dívida filosófica",hendriksen:"S3 · Quem decide",kellogg:"S3 · Quem decide",blr2025:"S1 · Em que termo",fountaine:"S2 · 88% usam",fisher:"S2 · Onde a sua ferramenta",lee:"S2 · Onde a sua ferramenta",dividatec:"S1 · Dívida filosófica",aii:"S3 · Quem decide",manutencao:"S2 · Onde a sua ferramenta",capacidade:"S2 · Onde a sua ferramenta",ml:"S3 · Seis condições",llm:"S2 · O ganho auditado",deriva:"S2 · Escada",realocacao:"S3 · Veredito",proxy:"S1 · Três perguntas",baseSC:"S2 · Escada",validacao:"S3 · Veredito"};
+for(const k in F){if(!NODE2SLIDE[k]){const i=APS.findIndex(sl=>sl.t.startsWith(F[k]));if(i>-1)NODE2SLIDE[k]=i+1;}}})();
+
+const QUADRO = [
+  {concept:"Três pilares da IA", cat:"teoria", author:"Schrage, M. & Kiron, D. (2025)",
+   paper:"Philosophy eats AI. (MIT Sloan Management Review)",
+   contribution:"Teleologia, epistemologia e ontologia como premissas que todo sistema de IA carrega e que a organização precisa articular.",
+   practice:"Auditoria de dívida filosófica antes da compra: o que otimiza, quando conflita, o que invalida os dados, o que não vê.", node:"pilares"},
+  {concept:"Dívida filosófica e VCAP", cat:"teoria", author:"Lima, T. F. (2026)",
+   paper:"Excelência operacional: da estratégia à execução, caps. 1 e 5. (Atena Editora)",
+   contribution:"V = C × (A + P): a IA entra no parêntese. Dívida filosófica: o que se acumula quando as premissas não são escritas.",
+   practice:"Dizer em uma frase o que a empresa saberá fazer sem o sistema; se não consegue, contabilizar a compra como A.", node:"divida"},
+  {concept:"Competir em analytics", cat:"teoria", author:"Davenport, T. H. (2006)",
+   paper:"Competing on analytics. (Harvard Business Review)",
+   contribution:"A vantagem analítica depende de liderança, cultura, pessoas e dados; o software é commodity.",
+   practice:"Avaliar patrocínio, cultura de medida e proximidade analista–decisão antes de avaliar fornecedor.", node:"analytics"},
+  {concept:"Quatro temas empíricos", cat:"teoria", author:"Culot, G., Podrecca, M. & Nassimbeni, G. (2024)",
+   paper:"Artificial intelligence in supply chain management: A systematic literature review of empirical studies and research directions. (Computers in Industry)",
+   contribution:"Organiza os estudos empíricos em dados e sistemas, implantação, integração (inter)organizacional e desempenho.",
+   practice:"Quatro perguntas de due diligence, uma por tema, mapeadas às condições 1 a 5 do ELO.", node:"temas4"},
+  {concept:"Mapa das aplicações", cat:"pratica", author:"Toorajipour, R. et al. (2021)",
+   paper:"Artificial intelligence in supply chain management: A systematic literature review. (Journal of Business Research)",
+   contribution:"Inventário de técnicas e subcampos de aplicação de IA em supply chain.",
+   practice:"Localizar a ferramenta no processo (planejar, comprar, fazer, entregar) antes de discutir evidência.", node:"previsao"},
+  {concept:"Previsão barata, julgamento caro", cat:"teoria", author:"Agrawal, A., Gans, J. & Goldfarb, A. (2018)",
+   paper:"Prediction machines: The simple economics of artificial intelligence. (Harvard Business Review Press)",
+   contribution:"IA reduz o custo da previsão; o valor migra para julgamento, dados e ação.",
+   practice:"Garantir julgamento e capacidade de ação onde a previsão chega (condição 3).", node:"predicao"},
+  {concept:"Automação × aumento", cat:"teoria", author:"Raisch, S. & Krakowski, S. (2021)",
+   paper:"Artificial intelligence and management: The automation–augmentation paradox. (Academy of Management Review)",
+   contribution:"Automação e aumento são interdependentes no tempo e entre níveis; privilegiar só um cria tensões.",
+   practice:"Decidir explicitamente onde o humano permanece no fluxo e com que alçada.", node:"automacao"},
+  {concept:"Curva J", cat:"teoria", author:"Brynjolfsson, E., Rock, D. & Syverson, C. (2021)",
+   paper:"The productivity J-curve: How intangibles complement general purpose technologies. (American Economic Journal: Macroeconomics)",
+   contribution:"Complementos intangíveis explicam o atraso entre investimento em tecnologia e produtividade medida.",
+   practice:"Definir horizonte e comparador do indicador; não julgar pelo antes-e-depois de três meses.", node:"jcurve"},
+  {concept:"Acurácia reproduzível", cat:"tec", author:"Makridakis, S., Spiliotis, E. & Assimakopoulos, V. (2022)",
+   paper:"M5 accuracy competition: Results, findings, and conclusions. (International Journal of Forecasting)",
+   contribution:"Sobre 42.840 séries da Walmart, ML vence o benchmark estatístico em 22,4% no agregado e só ~3% no produto-loja; apenas 7,5% das equipes bateram o benchmark com a submissão escolhida.",
+   practice:"Exigir acurácia medida nos dados locais contra o benchmark atual da empresa (condição 1).", node:"makridakis"},
+  {concept:"Organização movida a IA", cat:"barreira", author:"Fountaine, T., McCarthy, B. & Saleh, T. (2019)",
+   paper:"Building the AI-powered organization. (Harvard Business Review)",
+   contribution:"A barreira à escala é cultura, processo e integração interfuncional, não tecnologia.",
+   practice:"Medir adoção (acessos, resposta a alertas) como indicador de projeto (condição 2).", node:"adocao"},
+  {concept:"Cadeia certa para o produto", cat:"pratica", author:"Fisher, M. L. (1997)",
+   paper:"What is the right supply chain for your product? (Harvard Business Review)",
+   contribution:"Produtos funcionais pedem cadeias eficientes; inovadores, cadeias responsivas.",
+   practice:"Antes de prever melhor, verificar se a cadeia está desenhada para o produto certo.", node:"fisher"},
+  {concept:"Efeito chicote", cat:"pratica", author:"Lee, H. L., Padmanabhan, V. & Whang, S. (1997)",
+   paper:"The bullwhip effect in supply chains. (Sloan Management Review)",
+   contribution:"Quatro causas da amplificação da variabilidade cadeia acima.",
+   practice:"Usar a variabilidade medida de pedidos como indicador da condição 4 quando a IA promete reduzir o chicote.", node:"lee"},
+  {concept:"Objetivos de desempenho", cat:"teoria", author:"Slack, N., Brandon-Jones, A. & Burgess, N. (2022)",
+   paper:"Operations management (10th ed.). (Pearson)",
+   contribution:"Custo, qualidade, velocidade, confiabilidade e flexibilidade como dimensões do desempenho operacional.",
+   practice:"Escolher a dimensão e o indicador da condição 4 e declarar à custa de qual outra o ganho vem.", node:"desempenho5"},
+  {concept:"Aversão a algoritmos", cat:"teoria", author:"Dietvorst, B. J., Simmons, J. P. & Massey, C. (2018)",
+   paper:"Overcoming algorithm aversion: People will use imperfect algorithms if they can (even slightly) modify them. (Management Science)",
+   contribution:"Permitir modificação limitada da saída aumenta o uso do algoritmo e o desempenho; o tamanho permitido do ajuste pouco importa.",
+   practice:"Desenhar a interface do planejador com ajuste limitado e registrado, em vez de aceitar/rejeitar.", node:"dietvorst"},
+  {concept:"Ajustes de julgamento", cat:"barreira", author:"Fildes, R., Goodwin, P., Lawrence, M. & Nikolopoulos, K. (2009)",
+   paper:"Effective forecasting and judgmental adjustments: An empirical evaluation and strategies for improvement in supply-chain planning. (International Journal of Forecasting)",
+   contribution:"Em >60.000 previsões, ajustes pequenos e para cima frequentemente pioram a acurácia; grandes ajustes para baixo ajudam.",
+   practice:"Logar a previsão estatística não ajustada como comparador; filtrar ajustes pequenos e otimistas.", node:"fildes09"},
+  {concept:"Confiança em IA", cat:"teoria", author:"Glikson, E. & Woolley, A. W. (2020)",
+   paper:"Human trust in artificial intelligence: Review of empirical research. (Academy of Management Annals)",
+   contribution:"Confiança em IA embutida começa alta, cai abruptamente após erros visíveis e recupera lentamente.",
+   practice:"Proteger os primeiros ciclos de operação: limiar conservador, monitoramento de erros visíveis, comunicação.", node:"glikson"},
+  {concept:"Dívida técnica em ML", cat:"tec", author:"Sculley, D. et al. (2015)",
+   paper:"Hidden technical debt in machine learning systems. (Advances in Neural Information Processing Systems 28)",
+   contribution:"Entrelaçamento, dependências de dados, loops de feedback e glue code tornam sistemas de ML caros de manter.",
+   practice:"Orçar manutenção e monitoramento de drift como custo recorrente na condição 5.", node:"sculley"},
+  {concept:"AI Integration (AII)", cat:"teoria", author:"Hendriksen, C. (2023)",
+   paper:"Artificial intelligence for supply chain management: Disruptive innovation or innovative disruption? (Journal of Supply Chain Management)",
+   contribution:"Dois eixos (integração × autonomia decisória), sensemaking da IA e o 'AI-bullwhip effect'.",
+   practice:"Declarar, para cada ferramenta, em que quadrante ela opera e quem assina a decisão.", node:"hendriksen"},
+  {concept:"Gestão algorítmica", cat:"teoria", author:"Kellogg, K. C., Valentine, M. A. & Christin, A. (2020)",
+   paper:"Algorithms at work: The new contested terrain of control. (Academy of Management Annals)",
+   contribution:"Seis mecanismos de controle algorítmico e as formas de resistência dos trabalhadores.",
+   practice:"Auditar WMS, TMS e escalas pelo que restringem, recomendam, registram, avaliam, substituem e recompensam.", node:"kellogg"},
+  {concept:"GenAI e capacidade", cat:"teoria", author:"Brynjolfsson, E., Li, D. & Raymond, L. (2025)",
+   paper:"Generative AI at work. (Quarterly Journal of Economics)",
+   contribution:"+15% de produtividade em 5.172 agentes, concentrada nos menos experientes; a ferramenta difunde o conhecimento tácito dos melhores.",
+   practice:"Perguntar se o ganho fica na empresa (C) ou no produto do fornecedor (A que todos compram).", node:"blr2025"},
+  {concept:"Experimento de campo", cat:"pratica", author:"Caro, F., Gallien, J. et al. (2010)",
+   paper:"Zara uses operations research to reengineer its global distribution process. (Interfaces)",
+   contribution:"Modelo de alocação de remessas avaliado por experimento de campo controlado: +3–4% de vendas.",
+   practice:"Implantar por grupos (lojas, famílias, fornecedores) para ter comparador concorrente na condição 4.", node:"caro"},
+  {concept:"Revisão sistemática empírica", cat:"lacuna", author:"Culot, G., Podrecca, M. & Nassimbeni, G. (2024)",
+   paper:"Artificial intelligence in supply chain management: A systematic literature review of empirical studies and research directions. (Computers in Industry)",
+   contribution:"3.173 → 123 estudos com dados reais; benefícios majoritariamente expectativas ou percepções; falta ancoragem teórica.",
+   practice:"Tratar o business case do fornecedor como hipótese até existir dado transacional com comparador.", node:"escada"},
+  {concept:"ELO · seis condições", cat:"core", author:"Lima, T. F. & Araujo, C. A. S. (em andamento)",
+   paper:"ELO: diagnóstico de implementações de IA. Protótipo, COPPEAD/UFRJ.",
+   contribution:"Cadeia de seis condições necessárias entre a ferramenta e o resultado, derivada de revisão de implementações hospitalares.",
+   practice:"Diagnóstico antes da adoção ou auditoria pós-implantação; parecer sem nota, com ruptura, medidas que faltam e decisão.", node:"elo"},
+];
+
+const REF_GROUPS = [
+ {title:"Filosofia da IA e capacidade organizacional", refs:[
+  {apa:"Schrage, M., & Kiron, D. (2025). Philosophy eats AI. <i>MIT Sloan Management Review</i> (online, 16 jan. 2025).", doi:"https://sloanreview.mit.edu/article/philosophy-eats-ai/"},
+  {apa:"Schrage, M., & Kiron, D. (2024). Is philosophy the next LLM training frontier? <i>MIT Initiative on the Digital Economy</i> (entrevista, 3 dez. 2024).", doi:"https://ide.mit.edu/insights/is-philosophy-the-next-llm-training-frontier"},
+  {apa:"Lima, T. F. (2026). <i>Excelência operacional: da estratégia à execução</i>. Atena Editora. Cap. 1 (Modelo VCAP) e cap. 5 (três pilares e dívida filosófica). [Obs.: a expressão 'dívida filosófica' é do livro; não aparece em Schrage & Kiron.]", doi:""},
+  {apa:"Davenport, T. H. (2006). Competing on analytics. <i>Harvard Business Review, 84</i>(1), 98–107.", doi:"https://hbr.org/2006/01/competing-on-analytics"},
+  {apa:"Davenport, T. H., & Harris, J. G. (2007). <i>Competing on analytics: The new science of winning</i>. Harvard Business School Press.", doi:""},
+  {apa:"Agrawal, A., Gans, J., & Goldfarb, A. (2018). <i>Prediction machines: The simple economics of artificial intelligence</i>. Harvard Business Review Press.", doi:""},
+  {apa:"Gans, J. (2023). Artificial intelligence: Between promise and adoption [entrevista]. <i>IESE Insight</i>. (Soluções pontuais, de aplicação e de sistema.)", doi:"https://www.iese.edu/insight/articles/artificial-intelligence-between-promise-and-adoption-joshua-gans"},
+  {apa:"Raisch, S., & Krakowski, S. (2021). Artificial intelligence and management: The automation–augmentation paradox. <i>Academy of Management Review, 46</i>(1), 192–210.", doi:"https://archive-ouverte.unige.ch/unige:169300"},
+  {apa:"Brynjolfsson, E., Rock, D., & Syverson, C. (2021). The productivity J-curve: How intangibles complement general purpose technologies. <i>American Economic Journal: Macroeconomics, 13</i>(1), 333–372.", doi:"https://www.nber.org/papers/w25148"},
+  {apa:"Brynjolfsson, E., Li, D., & Raymond, L. (2025). Generative AI at work. <i>Quarterly Journal of Economics, 140</i>(2), 889–942.", doi:"https://econpapers.repec.org/RePEc:oup:qjecon:v:140:y:2025:i:2:p:889-942."},
+  {apa:"Tambe, P., Hitt, L., Rock, D., & Brynjolfsson, E. (2020). <i>Digital capital and superstar firms</i> (NBER Working Paper 28285).", doi:"https://www.nber.org/papers/w28285"},
+  {apa:"Fountaine, T., McCarthy, B., & Saleh, T. (2019). Building the AI-powered organization. <i>Harvard Business Review, 97</i>(4), 62–73.", doi:"https://hbr.org/2019/07/building-the-ai-powered-organization"},
+ ]},
+ {title:"Revisões sistemáticas de IA em operações e supply chain", refs:[
+  {apa:"Culot, G., Podrecca, M., & Nassimbeni, G. (2024). Artificial intelligence in supply chain management: A systematic literature review of empirical studies and research directions. <i>Computers in Industry, 162</i>, 104132.", doi:"https://aisberg.unibg.it/bitstream/10446/276769/1/Culot%20et%20al.%2c%202024%20-%20CII.pdf"},
+  {apa:"Toorajipour, R., Sohrabpour, V., Nazarpour, A., Oghazi, P., & Fischl, M. (2021). Artificial intelligence in supply chain management: A systematic literature review. <i>Journal of Business Research, 122</i>, 502–517.", doi:"https://mural.maynoothuniversity.ie/14250/7/1-s2.0-S014829632030583X-main.pdf"},
+  {apa:"Zamani, E. D., Smyth, C., Gupta, S., & Dennehy, D. (2023). Artificial intelligence and big data analytics for supply chain resilience: A systematic literature review. <i>Annals of Operations Research, 327</i>(2), 605–632.", doi:"https://eprints.whiterose.ac.uk/id/eprint/190770/1/ANOR-D-21-02325_R2%20accepted.pdf"},
+  {apa:"Hendriksen, C. (2023). Artificial intelligence for supply chain management: Disruptive innovation or innovative disruption? <i>Journal of Supply Chain Management, 59</i>(3), 65–76.", doi:"https://doi.org/10.1111/jscm.12304"},
+  {apa:"Pournader, M., Ghaderi, H., Hassanzadegan, A., & Fahimnia, B. (2021). Artificial intelligence applications in supply chain management. <i>International Journal of Production Economics, 241</i>, 108250.", doi:"https://ideas.repec.org/a/eee/proeco/v241y2021ics0925527321002267.html"},
+  {apa:"Helo, P., & Hao, Y. (2022). Artificial intelligence in operations management and supply chain management: An exploratory case study. <i>Production Planning & Control, 33</i>(16), 1573–1590. [volume/fascículo a conferir]", doi:"https://doi.org/10.1080/09537287.2021.1882690"},
+ ]},
+ {title:"Previsão de demanda e competições M", refs:[
+  {apa:"Makridakis, S., Spiliotis, E., & Assimakopoulos, V. (2022). M5 accuracy competition: Results, findings, and conclusions. <i>International Journal of Forecasting, 38</i>(4), 1346–1364.", doi:"https://econpapers.repec.org/RePEc:eee:intfor:v:38:y:2022:i:4:p:1346-1364"},
+  {apa:"Makridakis, S., Petropoulos, F., & Spiliotis, E. (2022). Introduction to the M5 forecasting competition special issue. <i>International Journal of Forecasting, 38</i>(4), 1279–1282.", doi:"https://doi.org/10.1016/j.ijforecast.2022.04.005"},
+  {apa:"Ma, S., & Fildes, R. (2022). The performance of the global bottom-up approach in the M5 accuracy competition. <i>International Journal of Forecasting, 38</i>(4), 1492–1499.", doi:"https://ideas.repec.org/a/eee/intfor/v38y2022i4p1492-1499.html"},
+  {apa:"Fildes, R., Ma, S., & Kolassa, S. (2022). Retail forecasting: Research and practice. <i>International Journal of Forecasting, 38</i>(4), 1283–1318.", doi:"https://eprints.lancs.ac.uk/id/eprint/141453"},
+  {apa:"Fildes, R., Goodwin, P., Lawrence, M., & Nikolopoulos, K. (2009). Effective forecasting and judgmental adjustments: An empirical evaluation and strategies for improvement in supply-chain planning. <i>International Journal of Forecasting, 25</i>(1), 3–23.", doi:"https://econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23"},
+ ]},
+ {title:"Prêmio Franz Edelman (INFORMS) · resultados julgados por júri", refs:[
+  {apa:"Caro, F., Gallien, J., Díaz, M., García, J., Corredoira, J. M., Montes, M., Ramos, J. A., & Correa, J. (2010). Zara uses operations research to reengineer its global distribution process. <i>Interfaces, 40</i>(1), 71–84. (Finalista Edelman 2009.)", doi:"https://econpapers.repec.org/RePEc:inm:orinte:v:40:y:2010:i:1:p:71-84"},
+  {apa:"Holland, C., Levis, J., Nuggehalli, R., Santilli, B., & Winters, J. (2017). UPS optimizes delivery routes. <i>Interfaces, 47</i>(1), 8–23.", doi:"https://doi.org/10.1287/inte.2016.0875"},
+  {apa:"INFORMS (2016). <i>INFORMS awards UPS its 2016 Edelman Prize</i> [comunicado]. Ver também: UPS On-Road Integrated Optimization and Navigation (ORION) Project, INFORMS Analytics Success Stories.", doi:"https://www.informs.org/News-Room/INFORMS-Releases/Awards-Releases/INFORMS-R-Awards-UPS-its-2016-Edelman-Prize-The-leading-award-in-Analytics-and-Operations-Research"},
+  {apa:"OR/MS Today (2016). UPS wins 2016 Edelman. <i>OR/MS Today, 43</i>(2). (Citações 'as primeiras tentativas do algoritmo não funcionaram bem no campo'.)", doi:"https://pubsonline.informs.org/do/10.1287/orms.2016.03.10/full/"},
+  {apa:"INFORMS (2023). <i>Franz Edelman Laureates, Class of 2023</i> (vencedor: Walmart, otimização de rotas de entrega de mercearia).", doi:"https://www.informs.org/Recognizing-Excellence/INFORMS-Prizes/Franz-Edelman-Award/Franz-Edelman-Laureates2/Franz-Edelman-Laureates-Class-of-2023"},
+  {apa:"INFORMS (2023). <i>2023 Edelman Award winner: Walmart's presentation</i> [vídeo].", doi:"https://www.informs.org/Resource-Center/Video-Library/Edelman-Competition-Videos/2023-Edelman-Competition-Videos/2023-Edelman-Award-Winner-Walmart-s-Presentation"},
+  {apa:"INFORMS (2026). <i>INFORMS names six finalists for the 2026 Franz Edelman Award</i> [comunicado] (ECCO, Chewy, NVIDIA, Department of Food and Public Distribution da Índia, Microsoft e outro finalista).", doi:"https://www.informs.org/News-Room/INFORMS-Releases/Awards-Releases/INFORMS-Names-Six-Finalists-for-the-2026-Franz-Edelman-Award-the-World-s-Leading-Honor-in-Analytics-Operations-Research-and-Management-Science"},
+  {apa:"INFORMS (2026). <i>Microsoft awarded the 2026 INFORMS Edelman Award for cloud supply chain optimization and generative AI innovation</i> [comunicado].", doi:"https://www.informs.org/News-Room/INFORMS-Releases/Awards-Releases/Microsoft-Awarded-the-2026-INFORMS-Edelman-Award-for-Cloud-Supply-Chain-Optimization-and-Generative-AI-Innovation"},
+ ]},
+ {title:"Mecanismos organizacionais: adoção, override, confiança, dívida técnica", refs:[
+  {apa:"Dietvorst, B. J., Simmons, J. P., & Massey, C. (2018). Overcoming algorithm aversion: People will use imperfect algorithms if they can (even slightly) modify them. <i>Management Science, 64</i>(3), 1155–1170.", doi:"https://ideas.repec.org/a/inm/ormnsc/v64y2018i3p1155-1170.html"},
+  {apa:"Glikson, E., & Woolley, A. W. (2020). Human trust in artificial intelligence: Review of empirical research. <i>Academy of Management Annals, 14</i>(2), 627–660.", doi:"https://leeds-faculty.colorado.edu/dahe7472/OB%202022/glickson%202021.pdf"},
+  {apa:"Atf, Z., & Lewis, P. R. (2025). Is trust correlated with explainability in AI? A meta-analysis. <i>IEEE Transactions on Technology and Society</i> (aceito).", doi:"https://arxiv.org/abs/2504.12529"},
+  {apa:"Kellogg, K. C., Valentine, M. A., & Christin, A. (2020). Algorithms at work: The new contested terrain of control. <i>Academy of Management Annals, 14</i>(1), 366–410.", doi:"https://par.nsf.gov/servlets/purl/10195395"},
+  {apa:"Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., & Dennison, D. (2015). Hidden technical debt in machine learning systems. <i>Advances in Neural Information Processing Systems, 28</i>, 2503–2511.", doi:"https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf"},
+  {apa:"Davenport, T. H., & Ronanki, R. (2018). Artificial intelligence for the real world. <i>Harvard Business Review, 96</i>(1), 108–116.", doi:"https://www.deloitte.com/content/dam/Deloitte/us/Documents/deloitte-analytics/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf"},
+  {apa:"Becker, J., Rush, N., Barnes, E., & Rein, D. (2025). <i>Measuring the impact of early-2025 AI on experienced open-source developer productivity</i>. METR (arXiv:2507.09089; RCT pré-registrado, não revisado por pares).", doi:"https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/"},
+  {apa:"Humlum, A., & Vestergaard, E. (2025). <i>Large language models, small labor market effects</i> (BFI Working Paper 2025-56). Becker Friedman Institute, University of Chicago.", doi:"https://bfi.uchicago.edu/wp-content/uploads/2025/04/BFI_WP_2025-56-3.pdf"},
+ ]},
+ {title:"Pesquisas de praticantes (auto-relato; ver ressalvas na aba Evidência)", refs:[
+  {apa:"McKinsey & Company (2025). <i>The state of AI in 2025: Agents, innovation, and transformation</i>. QuantumBlack, AI by McKinsey.", doi:"https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-2025"},
+  {apa:"Ransbotham, S., Khodabandeh, S., Fehling, R., LaFountain, B., & Kiron, D. (2019). <i>Winning with AI</i>. MIT Sloan Management Review e Boston Consulting Group.", doi:"https://prnewswire.com/news-releases/annual-mit-sloan-management-review-boston-consulting-group-study-finds-few-organizations-realizing-value-from-ai-300938131.html"},
+  {apa:"Ransbotham, S., Khodabandeh, S., Kiron, D., Candelon, F., Chu, M., & LaFountain, B. (2020). <i>Expanding AI's impact with organizational learning</i>. MIT Sloan Management Review e Boston Consulting Group.", doi:"https://www.biztechreports.com/news/2020/10/27/10-of-organizations-achieve-significant-financial-benefits-with-ai-those-that-do-deploy-multiple-human-machine-learning-approaches-new-study-from-bcg-finds"},
+  {apa:"Challapally, A., Pease, C., Raskar, R., & Chari, P. (2025). <i>The GenAI divide: State of AI in business 2025</i>. MIT NANDA. [relatório primário não lido; cifras via cobertura de imprensa]", doi:"https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo"},
+  {apa:"Ryseff, J., De Bruhl, B. F., & Newberry, S. J. (2024). <i>The root causes of failure for artificial intelligence projects and how they can succeed</i> (RR-A2680-1). RAND Corporation.", doi:"https://www.rand.org/pubs/research_reports/RRA2680-1.html"},
+  {apa:"Gartner (2024, 29 jul.). <i>Gartner predicts 30% of generative AI projects will be abandoned after proof of concept by end of 2025</i> [comunicado].", doi:"https://www.gartner.com/en/newsroom/press-releases/2024-07-29-gartner-predicts-30-percent-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025"},
+ ]},
+ {title:"Casos: documentos de empresas, reguladores e validações independentes", refs:[
+  {apa:"Zillow Group (2021, 2 nov.). <i>Form 8-K</i>, carta aos acionistas do 3T2021 (encerramento do Zillow Offers). U.S. Securities and Exchange Commission.", doi:"https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/q32021991.htm"},
+  {apa:"Zillow Group (2022). <i>Form 10-K</i> para o exercício de 2021. U.S. Securities and Exchange Commission.", doi:"https://www.sec.gov/Archives/edgar/data/1617640/000161764022000013/z-20211231.htm"},
+  {apa:"The Real Deal (2021, 1 nov.). Zillow's iBuying bleeds profits across most active markets.", doi:"https://therealdeal.com/2021/11/01/zillows-ibuying-bleeds-profits-across-most-active-markets"},
+  {apa:"Business Insider (2021, 27 out.). Análise de 963 anúncios do Zillow Offers (64% abaixo do preço pago). [URL não localizada; dado via notas da pesquisa]", doi:""},
+  {apa:"Van Hoek, R., DeWitt, M., Lacity, M., & Johnson, T. (2022). How Walmart automated supplier negotiations. <i>Harvard Business Review</i> (online, nov. 2022). [coautoria Walmart; artigo original não acessado]", doi:"https://hbr.org/2022/11/how-walmart-automated-supplier-negotiations"},
+  {apa:"Pactum (2023, 11 jan.). <i>Pactum's autonomous negotiation technology on display at the NRF 2023 Retail's Big Show</i> [comunicado, Business Wire].", doi:"https://www.businesswire.com/news/home/20230111005148/en/Pactums-Autonomous-Negotiation-Technology-on-Display-at-the-National-Retail-Federations-2023-Retail-Big-Show"},
+  {apa:"Bloomberg (2023, 26 abr.). Walmart uses Pactum AI tools to handle vendor negotiations.", doi:"https://brp-prod-bcc.bloomberg.com/news/articles/2023-04-26/walmart-uses-pactum-ai-tools-to-handle-vendor-negotiations"},
+  {apa:"Ocado Group (2025, 18 nov.). <i>Regulatory News Service announcement</i> (Kroger fecha três CFCs).", doi:"https://data.fca.org.uk/artefacts/NSM/RNS/fad885ce-be21-4b58-9043-636b75706a50.html"},
+  {apa:"Reuters (2025, 19 nov.). Ocado slides 17% as US partner Kroger closes robotic warehouses (reproduzido por The Star).", doi:"https://www.thestar.com.my/tech/tech-news/2025/11/19/ocado-slides-17-as-us-partner-kroger-closes-robotic-warehouses"},
+  {apa:"Ocado Group (2018). Ocado says 0.02 per cent of food wasted. <i>Logistics Manager</i>. [auto-reportado]", doi:"https://www.logisticsmanager.com/ocado-says-0-02-per-cent-food-wasted"},
+  {apa:"Ocado Group (2025). How AI is keeping food waste low [história corporativa; 'previsões até 40% mais acuradas']. [auto-reportado]", doi:"https://www.ocadogroup.com/media/stories/ai-keeping-food-waste-low"},
+  {apa:"Fortune (2020, 9 jun.). Instacart's AI was thrown off by the coronavirus [cita o diretor de ML; acurácia 93% → 61%].", doi:"https://fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence"},
+  {apa:"U.S. Securities and Exchange Commission (2013, 16 out.). <i>SEC charges Knight Capital with violations of market access rule</i> (Press Release 2013-222).", doi:"https://www.sec.gov/news/press-release/2013-222"},
+  {apa:"U.S. Securities and Exchange Commission (2013). <i>In the matter of Knight Capital Americas LLC</i> (Release No. 34-70694) [ordem administrativa].", doi:"https://www.sec.gov/litigation/admin/2013/34-70694.pdf"},
+  {apa:"Wong, A., Otles, E., Donnelly, J. P., Krumm, A., McCullough, J., DeTroyer-Cooley, O., Pestrue, J., Phillips, M., Konye, J., Penoza, C., Ghous, M., & Singh, K. (2021). External validation of a widely implemented proprietary sepsis prediction model in hospitalized patients. <i>JAMA Internal Medicine, 181</i>(8), 1065–1070.", doi:"https://pubmed.ncbi.nlm.nih.gov/34152373/"},
+  {apa:"Habib, A. R., Lin, A. L., & Grant, R. W. (2021). The Epic sepsis model falls short: The importance of external validation [editorial]. <i>JAMA Internal Medicine, 181</i>(8), 1040–1041.", doi:"https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2781313"},
+ ]},
+ {title:"Fontes de empresas e fornecedores citadas na aba Evidência (auto-reportadas)", refs:[
+  {apa:"Amazon (s.d.). How Amazon uses AI to improve shopping ['acurácia 15× em dois anos']. <i>About Amazon</i>.", doi:"https://www.aboutamazon.com/news/operations/amazon-uses-ai-to-improve-shopping"},
+  {apa:"Amazon (2022). Amazon introduces new robotics solutions [Sequoia]. <i>About Amazon</i>.", doi:"https://www.aboutamazon.com/news/operations/amazon-introduces-new-robotics-solutions"},
+  {apa:"Amazon Science (2022). Solving some of the largest, most complex operations problems [SCOT].", doi:"https://amazon.science/latest-news/solving-some-of-the-largest-most-complex-operations-problems"},
+  {apa:"RSM Digital Strategy (2025, 6 out.). Turning data into decision: How Unilever uses generative AI to reinvent its supply chain.", doi:"https://digitalstrategy.rsm.nl/2025/10/06/turning-data-into-decision-how-unilever-uses-generative-ai-to-reinvent-its-supply-chain/"},
+  {apa:"Uber Engineering (2022). DeepETA: How Uber predicts arrival times using deep learning.", doi:"https://www.uber.com/us/en/blog/deepeta-how-uber-predicts-arrival-times/"},
+  {apa:"Supply Chain Dive (2024). DHL Supply Chain experiments with generative AI.", doi:"https://www.supplychaindive.com/news/dhl-supply-chain-experiments-with-genai/732593/"},
+  {apa:"Supply Chain Dive (2019). Maersk virtual assistant helps track cargo [Captain Peter].", doi:"https://www.supplychaindive.com/news/Maersk-virtual-assistant-helps-track-cargo/548021/"},
+  {apa:"Logistics IT (2017, 29 mar.). Blue Yonder's technology delivers improved product availability for Morrisons ['–30% gôndolas vazias'; NÃO VERIFICADO na fonte primária].", doi:"https://www.logisticsit.com/articles/2017/03/29/blue-yonder’s-technology-delivers-improved-product-availability-for-morrisons/"},
+  {apa:"Nucleus Research (s.d.). MPO improves service levels by 15% with multi-tier inventory optimization [relatório encomendado]. <i>Supply Chain 24/7</i>.", doi:"https://www.supplychain247.com/article/mpo_improves_service_levels_by_15_with_multitier_inventory_optimization/nucleus_research"},
+  {apa:"Supply Chain Management Review (s.d.). Procurement control tower: Proof of concept through machine learning and natural language processing [MIT CTL; classificação de spend].", doi:"https://www.scmr.com/article/procurement-control-tower-proof-of-concept-through-machine-learning-and-natural-language-processing/software"},
+  {apa:"McKinsey & Company (2017). Faixa '30–50% de redução de downtime' em manutenção preditiva [citada por fornecedores; fonte primária NÃO LOCALIZADA].", doi:""},
+ ]},
+ {title:"Governança e regulação", refs:[
+  {apa:"União Europeia (2024). Regulamento (UE) 2024/1689 do Parlamento Europeu e do Conselho, de 13 de junho de 2024 (Regulamento da Inteligência Artificial). <i>Jornal Oficial da União Europeia</i>, L, 12.7.2024.", doi:"https://eur-lex.europa.eu/eli/reg/2024/1689/oj"},
+  {apa:"Regulamento (UE) 2024/1689, Artigo 26: Obrigações dos responsáveis pela implantação de sistemas de IA de risco elevado [texto consolidado].", doi:"https://www.springlex.eu/en/packages/ai-act/ai-act-regulation/article-26/"},
+  {apa:"Gibson Dunn (2026, 27 maio). EU AI Act Omnibus agreement: Postponed high-risk deadlines and other key changes [acordo político de 06/05/2026; publicação no Jornal Oficial a conferir no EUR-Lex].", doi:"https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/"},
+  {apa:"Brasil. Senado Federal (2023). Projeto de Lei nº 2338/2023. Dispõe sobre o uso da Inteligência Artificial. Aprovado pelo Plenário em 10/12/2024; em tramitação na Câmara dos Deputados.", doi:"https://www.congressonacional.leg.br/web/atividade/materias/-/materia/157233"},
+  {apa:"LCF Consulting (2026). Monitor legislativo: PL 2338/2023 [status 'aguardando parecer do relator na Comissão Especial'; ficha oficial da Câmara não acessada].", doi:"https://monitor.lcfconsulting.com.br/proposicoes/pl-2338-2023/"},
+  {apa:"ISO/IEC (2023). <i>ISO/IEC 42001:2023 Information technology — Artificial intelligence — Management system</i>. International Organization for Standardization.", doi:"https://www.iso.org/standard/42001"},
+  {apa:"National Institute of Standards and Technology (2023). <i>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</i> (NIST AI 100-1).", doi:"https://doi.org/10.6028/NIST.AI.100-1"},
+  {apa:"National Institute of Standards and Technology (2024). <i>Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile</i> (NIST AI 600-1).", doi:"https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"},
+ ]},
+ {title:"Framework ELO", refs:[
+  {apa:"Lima, T. F., & Araujo, C. A. S. (pesquisa em andamento). <i>ELO: diagnóstico de implementações de IA</i>. Protótipo de instrumento de apoio à decisão. COPPEAD/UFRJ.", doi:"https://tflsixsigma-png.github.io/IA-Gestao-Hospitalar-Prof-Thiago-Lima/elo/"},
+  {apa:"Veillard, J., Champagne, F., Klazinga, N., Kazandjian, V., Arah, O. A., & Guisset, A.-L. (2005). A performance assessment framework for hospitals: The WHO regional office for Europe PATH project. <i>International Journal for Quality in Health Care, 17</i>(6), 487–496.", doi:"https://doi.org/10.1093/intqhc/mzi072"},
+ ]},
+ {title:"Operações e supply chain · fundamentos", refs:[
+  {apa:"Fisher, M. L. (1997). What is the right supply chain for your product? <i>Harvard Business Review, 75</i>(2), 105–116.", doi:"https://hbr.org/1997/03/what-is-the-right-supply-chain-for-your-product"},
+  {apa:"Lee, H. L., Padmanabhan, V., & Whang, S. (1997). The bullwhip effect in supply chains. <i>Sloan Management Review, 38</i>(3), 93–102.", doi:"https://sloanreview.mit.edu/article/the-bullwhip-effect-in-supply-chains/"},
+  {apa:"Slack, N., Brandon-Jones, A., & Burgess, N. (2022). <i>Operations management</i> (10th ed.). Pearson.", doi:""},
+ ]},
+];
+
+const ROOT=NODES[0].id;
+
+/* ====================== MAP RENDER (force layout) ====================== */
+const NS="http://www.w3.org/2000/svg";
+const stage=document.getElementById("stage");
+const nodeById=Object.fromEntries(NODES.map(n=>[n.id,n]));
+const adj={}; NODES.forEach(n=>adj[n.id]=new Set());
+LINKS.forEach(([a,b])=>{adj[a].add(b);adj[b].add(a)});
+
+let W=innerWidth,H=innerHeight-document.querySelector("header").offsetHeight;
+// initial positions: spread on a circle, core in middle
+NODES.forEach((n,i)=>{
+  if(n.id===ROOT){n.x=W/2;n.y=H/2;}
+  else{const a=i/NODES.length*Math.PI*2; n.x=W/2+Math.cos(a)*Math.min(W,H)*0.34; n.y=H/2+Math.sin(a)*Math.min(W,H)*0.34;}
+  n.vx=0;n.vy=0;
+});
+
+const vp=document.createElementNS(NS,"g"); stage.appendChild(vp);
+const linkLayer=document.createElementNS(NS,"g"); vp.appendChild(linkLayer);
+const nodeLayer=document.createElementNS(NS,"g"); vp.appendChild(nodeLayer);
+
+const linkEls=LINKS.map(l=>{
+  const el=document.createElementNS(NS,"line"); el.setAttribute("class","link");
+  el._a=l[0];el._b=l[1]; linkLayer.appendChild(el); return el;
+});
+const nodeEls=NODES.map(n=>{
+  const g=document.createElementNS(NS,"g"); g.setAttribute("class","node"); g._n=n;
+  const c=document.createElementNS(NS,"circle");
+  c.setAttribute("r",n.r); c.setAttribute("fill",CAT[n.cat].color);
+  const t=document.createElementNS(NS,"text");
+  t.setAttribute("text-anchor","middle"); t.setAttribute("dy",n.r+15);
+  t.textContent=SHORT[n.label]||n.label;
+  g.appendChild(c); g.appendChild(t); nodeLayer.appendChild(g);
+  n._g=g;n._c=c;n._t=t; return g;
+});
+
+/* physics */
+let alpha=1;
+function tick(){
+  if(alpha<0.005){return;}
+  alpha*=0.985;
+  const k=alpha;
+  // repulsion
+  for(let i=0;i<NODES.length;i++){
+    const a=NODES[i];
+    for(let j=i+1;j<NODES.length;j++){
+      const b=NODES[j];
+      let dx=a.x-b.x,dy=a.y-b.y; let d2=dx*dx+dy*dy||0.01;
+      let d=Math.sqrt(d2);
+      const minD=a.r+b.r+72;
+      let force=(22000)/d2;
+      if(d<minD) force+= (minD-d)*1.2/d; // collision
+      const fx=dx/d*force*k, fy=dy/d*force*k;
+      if(!a._fix){a.vx+=fx;a.vy+=fy;}
+      if(!b._fix){b.vx-=fx;b.vy-=fy;}
+    }
+  }
+  // springs
+  LINKS.forEach(l=>{
+    const a=nodeById[l[0]],b=nodeById[l[1]];
+    let dx=b.x-a.x,dy=b.y-a.y; let d=Math.sqrt(dx*dx+dy*dy)||0.01;
+    const target=a.id===ROOT||b.id===ROOT?210:185;
+    const f=(d-target)*0.045*k;
+    const fx=dx/d*f,fy=dy/d*f;
+    if(!a._fix){a.vx+=fx;a.vy+=fy;}
+    if(!b._fix){b.vx-=fx;b.vy-=fy;}
+  });
+  // gravity to center
+  NODES.forEach(n=>{
+    if(n._fix)return;
+    n.vx+=(W/2-n.x)*0.0035*k; n.vy+=(H/2-n.y)*0.0035*k;
+    n.vx*=0.86; n.vy*=0.86;
+    n.x+=n.vx; n.y+=n.vy;
+  });
+  render();
+  requestAnimationFrame(tick);
+}
+function render(){
+  linkEls.forEach(el=>{
+    const a=nodeById[el._a],b=nodeById[el._b];
+    el.setAttribute("x1",a.x);el.setAttribute("y1",a.y);
+    el.setAttribute("x2",b.x);el.setAttribute("y2",b.y);
+  });
+  nodeEls.forEach(g=>{const n=g._n; g.setAttribute("transform",`translate(${n.x},${n.y})`)});
+}
+function reheat(v){alpha=Math.max(alpha,v||0.6);requestAnimationFrame(tick);}
+
+/* zoom & pan */
+let tx=0,ty=0,scale=1;
+function applyVP(){vp.setAttribute("transform",`translate(${tx},${ty}) scale(${scale})`)}
+stage.addEventListener("wheel",e=>{
+  e.preventDefault();
+  const r=stage.getBoundingClientRect();
+  const mx=e.clientX-r.left,my=e.clientY-r.top;
+  const ds=e.deltaY<0?1.12:0.893;
+  const ns=Math.min(2.6,Math.max(0.3,scale*ds));
+  tx=mx-(mx-tx)*(ns/scale); ty=my-(my-ty)*(ns/scale); scale=ns; applyVP();
+},{passive:false});
+
+let panning=false,sx,sy,stx,sty,dragNode=null,downNode=null,downX=0,downY=0;
+stage.addEventListener("pointerdown",e=>{
+  downX=e.clientX;downY=e.clientY;
+  const g=e.target.closest(".node");
+  if(g){downNode=g._n;dragNode=g._n;dragNode._fix=true;stage.setPointerCapture(e.pointerId);}
+  else{downNode=null;panning=true;stage.classList.add("grabbing");sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;stage.setPointerCapture(e.pointerId);}
+});
+stage.addEventListener("pointermove",e=>{
+  if(dragNode){
+    const r=stage.getBoundingClientRect();
+    dragNode.x=(e.clientX-r.left-tx)/scale; dragNode.y=(e.clientY-r.top-ty)/scale;
+    reheat(0.25); render();
+  }else if(panning){tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);applyVP();}
+});
+stage.addEventListener("pointerup",e=>{
+  const movedDist=Math.hypot(e.clientX-downX,e.clientY-downY);
+  if(dragNode){dragNode._fix=false;}
+  if(movedDist<6){                       // clique (não arraste): abre nó ou fecha painel
+    if(downNode) openPanel(downNode.id);
+    else closePanel();
+  }
+  if(dragNode){dragNode=null;reheat(0.3);}
+  downNode=null;panning=false;stage.classList.remove("grabbing");
+});
+
+/* interactions: hover + click */
+let selected=null;
+function neighbors(id){const s=new Set(adj[id]);s.add(id);return s;}
+function highlight(id){
+  const set=id?neighbors(id):null;
+  nodeEls.forEach(g=>{
+    const on=!set||set.has(g._n.id);
+    g.classList.toggle("dim",!on && !legendOff.has(g._n.cat)?!on:!on);
+  });
+  linkEls.forEach(el=>{
+    const hot=set&&(set.has(el._a)&&set.has(el._b)&&(el._a===id||el._b===id));
+    const on=!set||(set.has(el._a)&&set.has(el._b));
+    el.classList.toggle("hot",!!hot);
+    el.classList.toggle("dim",set&&!on);
+  });
+}
+nodeEls.forEach(g=>{
+  g.addEventListener("pointerenter",()=>{if(!selected)highlight(g._n.id)});
+  g.addEventListener("pointerleave",()=>{if(!selected)highlight(null)});
+});
+
+/* legend filter */
+const legendOff=new Set();
+const li=document.getElementById("legendItems");
+Object.entries(CAT).forEach(([k,v])=>{
+  const d=document.createElement("div"); d.className="item"; d.dataset.cat=k;
+  d.innerHTML=`<span class="swatch" style="background:${v.color}"></span>${v.name}`;
+  d.addEventListener("click",()=>{
+    if(legendOff.has(k)){legendOff.delete(k);d.classList.remove("off");}
+    else{legendOff.add(k);d.classList.add("off");}
+    applyFilter();
+  });
+  li.appendChild(d);
+});
+function applyFilter(){
+  nodeEls.forEach(g=>{g.style.display=legendOff.has(g._n.cat)?"none":""});
+  linkEls.forEach(el=>{
+    const off=legendOff.has(nodeById[el._a].cat)||legendOff.has(nodeById[el._b].cat);
+    el.style.display=off?"none":"";
+  });
+}
+
+/* zoom buttons */
+function zoomBy(f){
+  const ns=Math.min(2.6,Math.max(0.3,scale*f));
+  tx=W/2-(W/2-tx)*(ns/scale);ty=H/2-(H/2-ty)*(ns/scale);scale=ns;applyVP();
+}
+document.getElementById("zin").onclick=()=>zoomBy(1.2);
+document.getElementById("zout").onclick=()=>zoomBy(0.83);
+document.getElementById("zfit").onclick=()=>{tx=0;ty=0;scale=1;applyVP();reheat(0.5)};
+
+/* ====================== DETAIL PANEL ====================== */
+const panel=document.getElementById("panel");
+const pbody=document.getElementById("pbody");
+function openPanel(id){
+  const n=nodeById[id]; selected=id;
+  nodeEls.forEach(g=>g.classList.toggle("sel",g._n.id===id));
+  highlight(id);
+  const col=CAT[n.cat].color;
+  const rels=[...adj[id]].map(rid=>{const m=nodeById[rid];
+    return `<span class="relnode" data-go="${rid}"><span class="sw" style="background:${CAT[m.cat].color}"></span>${m.label}</span>`}).join("");
+  pbody.innerHTML=`
+    <div class="ptag" style="background:${hex2rgba(col,.16)};color:${col}">${CAT[n.cat].name}</div>
+    <h2>${n.label}</h2>
+    <div class="pauthor" style="color:${col}">${n.author||""}</div>
+    <div class="pdesc">${n.desc}</div>
+    ${n.bullets&&n.bullets.length?`<div class="pblock"><h5>Em detalhe</h5><ul>${n.bullets.map(b=>`<li>${b}</li>`).join("")}</ul></div>`:""}
+    <div class="pblock"><h5>Conexões (${adj[id].size})</h5>${rels}</div>
+    ${NODE2SLIDE[id]?`<button class="gomap" data-slide="${NODE2SLIDE[id]}">▣ Ver no slide ${NODE2SLIDE[id]} da apresentação →</button>`:""}
+  `;
+  pbody.querySelectorAll("[data-go]").forEach(el=>el.onclick=()=>openPanel(el.dataset.go));
+  const sb=pbody.querySelector("[data-slide]"); if(sb)sb.onclick=()=>{closePanel();switchView("apresentacao");setTimeout(()=>apsGo(+sb.dataset.slide-1),60)};
+  panel.classList.add("open");
+  document.documentElement.style.setProperty("--panelw","380px");
+}
+function closePanel(){
+  panel.classList.remove("open");selected=null;
+  nodeEls.forEach(g=>g.classList.remove("sel"));highlight(null);
+  document.documentElement.style.setProperty("--panelw","0px");
+}
+document.getElementById("pclose").onclick=closePanel;
+function hex2rgba(h,a){const n=parseInt(h.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`}
+
+/* ====================== TIMELINE / TABLE / SYNTH ====================== */
+document.getElementById("tl").innerHTML=TIMELINE.map(t=>t.phase?`
+  <div class="tlphase"><h2>${t.phase}</h2><p>${t.sub}</p></div>`:`
+  <div class="tlitem" data-go="${t.node}">
+    <div class="yr">${t.yr}</div><div class="nub"></div>
+    <div class="tlcard"><h3>${t.t}</h3><div class="who">${t.who}</div><p>${t.d}</p></div>
+  </div>`).join("");
+document.querySelectorAll("#tl .tlitem").forEach(el=>el.onclick=()=>{switchView("map");setTimeout(()=>openPanel(el.dataset.go),60)});
+
+// ---- Casos práticos
+document.getElementById("caseList").innerHTML=CASES.map(c=>`
+  <div class="case">
+    <div class="ch"><h3>${c.title}</h3><span class="loc">${c.loc}</span></div>
+    ${c.loop?'<span class="loop-chip">'+c.loop+'</span>':''}
+    <div class="tag">${c.tag}</div>
+    <p class="cd">${c.desc}</p>
+    <div class="row"><span class="k">Prática</span><span class="v">${c.practice}</span></div>
+    <div class="row"><span class="k">Teoria</span><span class="v">${c.theory}</span></div>
+    <div class="row"><span class="k">Autor</span><span class="v"><b>${c.author}</b></span></div>
+    <button class="gomap" data-go="${c.node}">Ver no mapa →</button>
+  </div>`).join("");
+document.querySelectorAll("#caseList .gomap").forEach(b=>b.onclick=()=>{switchView("map");setTimeout(()=>openPanel(b.dataset.go),60)});
+
+// ---- Quadro teórico
+document.getElementById("quadroRows").innerHTML=QUADRO.map(q=>{
+  const col=CAT[q.cat].color;
+  return `<div class="qrow">
+    <div class="qhead">
+      <span class="qdotwrap"><span class="qdot" style="background:${col}"></span>
+        <span class="qtip"><span class="c" style="color:${col}">${q.concept}</span><h6>Principal contribuição</h6>${q.contribution}</span>
+      </span>
+      <span class="qconcept" style="background:${hex2rgba(col,.16)};color:${col}">${q.concept}</span>
+      <span class="qauthor">${q.author}</span>
+    </div>
+    <div class="qpaper">${q.paper}</div>
+    <div class="qbody">
+      <div class="qcol"><h6>Principal contribuição</h6><p>${q.contribution}</p></div>
+      <div class="qcol"><h6>Prática associada</h6><p>${q.practice}</p></div>
+    </div>
+    <button class="gomap" data-go="${q.node}">Ver no mapa →</button>
+  </div>`;
+}).join("");
+document.querySelectorAll("#quadroRows .gomap").forEach(b=>b.onclick=()=>{switchView("map");setTimeout(()=>openPanel(b.dataset.go),60)});
+
+// ---- Referências
+function refRow(r){
+  const txt=(r.apa+' '+(r.doi||'')).replace(/<[^>]+>/g,'').replace(/"/g,'').toLowerCase();
+  const link=r.doi?` <a href="${r.doi}" target="_blank" rel="noopener">${r.doi}</a>`:"";
+  return `<div class="refrow" data-txt="${txt}">${r.apa}${link}</div>`;
+}
+document.getElementById("refGroups").innerHTML=REF_GROUPS.map(g=>`<h3 class="refgroup">${g.title}</h3>`+g.refs.map(refRow).join("")).join("");
+document.getElementById("refCount").textContent=REF_GROUPS.reduce((s,g)=>s+g.refs.length,0);
+document.getElementById("refFilter").addEventListener("input",e=>{
+  const q=e.target.value.trim().toLowerCase();
+  document.querySelectorAll(".refrow").forEach(r=>r.classList.toggle("hide",q&&!r.dataset.txt.includes(q)));
+});
+
+/* ====================== NAV / SEARCH ====================== */
+function switchView(v){
+  document.querySelectorAll(".view").forEach(s=>s.classList.toggle("active",s.id==="view-"+v));
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+  document.getElementById("ctrls").style.display=v==="map"?"flex":"none";
+  if(v==="map"){W=innerWidth;H=innerHeight-document.querySelector("header").offsetHeight;reheat(0.4);}
+}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+
+const search=document.getElementById("search");
+search.addEventListener("input",()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){nodeEls.forEach(g=>g.classList.remove("dim"));return;}
+  let hit=null;
+  nodeEls.forEach(g=>{
+    const m=(g._n.label+" "+g._n.author+" "+g._n.desc).toLowerCase().includes(q);
+    g.classList.toggle("dim",!m); if(m&&!hit)hit=g._n;
+  });
+});
+search.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    const q=search.value.trim().toLowerCase();
+    const hit=NODES.find(n=>(n.label+" "+n.author).toLowerCase().includes(q));
+    if(hit){switchView("map");openPanel(hit.id);
+      tx=W/2-hit.x*scale;ty=H/2-hit.y*scale;applyVP();}
+  }
+});
+
+/* ---- Intro / Como usar ---- */
+const intro=document.getElementById("intro");
+function showIntro(){intro.classList.add("show")}
+function hideIntro(){intro.classList.remove("show")}
+document.getElementById("introClose").onclick=hideIntro;
+document.getElementById("introGo").onclick=hideIntro;
+document.getElementById("helpBtn").onclick=showIntro;
+intro.addEventListener("click",e=>{if(e.target===intro)hideIntro()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")hideIntro()});
+showIntro(); // abre o guia ao carregar
+
+
+/* ---- Apresentação: viewer (slides em HTML) ---- */
+const fs=document.getElementById("fs");
+let apsI=0;
+document.getElementById("apsThumbs").innerHTML=APS.map((s,i)=>`<button class="apsthumb" data-i="${i}" title="${s.t}"><b>${i+1}</b><span>${s.t}</span></button>`).join("");
+function apsRender(){
+  const m=APS[apsI];
+  document.getElementById("apsSlide").innerHTML=m.h;
+  document.getElementById("apsCounter").textContent=(apsI+1)+" / "+APS.length;
+  document.getElementById("apsTitle").textContent=m.t;
+  document.getElementById("apsChips").innerHTML=(m.nodes||[]).map(id=>{const n=nodeById[id];
+    return n?`<span class="apschip" data-go="${id}"><span class="sw" style="background:${CAT[n.cat].color}"></span>${n.label}</span>`:""}).join("");
+  document.querySelectorAll("#apsChips .apschip").forEach(c=>c.onclick=()=>{switchView("map");setTimeout(()=>openPanel(c.dataset.go),60)});
+  document.querySelectorAll("#apsThumbs .apsthumb").forEach((t,i)=>t.classList.toggle("active",i===apsI));
+  const mlTxt=(m.nodes&&m.nodes.length)?"⊕ Explorar no mapa →":"⊕ Abrir o mapa →";
+  document.getElementById("apsMapLink").textContent=mlTxt;
+  document.getElementById("fsMapLink").textContent=mlTxt;
+  document.getElementById("fsSlide").innerHTML=m.h;
+  document.getElementById("fsCounter").textContent=(apsI+1)+" / "+APS.length;
+}
+function apsToMap(){const m=APS[apsI];
+  switchView("map");
+  if(m.nodes&&m.nodes.length){setTimeout(()=>openPanel(m.nodes[0]),60);}}
+function apsGo(i){apsI=(i+APS.length)%APS.length;apsRender();}
+document.querySelectorAll("#apsThumbs .apsthumb").forEach(t=>t.onclick=()=>apsGo(+t.dataset.i));
+document.getElementById("apsPrev").onclick=()=>apsGo(apsI-1);
+document.getElementById("apsNext").onclick=()=>apsGo(apsI+1);
+document.getElementById("apsSlide").onclick=apsToMap;
+document.getElementById("apsMapLink").onclick=apsToMap;
+document.querySelectorAll("#view-diagrama [data-go]").forEach(b=>b.onclick=()=>{switchView("map");setTimeout(()=>openPanel(b.dataset.go),60)});
+document.querySelectorAll("#view-evidencia [data-go], #view-agenda [data-go]").forEach(b=>b.onclick=()=>{switchView("map");setTimeout(()=>openPanel(b.dataset.go),60)});
+document.getElementById("apsFull").onclick=()=>{fs.classList.add("show");apsRender();
+  try{const p=fs.requestFullscreen&&fs.requestFullscreen(); if(p&&p.catch)p.catch(()=>{});}catch(e){}};
+function fsClose(){fs.classList.remove("show");try{if(document.fullscreenElement)document.exitFullscreen();}catch(e){}}
+document.getElementById("fsClose").onclick=fsClose;
+document.getElementById("fsMapLink").onclick=()=>{fsClose();apsToMap();};
+document.getElementById("fsPrev").onclick=()=>apsGo(apsI-1);
+document.getElementById("fsNext").onclick=()=>apsGo(apsI+1);
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement)fs.classList.remove("show")});
+document.addEventListener("keydown",e=>{
+  if(fs.classList.contains("show")){
+    if(e.key==="ArrowRight")apsGo(apsI+1); else if(e.key==="ArrowLeft")apsGo(apsI-1); else if(e.key==="Escape")fsClose();
+    return;
+  }
+  if(document.getElementById("view-apresentacao").classList.contains("active")){
+    if(e.key==="ArrowRight")apsGo(apsI+1); else if(e.key==="ArrowLeft")apsGo(apsI-1);
+  }
+});
+apsRender();
+
+window.addEventListener("resize",()=>{W=innerWidth;H=innerHeight-document.querySelector("header").offsetHeight;});
+applyVP(); render(); reheat(1);
+</script>
+<script id="mobile-patch-js">
+(function(){
+  var h=document.querySelector('header');
+  function set(){document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');}
+  set(); addEventListener('resize',set); addEventListener('orientationchange',set);
+  var lg=document.querySelector('.legend h4');
+  if(lg) lg.addEventListener('click',function(){lg.parentElement.classList.toggle('open');});
+  if(innerWidth>760 && lg) lg.parentElement.classList.add('open');
+})();
+</script>
+
+
+</body>
+</html>

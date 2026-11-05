@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leitura · Sessão 3</title>
+<link rel="stylesheet" href="leitura.css">
+<style>
+:root{--ok:#155c30}
+body{font-size:10.5pt;line-height:1.4}
+.part{margin:6mm 0 2.5mm}
+h3{font-size:12.5pt;margin:3.5mm 0 1.2mm}
+.pat,.kpis,table.d tr{break-inside:avoid}
+.ex.flow-ok{break-inside:auto}
+.ex .h{break-after:avoid}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm;padding:3mm;background:#fff;break-inside:avoid}
+.kpi{border:1.5px solid var(--navy);padding:2.2mm 3mm;background:var(--cream)}
+.kpi .l{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.kpi .v{font-family:Caladea,Georgia,serif;font-size:18pt;font-weight:bold;color:var(--navy);line-height:1.1;margin-top:.8mm}
+.kpi .c{font-size:9pt;color:var(--ok);font-weight:bold}
+.foot{font-size:9pt;color:var(--ink2);padding:0 3mm 2.5mm}
+.chain{display:flex;gap:1.2mm;margin:3mm 0 1mm;break-inside:avoid}
+.chain div{flex:1;border:1.5px solid var(--navy);padding:2mm 1.6mm;background:#fff;font-size:9pt;line-height:1.3}
+.chain div b{display:block;font-family:"DejaVu Sans Mono",monospace;font-size:8pt;color:var(--gold-dk);margin-bottom:.6mm}
+.chain div.org{background:var(--cream);border-width:2.5px}
+.legend{font-size:9pt;color:var(--ink2);margin-bottom:3mm}
+.cond{border-left:4px solid var(--navy);padding:.5mm 0 .5mm 4mm;margin:3mm 0 2.5mm}
+.cond h3{margin-top:0}
+.cond .ask{font-size:10pt;color:var(--ink2);margin-bottom:1.5mm}
+.cond .pat{background:var(--cream);border:1px solid var(--line);padding:2mm 3mm;font-size:10pt;margin-top:1.5mm}
+.cond .pat b.k{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dk);display:block;margin-bottom:.5mm}
+.ex .body{padding:2.5mm 3.5mm;font-size:10pt}
+.ex .body p:last-child{margin-bottom:0}
+.ex table.d td,.ex table.d th{padding:1.5mm 2.5mm}
+.check{list-style:none;padding:0;margin:0}
+.check li{padding:1.2mm 0 1.2mm 7mm;position:relative;border-bottom:1px solid var(--line)}
+.check li:last-child{border-bottom:0}
+.check li:before{content:"";position:absolute;left:0;top:2mm;width:3.6mm;height:3.6mm;border:1.5px solid var(--navy);background:#fff}
+.tl{display:grid;grid-template-columns:22mm 1fr;font-size:10pt}
+.tl div{padding:1.4mm 2mm;border-bottom:1px solid var(--line)}
+.tl div:nth-child(odd){font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;font-weight:bold;color:var(--navy)}
+.tl div:nth-last-child(-n+2){border-bottom:0}
+.fict{display:inline-block;font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:#fff;background:var(--bad);padding:.3mm 1.6mm;letter-spacing:.06em;vertical-align:middle}
+.flag{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--bad);border:1px solid var(--bad);padding:0 1.2mm;white-space:nowrap}
+ul.tight{margin:1mm 0 2.2mm;padding-left:5mm}
+ul.tight li{margin-bottom:1mm}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.keep{break-inside:avoid}
+@media screen{
+  body{max-width:820px;margin:0 auto;padding:0 16px 40px;background:#fff}
+  .band{margin:0 -16px}
+}
+@media screen and (max-width:640px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .chain{flex-wrap:wrap}
+  .chain div{flex:1 1 30%}
+  .two{grid-template-columns:1fr}
+  .band h1{font-size:22pt}
+  table.d{font-size:9pt}
+}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="eb">Leitura prévia · Sessão 3 · IA aplicada a Operações, Processos e Supply Chain</div>
+  <h1>Seis meses depois: auditar uma solução de IA com o ELO</h1>
+  <div class="sub">Como ler um relatório de operação que parece bom, achar o ponto em que a cadeia rompe e escrever um parecer que alguém possa executar.</div>
+  <div class="meta"><span>COPPEAD/UFRJ · Ênfase em IA</span><span>Prof. Dr. Thiago Lima</span><span>Leitura: ~30 min</span></div>
+</header>
+
+<div class="part"><span class="tag">1</span><h2>Um painel que parece bom</h2></div>
+
+<p>Imagine que o grupo de vocês implantou a solução desenhada nas Sessões 1 e 2. Seis meses se passaram. A diretoria recebe o painel abaixo.</p>
+
+<div class="ex">
+  <div class="h">Painel executivo · Reposição com IA · Rede Atlântica (22 lojas) · <b>6 meses</b> &nbsp;<span class="fict">FICTÍCIO · DIDÁTICO</span></div>
+  <div class="kpis">
+    <div class="kpi"><div class="l">Acerto da previsão</div><div class="v">91%</div><div class="c">meta 85% ✓</div></div>
+    <div class="kpi"><div class="l">Compradores que acessam</div><div class="v">94%</div><div class="c">adoção alta ✓</div></div>
+    <div class="kpi"><div class="l">Sugestões geradas</div><div class="v">412 mil</div><div class="c">sem falhas de sistema ✓</div></div>
+    <div class="kpi"><div class="l">Ruptura nas lojas</div><div class="v">−18%</div><div class="c">de 5,1% para 4,2% ✓</div></div>
+    <div class="kpi"><div class="l">Compradores satisfeitos</div><div class="v">87%</div><div class="c">"trabalho mais rápido" ✓</div></div>
+    <div class="kpi"><div class="l">Custo do projeto</div><div class="v">R$ 1,46 mi</div><div class="c">97% do orçado ✓</div></div>
+  </div>
+  <div class="foot">Referência do fornecedor: "93% de acerto em clientes do setor". Empresa, números e falas são fictícios, criados para esta leitura.</div>
+</div>
+
+<p>Seis indicadores verdes. A tentação é aprovar a expansão. Esta leitura prepara vocês para fazer o contrário: <b>não acreditar nem desacreditar</b>, e sim perguntar, número por número, o que cada um prova.</p>
+<p>Na Sessão 3, o coach de IA vai gerar um relatório fictício de seis meses da solução do grupo de vocês. Ele vai esconder de uma a três falhas. Vocês vão auditar condição por condição, citando números, escrever um parecer e apresentá-lo em 4 minutos. Voltaremos a este painel na seção 4.</p>
+
+<div class="part"><span class="tag">2</span><h2>A cadeia ELO</h2></div>
+
+<p>O <b>ELO</b> (Evidência · Lógica organizacional · Operação) é um framework de Lima &amp; Araujo, do COPPEAD/UFRJ, em pesquisa em andamento. Ele foi derivado de uma revisão de implantações de IA em hospitais. Aqui ele é usado como <b>estrutura de raciocínio</b>, não como resultado validado.</p>
+<p>A ideia central: entre uma ferramenta que funciona e um resultado medido na organização existem seis condições. Cada uma é <b>necessária</b>. Nenhuma é <b>suficiente</b>.</p>
+
+<div class="chain">
+  <div><b>0</b>Base de evidências<br>Há prova de que isso funciona em operação real?</div>
+  <div><b>1</b>Capacidade em operação<br>Acerta nos nossos dados, no nível da decisão?</div>
+  <div class="org"><b>2 · organização</b>Integração ao fluxo<br>Chega a quem decide, na hora, e é usada?</div>
+  <div class="org"><b>3 · organização</b>Tradução em ação<br>Alguém age, com recursos para isso?</div>
+  <div><b>4</b>Resultado organizacional<br>O indicador muda, medido com comparação?</div>
+  <div><b>5</b>Valor líquido<br>O ganho compensa o custo? Quem paga?</div>
+</div>
+<p class="legend">Caixas com borda grossa: capacidades da organização, não da ferramenta.</p>
+
+<p>Três regras de leitura:</p>
+<ul class="tight">
+  <li><b>As condições 2 e 3 são da empresa, não do software.</b> Nenhum fornecedor entrega pronto o hábito de usar a recomendação, a alçada para agir ou a equipe para executar.</li>
+  <li><b>A ruptura é o primeiro "Não".</b> Vocês marcam cada condição como Sim, Em parte, Não ou Não medido. Uma condição posterior não compensa uma anterior: se ninguém age (3), o resultado (4) não pode vir da solução.</li>
+  <li><b>Não há nota.</b> Uma média de 4 em 6 esconde justamente onde a cadeia para. O ELO aponta um lugar, não um número.</li>
+</ul>
+<div class="warn"><b>"Não medido" não é "Sim".</b> Se o relatório não traz o dado, registrem isso. No parecer, a cadeia não pode ser dada como íntegra naquele ponto.</div>
+
+<div class="part"><span class="tag">3</span><h2>Como cada condição aparece nos dados</h2></div>
+
+<p>Para cada condição: o que procurar no relatório e um padrão real, documentado, em que ela falhou.</p>
+
+<div class="cond">
+  <h3>0 · Base de evidências — validação do fornecedor não é validação externa</h3>
+  <p class="ask">Procurem: quem mediu o desempenho prometido, em que dados, e se essa pessoa vende a solução.</p>
+  <p>Há uma escada de evidência com quatro degraus: (1) número do modelo; (2) benefício esperado, de simulação ou proposta comercial; (3) percepção de usuários; (4) resultado medido com comparação. A revisão de Culot, Podrecca &amp; Nassimbeni (2024), com 123 estudos com dados reais, concluiu que os benefícios relatados são, na maior parte, expectativas ou percepções.</p>
+  <div class="pat"><b class="k">Padrão real · Epic Sepsis Model</b>Modelo de alerta de sepse usado por cerca de 170 clientes da Epic. Uma validação externa na Universidade de Michigan, com 38.455 internações, encontrou uma AUC de 0,63, contra 0,76 a 0,83 informados (Wong et al., <i>JAMA Internal Medicine</i>, 2021). A AUC é uma nota de 0,5 (igual a sortear) a 1,0 (separa perfeitamente quem tem e quem não tem a doença). O modelo deixou de detectar 67% dos casos de sepse e alertou 18% de todos os pacientes. A Epic contestou o limite de alerta usado no estudo.</div>
+</div>
+
+<div class="cond">
+  <h3>1 · Capacidade em operação — o total e o detalhe; o mundo muda</h3>
+  <p class="ask">Procurem: o erro medido no mesmo nível da decisão (item, loja, semana), por segmento, e mês a mês.</p>
+  <p>Um modelo pode acertar bem o total e errar muito onde a decisão acontece. E pode acertar por meses e cair depois de um evento: novo canal, troca de fornecedor, campanha. Isso se chama <b>mudança nos dados</b> (em inglês, <i>data drift</i>): o mundo deixa de se parecer com o histórico em que o modelo aprendeu.</p>
+  <div class="two">
+    <div class="pat"><b class="k">Padrão real · Competição M5</b>Com 42.840 séries de vendas da Walmart, o vencedor foi 22,4% melhor que o melhor método estatístico simples. No nível produto-loja, onde a reposição acontece, o ganho foi de ~3%. Só 7,5% das equipes bateram o método simples (Makridakis et al., 2022).</div>
+    <div class="pat"><b class="k">Padrão real · Instacart, março de 2020</b>O acerto do modelo de disponibilidade de itens caiu de 93% para 61% a partir de meados de março. Os dados de treino não refletiam a nova realidade da pandemia. Com treino em até dez dias de dados e cálculo de hora em hora, voltou a ~85% (Fortune, 2020). <span class="flag">métrica não definida na fonte</span></div>
+  </div>
+</div>
+
+<div class="cond">
+  <h3>2 · Integração ao fluxo — acessar não é usar; chegar tarde é não chegar</h3>
+  <p class="ask">Procurem: recomendações geradas, abertas, aceitas como vieram, ajustadas e ignoradas, mês a mês; o horário em que a recomendação chega e o horário em que a decisão fecha.</p>
+  <p>Login não é uso. Uso concentrado em poucas pessoas é adoção frágil. E uma sugestão que chega às 10h para um pedido que fecha às 9h vale zero, por melhor que seja. O tempo é parte da integração.</p>
+  <div class="pat"><b class="k">Padrão real · Integração e adoção</b>Em 152 projetos, integrar a IA a processos e sistemas existentes foi o obstáculo nº 1, citado por 47% (Davenport &amp; Ronanki, 2018). No ORION, roteirizador da UPS, as primeiras rotas não funcionaram no campo; a empresa teve de fazer o algoritmo "pensar mais como um motorista" (INFORMS, 2016). Quase 90% das empresas que escalaram IA gastaram mais da metade do orçamento em adoção, contra 23% das demais (Fountaine et al., 2019).</div>
+</div>
+
+<div class="cond">
+  <h3>3 · Tradução em ação — o ajuste humano e os recursos para agir</h3>
+  <p class="ask">Procurem: quantas recomendações foram ajustadas, em que direção, e o resultado das ajustadas contra as não ajustadas; casos certos que ficaram sem ação, e por quê.</p>
+  <p>O resultado medido é sempre <b>modelo + ajuste humano + execução</b>. Se o ajuste não fica registrado, ninguém sabe qual dos três produziu o número. E uma recomendação certa sem gente, alçada ou capacidade para executá-la não vira resultado.</p>
+  <div class="two">
+    <div class="pat"><b class="k">Padrão real · Ajustes de previsão</b>Em mais de 60.000 previsões de quatro empresas de supply chain, ajustes pequenos frequentemente pioraram o acerto. Ajustes para cima foram bem menos propensos a melhorar: viés de otimismo (Fildes et al., 2009). As pessoas usam mais o algoritmo quando podem ajustá-lo um pouco (Dietvorst et al., 2018).</div>
+    <div class="pat"><b class="k">Padrão real · O modelo de precificação do Zillow Offers</b>No 3º trimestre de 2021, a Zillow comprou 9.680 casas e vendeu 3.032. A receita ficou em US$ 1,19 bi, abaixo da faixa de US$ 1,4 a 1,5 bi, por "renovation and resale capacity constraints" (Zillow, 2021). Em outubro, pausou novas compras por falta de capacidade de reforma. Em novembro, encerrou a operação.</div>
+  </div>
+</div>
+
+<div class="cond">
+  <h3>4 · Resultado organizacional — comparado a quê?</h3>
+  <p class="ask">Procurem: a linha de base de 12 meses (para ver a sazonalidade), um grupo que ficou sem a solução no mesmo período, e a diferença entre percepção e registro.</p>
+  <p>"Antes e depois" mistura o efeito da solução com sazonalidade, mix e choques externos. A comparação forte é com uma parte da operação que seguiu sem a solução no mesmo período. Pesquisa de satisfação mede crença, não resultado.</p>
+  <div class="pat"><b class="k">Padrão real · Percepção × registro (METR, 2025)</b>Em um experimento com 16 desenvolvedores experientes e 246 tarefas reais, quem usou IA levou 19% mais tempo. Antes, esperavam ganhar 24%. Depois, ainda achavam ter ficado 20% mais rápidos. São quase 40 pontos entre o que sentiram e o que foi medido. <span class="flag">pré-registrado, não revisado por pares</span></div>
+</div>
+
+<div class="cond">
+  <h3>5 · Valor líquido — quem paga e o custo que não aparece</h3>
+  <p class="ask">Procurem: custo total do período (não só do projeto); horas de revisão, correção de cadastro e retreino; indicadores de áreas vizinhas.</p>
+  <p>O ganho pode estar só deslocado: o foco melhora e outra área piora. E o custo de manter costuma ser maior que o de construir.</p>
+  <div class="pat"><b class="k">Padrão real · Manutenção escondida (Sculley et al., 2015)</b>Engenheiros do Google descreveram sistemas de aprendizado de máquina como "relativamente rápidos e baratos de construir", mas "difíceis e caros de manter". Num sistema maduro, o modelo pode ser no máximo 5% do código. O resto é a "cola" que o liga a dados e sistemas, e essa dívida cresce em silêncio.</div>
+</div>
+
+<div class="part"><span class="tag">4</span><h2>Ler um relatório como auditor</h2></div>
+
+<p>Cinco perguntas, nesta ordem, para cada número que parecer bom:</p>
+<div class="q">
+  <div class="k">As cinco perguntas do auditor</div>
+  <ol>
+    <li><b>Que número sustenta isto?</b> Não a frase do relatório: o número, a seção e a coluna.</li>
+    <li><b>Comparado a quê?</b> Meta, ano anterior, unidades sem a solução? A meta não é um grupo de comparação.</li>
+    <li><b>Em que nível de detalhe?</b> O mesmo nível da decisão, ou um total que esconde o detalhe?</li>
+    <li><b>Quem ajustou?</b> O número é do modelo, do humano que mudou a sugestão, ou da execução?</li>
+    <li><b>Quem pagou?</b> Que custo, área ou cliente ficou fora da conta?</li>
+  </ol>
+</div>
+<p>Agora, o painel da seção 1, aberto com as cinco perguntas:</p>
+<div class="ex flow-ok">
+  <div class="h">O painel revisitado · <b>o que apareceu ao abrir cada número</b> &nbsp;<span class="fict">FICTÍCIO · DIDÁTICO</span></div>
+  <table class="d">
+    <tr><th>Indicador</th><th>Pergunta</th><th>O que o relatório mostrava</th><th>Cond.</th></tr>
+    <tr><td class="n">91% de acerto</td><td>Nível?</td><td>Medido no total mensal da rede. Por item-loja-semana, nível da decisão: 64%. Itens de baixo giro: 52%.</td><td class="n">1 · Não</td></tr>
+    <tr><td class="n">94% acessam</td><td>Número?</td><td>Só 46% das sugestões foram aceitas como vieram. Em 6 lojas, a sugestão chega às 10h de segunda; o pedido fecha às 9h.</td><td class="n">2 · Em parte</td></tr>
+    <tr><td class="n">412 mil sugestões</td><td>Quem ajustou?</td><td>38% foram ajustadas, 81% delas para cima. Ruptura igual à das não ajustadas, com 11% mais estoque.</td><td class="n">3 · Em parte</td></tr>
+    <tr><td class="n">Ruptura −18%</td><td>Comparado a quê?</td><td>Ao semestre anterior, que teve greve de transportadores. As 4 lojas sem a solução caíram 15% no mesmo período.</td><td class="n">4 · Em parte</td></tr>
+    <tr><td class="n">87% satisfeitos</td><td>Número?</td><td>23 de 40 compradores responderam. O registro mostra 15 minutos a mais por semana em cada pedido.</td><td class="n">4 · percepção</td></tr>
+    <tr><td class="n">R$ 1,46 mi</td><td>Quem pagou?</td><td>Só o projeto. Ficaram fora 2 analistas corrigindo cadastro em tempo integral e um retreino emergencial em abril.</td><td class="n">5 · Não medido</td></tr>
+  </table>
+</div>
+<p>Repare: a condição 0 também merece olhar. Os 93% do fornecedor vêm de outros clientes, sem comparação. É degrau 1 da escada, não degrau 4.</p>
+<p>A primeira pergunta também vale para casos reais. No 3º trimestre de 2021, a métrica de retorno por casa que a Zillow divulgava seguiu positiva (+2,37%), porque excluía a baixa contábil do estoque. No mesmo trimestre, o lucro bruto contábil foi de −US$ 80.771 por casa vendida (Zillow, 2021). Os dois números são verdadeiros. Só um deles sustenta uma decisão.</p>
+
+
+<div class="part"><span class="tag">5</span><h2>As quatro dívidas e como ordená-las</h2></div>
+
+<p>Dívida é algo que ficou para depois e cobra juros. O parecer pede que vocês nomeiem a <b>dívida principal</b> por trás da ruptura.</p>
+<table class="d">
+  <tr><th>Dívida</th><th>O que é</th><th>Sinais no relatório</th></tr>
+  <tr><td class="n">Técnica</td><td>Modelo, dados e manutenção (Sculley et al., 2015).</td><td>Erro alto no detalhe; queda depois de um evento; retreino ou correção de dados não previstos.</td></tr>
+  <tr><td class="n">Filosófica</td><td>Premissas não escritas sobre <b>para que</b> a solução serve, <b>o que conta como prova</b> e <b>o que ela enxerga</b>. Termo de Lima (2026), inspirado nos pilares de Schrage &amp; Kiron (2025).</td><td>A solução acerta a meta errada; o conflito custo × serviço foi decidido por omissão; o acerto foi definido num nível que não é o da decisão.</td></tr>
+  <tr><td class="n">De adoção</td><td>O trabalho não mudou para receber a recomendação.</td><td>Uso baixo ou concentrado; sugestão fora do horário; ajuste sem registro.</td></tr>
+  <tr><td class="n">De capacidade</td><td>A organização não consegue agir ou supervisionar.</td><td>Casos certos sem ação; falta de gente, alçada ou capacidade física; ninguém com competência para questionar o modelo.</td></tr>
+</table>
+<p style="margin-top:2.5mm">Como escolher a principal, quando há mais de uma:</p>
+<ul class="tight">
+  <li><b>Qual explica o primeiro "Não"?</b> A dívida principal é a da ruptura, não a maior em valor.</li>
+  <li><b>Pagá-la destrava as condições seguintes?</b> Corrigir o horário da sugestão (2) pode mudar o uso (2), os ajustes (3) e o resultado (4).</li>
+  <li><b>Tem dono que possa agir em semanas?</b> Uma dívida sem dono não é dívida; é risco aceito sem saber.</li>
+</ul>
+<p>As demais dívidas entram no parecer como lista, não como causa.</p>
+
+<div class="part"><span class="tag">6</span><h2>Quem responde por isso</h2></div>
+
+<p>A regulação está chegando à mesma pergunta do ELO: quem decide e quem responde. Na Europa, o AI Act (Regulamento UE 2024/1689) dá deveres a quem <b>usa</b> um sistema de IA de alto risco, não só a quem o vende. O Art. 26 pede, entre outros pontos:</p>
+<table class="d">
+    <tr><th>Art. 26 do AI Act</th><th>Condição</th></tr>
+    <tr><td>Supervisão humana por pessoas com competência, formação e autoridade (§2)</td><td class="n">2 · 3</td></tr>
+    <tr><td>Dados de entrada relevantes e suficientemente representativos (§4)</td><td class="n">1</td></tr>
+    <tr><td>Registros (logs) guardados por pelo menos seis meses (§6)</td><td class="n">2 · 4</td></tr>
+    <tr><td>Informar trabalhadores e seus representantes antes do uso no local de trabalho (§7)</td><td class="n">2</td></tr>
+  </table>
+<p><b>Prazos.</b> Os deveres para os usos de alto risco do Anexo III valeriam em 02/08/2026. O acordo político do <i>Digital Omnibus</i>, de 06/05/2026, adiou-os para 02/12/2027. <span class="flag">publicação no Jornal Oficial a confirmar</span></p>
+    <p><b>Brasil.</b> O PL 2338/2023 foi aprovado pelo Senado em 10/12/2024. Em novembro de 2026, segue na Câmara, aguardando o parecer do relator na Comissão Especial.</p>
+    <p>Confiram no texto oficial se o uso de vocês está no Anexo III. A lista não foi verificada nesta pesquisa.</p>
+  </div>
+<p>O ponto para o parecer: a competência para supervisionar o modelo não se terceiriza ao fornecedor. A lei transforma as condições 2 e 3 em obrigação.</p>
+
+<div class="part"><span class="tag">7</span><h2>O parecer e a apresentação de 4 minutos</h2></div>
+
+<div class="two">
+  <div class="ex" style="margin-top:0">
+    <div class="h">Estrutura do parecer · <b>meia página</b></div>
+    <div class="body">
+      <p><b>1. Primeira condição com "Não"</b> — e o número que a sustenta.</p>
+      <p><b>2. Previsto × ocorrido</b> — onde vocês previram a ruptura na Sessão 2, onde ela aconteceu.</p>
+      <p><b>3. Dívida principal</b> — técnica, filosófica, de adoção ou de capacidade, em uma frase.</p>
+      <p><b>4. Decisão</b> — prosseguir · prosseguir sob condições nomeadas · pausar · não prosseguir.</p>
+      <p><b>5. Primeiro passo</b> — o quê, quem (cargo) e até quando.</p>
+    </div>
+  </div>
+  <div>
+    <p><b>Condição nomeada</b> é mensurável, tem dono e tem data. "Melhorar a adoção" não é condição. "Aceitação sem ajuste acima de 60% em 90 dias, medida pelo gerente de planejamento" é.</p>
+    <p><b>Pausar</b> é parar o uso nas decisões e manter o registro e o aprendizado, com critério para voltar. <b>Não prosseguir</b> é encerrar e dizer o que se aprendeu.</p>
+    <p>Lembrem: o relatório é fictício. O parecer julga o <b>raciocínio</b> do grupo, não a solução.</p>
+  </div>
+</div>
+
+<div class="ex">
+  <div class="h">Exemplo de parecer · Rede Atlântica &nbsp;<span class="fict">FICTÍCIO · DIDÁTICO</span></div>
+  <div class="body">
+    <p><b>Ruptura na condição 1.</b> O acerto de 91% é do total mensal; no nível da decisão (item-loja-semana) é 64%. <b>Previsto × ocorrido:</b> prevíamos ruptura na condição 2; ela veio antes, e 2 e 3 estão "em parte". <b>Dívida principal: filosófica</b> — definimos "acerto" num nível que não é o da decisão, e ninguém revisou essa premissa. <b>Decisão: prosseguir sob condições</b> — acerto por item-loja-semana medido mensalmente, sugestão disponível até sexta às 18h, todo ajuste registrado. <b>Primeiro passo:</b> o gerente de planejamento refaz o painel no nível da decisão em 30 dias.</p>
+  </div>
+</div>
+
+<h3>Roteiro da apresentação · 4 minutos + 1 de pergunta</h3>
+<div class="tl keep">
+  <div>0:00–0:30</div><div>A solução em uma frase: que decisão apoia, para quem.</div>
+  <div>0:30–1:30</div><div>Onde previram a ruptura e onde ela ocorreu, com <b>um</b> número.</div>
+  <div>1:30–2:30</div><div>A dívida principal e por que ela, e não as outras.</div>
+  <div>2:30–3:30</div><div>A decisão e as condições nomeadas.</div>
+  <div>3:30–4:00</div><div>O primeiro passo: o quê, quem, até quando.</div>
+</div>
+<p style="margin-top:2mm">Um slide basta. Se precisarem de mais de um número por condição, o parecer ainda não escolheu.</p>
+
+<div class="use keep">
+  <b>Para levar à Sessão 3</b>
+  <ul class="check" style="margin-top:1.5mm">
+    <li>O resumo das Sessões 1 e 2, completo, para colar no coach (canvas, ELO antes da adoção, dados didáticos, decisões em aberto).</li>
+    <li>A condição em que vocês previram a ruptura na Sessão 2 — por escrito, antes de ver o relatório.</li>
+    <li>As cinco perguntas do auditor, à mão.</li>
+    <li>Uma pessoa do grupo responsável por anotar, para cada condição, a marcação e o número que a sustenta.</li>
+    <li>Um modelo de parecer em branco com os cinco campos da seção 7.</li>
+    <li>A regra: "Não medido" não é "Sim"; não há nota; a ruptura é o primeiro "Não".</li>
+  </ul>
+</div>
+
+<div class="part"><span class="tag">Ref.</span><h2>Referências</h2></div>
+<div class="refs">
+  <p>Culot, G., Podrecca, M., &amp; Nassimbeni, G. (2024). <i>Computers in Industry</i>, 162, 104132. <a href="https://aisberg.unibg.it/bitstream/10446/276769/1/Culot%20et%20al.%2c%202024%20-%20CII.pdf">aisberg.unibg.it/bitstream/10446/276769</a></p>
+  <p>Davenport, T. H., &amp; Ronanki, R. (2018). Artificial intelligence for the real world. <i>Harvard Business Review</i>. <a href="https://www.deloitte.com/content/dam/Deloitte/us/Documents/deloitte-analytics/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf">deloitte.com/…/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf</a></p>
+  <p>Dietvorst, B. J., Simmons, J. P., &amp; Massey, C. (2018). <i>Management Science</i>, 64(3), 1155–1170. <a href="https://ideas.repec.org/a/inm/ormnsc/v64y2018i3p1155-1170.html">ideas.repec.org/a/inm/ormnsc/v64y2018i3p1155-1170.html</a></p>
+  <p>Fildes, R., Goodwin, P., Lawrence, M., &amp; Nikolopoulos, K. (2009). <i>International Journal of Forecasting</i>, 25(1), 3–23. <a href="https://econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23">econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23</a></p>
+  <p>Fortune (09/06/2020). Reportagem sobre o modelo de disponibilidade da Instacart na pandemia. Fonte primária da empresa não localizada. <a href="https://fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence">fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence</a></p>
+  <p>Fountaine, T., McCarthy, B., &amp; Saleh, T. (2019). <i>Harvard Business Review</i>. <a href="https://www.investkl.gov.my/clients/asset_28B5D799-69B3-4BCB-B61B-D284619547A3/uploads/R1904C-PDF-ENG_FINAL.PDF">investkl.gov.my/…/R1904C-PDF-ENG_FINAL.PDF</a></p>
+  <p>Gibson Dunn (27/05/2026). EU AI Act omnibus agreement: postponed high-risk deadlines. <a href="https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/">gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes</a></p>
+  <p>Habib, A. R., Lin, A. L., &amp; Grant, R. W. (2021). Editorial sobre Wong et al. <i>JAMA Internal Medicine</i>, 181(8), 1040–1041. Dados de Wong et al. (2021) conforme o editorial e a cobertura; artigo original não consultado. <a href="https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2781313">jamanetwork.com/journals/jamainternalmedicine/fullarticle/2781313</a> · Resposta da Epic: <a href="https://www.fiercehealthcare.com/tech/epic-s-widely-used-sepsis-prediction-model-falls-short-among-michigan-medicine-patients">fiercehealthcare.com/tech/epic-s-widely-used-sepsis-prediction-model…</a></p>
+  <p>INFORMS (2016). ORION, <i>OR/MS Today</i>. <a href="https://pubsonline.informs.org/do/10.1287/orms.2016.03.10/full/">pubsonline.informs.org/do/10.1287/orms.2016.03.10/full</a></p>
+  <p>Lima, T. F. (2026). <i>Excelência Operacional</i> (conceito de dívida filosófica).</p>
+  <p>Lima, T. F., &amp; Araujo, C. A. S. ELO: Evidência · Lógica organizacional · Operação. COPPEAD/UFRJ, pesquisa em andamento. Protótipo: <a href="https://tflsixsigma-png.github.io/IA-Gestao-Hospitalar-Prof-Thiago-Lima/elo/">tflsixsigma-png.github.io/IA-Gestao-Hospitalar-Prof-Thiago-Lima/elo</a></p>
+  <p>Makridakis, S., Spiliotis, E., &amp; Assimakopoulos, V. (2022). M5 accuracy competition. <i>International Journal of Forecasting</i>, 38(4). Pré-print: <a href="https://statmodeling.stat.columbia.edu/wp-content/uploads/2021/10/M5_accuracy_competition.pdf">statmodeling.stat.columbia.edu/…/M5_accuracy_competition.pdf</a></p>
+  <p>METR (2025). Experimento controlado com desenvolvedores; pré-registrado, não revisado por pares. Resumo: <a href="https://getdx.com/blog/metr-study-on-how-ai-affects-developer-productivity/">getdx.com/blog/metr-study-on-how-ai-affects-developer-productivity</a></p>
+  <p>PL 2338/2023. Ficha no Congresso Nacional: <a href="https://www.congressonacional.leg.br/web/atividade/materias/-/materia/157233">congressonacional.leg.br/…/materia/157233</a> · Tramitação na Câmara (monitor secundário; ficha oficial da Câmara não acessada): <a href="https://monitor.lcfconsulting.com.br/proposicoes/pl-2338-2023/">monitor.lcfconsulting.com.br/proposicoes/pl-2338-2023</a> · <a href="https://casrai.org/guides/brazil-ai-bill-pl-2338-status">casrai.org/guides/brazil-ai-bill-pl-2338-status</a></p>
+  <p>Regulamento (UE) 2024/1689 (AI Act), Art. 26. <a href="https://www.springlex.eu/en/packages/ai-act/ai-act-regulation/article-26/">springlex.eu/en/packages/ai-act/ai-act-regulation/article-26</a></p>
+  <p>Schrage, M., &amp; Kiron, D. (2025). Philosophy eats AI. <i>MIT Sloan Management Review</i>. <a href="https://sloanreview.mit.edu/article/philosophy-eats-ai/">sloanreview.mit.edu/article/philosophy-eats-ai</a></p>
+  <p>Sculley, D., et al. (2015). Hidden technical debt in machine learning systems. <i>NeurIPS</i>. <a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf</a></p>
+  <p>Zillow Group (02/11/2021). Carta aos acionistas, release e tabelas do 3T21 (SEC, 8-K). <a href="https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/exhibit993.htm">sec.gov/…/000161764021000085/exhibit993.htm</a> · <a href="https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/q32021991.htm">q32021991.htm</a> · <a href="https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/q32021992.htm">q32021992.htm</a> · Pausa de out/2021 (imprensa): <a href="https://inman.com/2021/10/18/zillow-hits-brakes-on-buying-new-homes-for-remainder-of-2021">inman.com/2021/10/18/zillow-hits-brakes-on-buying-new-homes…</a></p>
+</div>
+
+</body>
+</html>

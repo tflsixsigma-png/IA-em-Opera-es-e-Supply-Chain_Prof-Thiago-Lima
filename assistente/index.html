@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistente ELO · Seminário IA em Operações</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="eyebrow"><a href="../" style="color:inherit">Seminário IA em Operações</a> · Prática</div>
+  <h1>Assistente ELO</h1>
+  <p>Um assistente de IA que conduz o grupo nas três sessões: explica cada pergunta, oferece opções quando o grupo trava e dados didáticos quando falta informação. As decisões de gestão são do grupo.</p>
+</div></header>
+<main><div class="wrap">
+
+  <h2>Escolha a plataforma</h2>
+  <!-- PROFESSOR: troque "#gem" e "#gpt" pelos links de compartilhamento do Gem e do GPT. -->
+  <div class="grid">
+    <div class="card"><span class="k">Gemini</span><h3>Gem</h3><p>Abra o Gem compartilhado pelo professor e escreva a frase da sessão.</p><div class="btns"><a class="btn" id="link-gem" href="#gem">Abrir o Gem</a></div></div>
+    <div class="card"><span class="k">ChatGPT</span><h3>GPT personalizado</h3><p>Abra o GPT compartilhado pelo professor. É preciso ter conta no ChatGPT.</p><div class="btns"><a class="btn" id="link-gpt" href="#gpt">Abrir o GPT</a></div></div>
+    <div class="card"><span class="k">Claude</span><h3>Skill</h3><p>Baixe o arquivo e habilite a skill nas configurações do Claude; depois escreva a frase da sessão numa conversa.</p><div class="btns"><a class="btn" href="elo-ia-operacoes-claude.zip">Baixar a skill (.zip)</a></div></div>
+  </div>
+
+  <h2>Como começar cada sessão</h2>
+  <div class="tw"><table>
+    <thead><tr><th style="width:80px">Sessão</th><th>Escreva no assistente</th><th>O que o grupo leva ao final</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>"Somos o Grupo [n] e vamos começar a Sessão 1."</td><td>Resumo do canvas · blocos A a C (problema, solução, pilares filosóficos)</td></tr>
+      <tr><td><b>2</b></td><td>"Grupo [n], Sessão 2." e cole o resumo da Sessão 1</td><td>Resumo do canvas · blocos A a G, com o diagnóstico ELO e a ruptura prevista</td></tr>
+      <tr><td><b>3</b></td><td>"Grupo [n], Sessão 3." e cole o resumo das Sessões 1 e 2</td><td>Relatório simulado de 6 meses, auditoria ELO, parecer e apresentação de 4 minutos</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Guardem o resumo ao final de cada sessão num documento do grupo. Sem ele, a sessão seguinte não começa. Quando faltar um dado, o assistente oferece um valor marcado como <b>[DADO DIDÁTICO]</b>: fictício, só para a disciplina.</p>
+
+  <h2>Arquivos para montar o assistente</h2>
+  <p>Para quem quiser criar a própria cópia (ou para o professor configurar o Gem e o GPT).</p>
+  <div class="tw"><table>
+    <thead><tr><th>Plataforma</th><th>Arquivos</th><th>Pacote</th></tr></thead>
+    <tbody>
+      <tr><td><b>Gemini · Gem</b></td><td>Instruções: <a href="instrucoes_do_gem.txt">instrucoes_do_gem.txt</a> · conhecimento: <a href="manual_coach.md">manual_coach.md</a></td><td><a class="btn" href="assistente-elo-gem.zip">.zip</a></td></tr>
+      <tr><td><b>ChatGPT · GPT</b></td><td>Passo a passo: <a href="configuracao_do_gpt.md">configuracao_do_gpt.md</a> · instruções: <a href="instrucoes_do_gpt.txt">instrucoes_do_gpt.txt</a> · conhecimento: <a href="manual_coach.md">manual_coach.md</a></td><td><a class="btn" href="assistente-elo-gpt.zip">.zip</a></td></tr>
+      <tr><td><b>Claude · Skill</b></td><td><a href="SKILL.md">SKILL.md</a> (arquivo único)</td><td><a class="btn" href="elo-ia-operacoes-claude.zip">.zip</a></td></tr>
+    </tbody>
+  </table></div>
+</div></main>
+<footer><div class="wrap"><a href="../">Seminário IA em Operações</a> · COPPEAD/UFRJ · Prof. Dr. Thiago Lima</div></footer>
+</body>
+</html>

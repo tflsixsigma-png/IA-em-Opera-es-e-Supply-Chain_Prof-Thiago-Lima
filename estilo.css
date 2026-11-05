@@ -1,0 +1,36 @@
+/* Seminário IA em Operações · estilo comum das páginas do repositório (alto contraste) */
+:root{
+  --navy:#0a1628; --navy2:#13243f; --gold:#c9a84c; --gold-dk:#7a5f12; --cream:#f7f3ec; --paper:#fffdf8;
+  --ink:#1e2530; --ink-2:#3c4352; --line:#d9d2c3;
+  --disp:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --body:"DM Sans","Segoe UI",Calibri,Arial,sans-serif;
+  --mono:"DM Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero{background:linear-gradient(160deg,#0a1628 0%,#13243f 60%,#1a2d4d 100%);color:#fff;padding-block:44px 34px;border-bottom:3px solid var(--gold)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dk)}
+.hero .eyebrow{color:var(--gold)}
+h1,h2,h3{font-family:var(--disp);color:var(--navy);line-height:1.15;margin:0;text-wrap:balance}
+.hero h1{color:#fff;font-size:clamp(32px,5vw,52px);font-weight:600;margin-top:10px}
+.hero p{color:#e6e0d2;font-size:18px;max-width:62ch;margin:12px 0 0}
+main{padding-block:32px 56px}
+h2{font-size:30px;margin:28px 0 10px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--gold);padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card h3{font-size:24px}
+.card .k{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dk)}
+.card p{margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+.btn{display:inline-block;font-family:var(--mono);font-size:13px;text-decoration:none;background:var(--navy);color:#fff;padding:9px 13px;border-radius:3px;border:2px solid var(--navy)}
+.btn:hover,.btn:focus-visible{background:var(--gold);color:var(--navy);border-color:var(--gold);outline:none}
+.btn.ghost{background:transparent;color:var(--navy)}
+.note{background:#fbf1dd;border-left:4px solid #a1640a;padding:10px 14px;margin:16px 0;font-size:15.5px}
+table{border-collapse:collapse;width:100%;background:var(--paper);font-size:15.5px}
+.tw{overflow-x:auto;border:1px solid var(--line);margin-top:10px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--navy);color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+code{font-family:var(--mono);font-size:14px;background:#efe9dc;padding:1px 5px;border-radius:2px}
+footer{background:var(--navy);color:#d8d2c4;padding-block:20px;font-size:13px;text-align:center;border-top:3px solid var(--gold)}
+footer a{color:var(--gold)}

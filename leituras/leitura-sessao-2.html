@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leitura · Sessão 2</title>
+<link rel="stylesheet" href="leitura.css">
+<style>
+@media screen{
+  body{max-width:820px;margin:0 auto;padding:0 16px 40px;background:#fff}
+  .band{margin:0 -16px}
+}
+@media screen and (max-width:600px){
+  .band h1{font-size:22pt}
+  table.d{font-size:9.5pt}
+  table.d th,table.d td{padding:1.5mm 2mm}
+}
+body{font-size:10.5pt;line-height:1.42}
+.part{margin:6mm 0 2.5mm}
+h3{margin:3.5mm 0 1.2mm}
+.quote{font-size:12pt;margin:2mm 0}
+.ex .b{padding:2.5mm 3.5mm}
+.ex .b p:last-child{margin-bottom:0}
+.lad td.n{width:12mm;text-align:center;font-size:13pt}
+.lad tr.top td{background:#eef4ee}
+.flag{font-family:"DejaVu Sans Mono",monospace;font-size:7pt;padding:.2mm 1.2mm;border:1px solid var(--ink2);color:var(--ink2);border-radius:2px;white-space:nowrap;vertical-align:1px}
+.flag.ind{color:#155c30;border-color:#155c30}
+.flag.auto{color:var(--bad);border-color:var(--bad)}
+.big{display:flex;gap:3mm;margin:3mm 0;break-inside:avoid}
+.big div{flex:1;border:1.5px solid var(--navy);padding:2.5mm;text-align:center}
+.big b{display:block;font-family:Caladea,Georgia,serif;font-size:22pt;color:var(--navy);line-height:1.1}
+.big span{font-size:9pt;color:var(--ink2)}
+.chk{list-style:none;padding:0;margin:1mm 0 2mm}
+.chk li{padding-left:6mm;position:relative;margin-bottom:1.2mm;font-size:10pt}
+.chk li:before{content:"";position:absolute;left:0;top:1.2mm;width:3mm;height:3mm;border:1.5px solid var(--navy)}
+.blk{font-family:"DejaVu Sans Mono",monospace;font-weight:bold;background:var(--navy);color:#fff;padding:.3mm 1.6mm;margin-right:1.5mm}
+table.elo td.c{width:13mm;text-align:center;font-family:"DejaVu Sans Mono",monospace;font-size:12pt;color:var(--navy)}
+table.elo th.c{text-align:center;padding:1.8mm 1mm}
+.small{font-size:9.5pt;color:var(--ink2)}
+.keep{break-inside:avoid}
+table.d tr{break-inside:avoid}
+.ex .h{break-after:avoid}
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="eb">Leitura prévia · Sessão 2 de 3 · IA aplicada a Operações, Processos e Supply Chain</div>
+  <h1>Como saber se vai funcionar</h1>
+  <div class="sub">Evidência, implantação e comparação: o que perguntar antes de adotar uma solução de IA em operações.</div>
+  <div class="meta"><span>COPPEAD/UFRJ · Ênfase em IA</span><span>Prof. Dr. Thiago Lima</span><span>Leitura: ~30 min</span><span>Prepara o Canvas · blocos D–G</span></div>
+</header>
+
+<p style="margin-top:5mm"><b>Para que serve esta leitura.</b> Na Sessão 1, seu grupo desenhou uma solução de IA para um problema de operações. Na Sessão 2, com o apoio de um coach de IA, o grupo vai completar os blocos D a G do Canvas. Esses blocos fazem uma só pergunta, de quatro jeitos: <i>como vamos saber se isso funciona de verdade?</i> Esta leitura dá o vocabulário e os números para responder sem cair nas armadilhas mais comuns. Todos os dados citados vêm de fontes verificadas, listadas no fim.</p>
+
+<!-- 1 -->
+<div class="part"><span class="tag">1</span><h2>O número do fornecedor e a pergunta do gestor</h2></div>
+
+<div class="ex">
+  <div class="h"><b>Vinheta fictícia</b> · criada para fins didáticos</div>
+  <div class="b">
+    <p>Uma rede de supermercados recebe a proposta de um fornecedor de previsão de demanda. O slide principal diz: <b>“acurácia de 95%”</b>. A diretora de operações pergunta: “Quantas rupturas a menos eu vou ter na loja de Madureira, no corredor de laticínios, numa terça-feira?”</p>
+    <p>O fornecedor responde que os 95% são “a média da rede, por mês”. Ninguém sabe dizer quanto disso chega à prateleira. Nem quem vai olhar a previsão antes de fazer o pedido. Nem o que acontece quando o comprador discorda.</p>
+  </div>
+</div>
+
+<p>As duas pessoas falam de coisas diferentes. O fornecedor fala do <b>modelo</b>: quanto a previsão se aproxima da venda real. A diretora fala do <b>resultado</b>: menos prateleira vazia, menos estoque parado, menos dinheiro perdido. Entre um e outro há uma corrente de elos. A previsão precisa ser boa no nível em que a decisão é tomada. Precisa chegar a tempo. Alguém precisa usá-la. A ação precisa acontecer. E o ganho precisa ser medido contra uma comparação justa.</p>
+<p>Esta leitura percorre essa corrente na ordem dos blocos do Canvas: <b>D</b> (evidência), <b>E</b> (implantação), <b>F</b> (resultado e valor) e <b>G</b> (o ELO antes da adoção).</p>
+
+<!-- 2 -->
+<div class="part"><span class="tag">2 · Bloco D</span><h2>A escada de evidência</h2></div>
+
+<p>Nem toda prova vale o mesmo. Quando alguém diz que “IA funciona”, a primeira pergunta é: <b>que tipo de prova é essa?</b> Use a escada abaixo. Quanto mais alto o degrau, mais perto do resultado que a diretora quer ver.</p>
+
+<div class="ex keep">
+  <div class="h"><b>Escada de evidência</b> · do mais fraco ao mais forte</div>
+  <table class="d lad">
+    <tr><th>Degrau</th><th>O que mede</th><th>Exemplo em operações</th><th>O que <u>não</u> prova</th></tr>
+    <tr><td class="n">1</td><td><b>Métrica do modelo</b>: erro da previsão, acerto da classificação</td><td>“Erro médio de 8% na previsão”; “acerta 94% das categorias de compra”</td><td>Que alguém usou a previsão, ou que o estoque caiu</td></tr>
+    <tr><td class="n">2</td><td><b>Benefício esperado</b>: simulação, business case, proposta do fornecedor</td><td>“Com essa acurácia, o estoque <i>pode</i> cair 20%”</td><td>Que a simulação vale para a sua operação real</td></tr>
+    <tr><td class="n">3</td><td><b>Percepção do usuário</b>: pesquisa, entrevista, depoimento</td><td>“80% dos planejadores acham que melhorou”</td><td>Que melhorou. Percepção e medição podem divergir muito (seção 6)</td></tr>
+    <tr class="top"><td class="n">4</td><td><b>Resultado transacional com comparação</b>: dados reais do sistema, contra um grupo que não usou a solução</td><td>Lojas com o sistema vs. lojas sem o sistema, no mesmo período, medindo vendas ou rupturas</td><td>Ainda precisa checar se o ganho compensa o custo (seção 7)</td></tr>
+  </table>
+</div>
+
+<p>Junto com o degrau, faça mais duas perguntas: <b>quem mediu?</b> e <b>quem mediu vende a solução?</b> Um número do próprio fornecedor, ou da empresa que quer mostrar inovação, é <span class="flag auto">auto-reportado</span>. Um número de pesquisadores independentes, de um júri ou de um regulador é <span class="flag ind">independente</span>. Os dois podem ser verdadeiros. Mas valem pesos diferentes.</p>
+
+<h3>O que diz a melhor revisão disponível</h3>
+<p>Culot, Podrecca e Nassimbeni (2024) fizeram uma revisão sistemática da literatura sobre IA em supply chain. Partiram de 3.173 artigos e ficaram com <b>123 estudos empíricos que usaram dados reais</b> de empresas. Simulações e dados inventados foram excluídos de propósito. Ou seja: é o “melhor da turma”.</p>
+<p>Mesmo assim, ao tratar de desempenho, os autores concluem que os benefícios relatados</p>
+<div class="quote">“são frequentemente expectativas ou resultados percebidos.” <span class="src">Culot et al., 2024 (tradução livre)</span></div>
+<p>Em linguagem de escada: a maior parte da literatura está nos degraus 1, 2 e 3. Os autores também notam que as decisões de custo-benefício costumam ser “de percepção”: poucas empresas montam um business case estruturado. E um dos estudos revisados relata que <b>50% a 80% do tempo de projeto vai para coletar e limpar dados</b>. Antes de qualquer ganho, há muito trabalho de base.</p>
+
+<!-- 3 -->
+<div class="part"><span class="tag">3 · Bloco D2</span><h2>O total e o detalhe</h2></div>
+
+<p>A melhor evidência independente sobre previsão de demanda vem de uma competição internacional, a <b>M5</b> (Makridakis, Spiliotis &amp; Assimakopoulos, 2022). Mais de 5.500 equipes tentaram prever as vendas de produtos do Walmart, em 42.840 séries de dados. A organização era independente <span class="flag ind">independente</span>. Os resultados mostram algo que todo gestor deveria saber:</p>
+
+<div class="big">
+  <div><b>~22%</b><span>melhor que o método estatístico de referência, no total agregado</span></div>
+  <div><b>~3%</b><span>melhor no nível <i>produto em cada loja</i>, onde o pedido é feito</span></div>
+  <div><b>7,5%</b><span>das equipes bateram a referência com a versão que escolheram enviar</span></div>
+</div>
+
+<p>Leia os três números juntos. A IA (aqui, aprendizado de máquina: programas que aprendem padrões a partir de dados históricos) ganhou com folga no <b>total</b>. Mas, no nível em que se decide quanto repor de cada produto em cada loja, o ganho caiu para cerca de 3%. E só 7,5% das equipes bateram um método estatístico simples com a versão que escolheram enviar. Muitas escolheram mal, porque testaram numa janela de dados que as enganou. Os próprios autores registram que a acurácia <b>não foi ligada aos custos operacionais</b> do Walmart. Ou seja: mesmo aqui, estamos no degrau 1.</p>
+
+<div class="q">
+  <div class="k">Lição para o bloco D2 · uma decisão, não um dado</div>
+  <p>Pergunte “quão boa a solução precisa ser?” no nível de detalhe <b>da decisão</b>, não do relatório. Se a decisão é “quantas caixas de iogurte mandar para a loja X amanhã”, a acurácia que importa é por produto, por loja, por dia. Uma média mensal da rede esconde exatamente o erro que gera a ruptura. Defina também o mínimo aceitável: a partir de que erro a recomendação deixa de ser útil para quem decide?</p>
+</div>
+
+<!-- 4 -->
+<div class="part"><span class="tag">4 · Bloco E</span><h2>Chegar a tempo e ser usada</h2></div>
+
+<p>Uma previsão excelente que chega depois do pedido fechado vale zero. Davenport e Ronanki (2018) analisaram 152 projetos de IA e ouviram 250 executivos. O obstáculo mais citado foi a <b>integração com processos e sistemas existentes (47%)</b>, à frente de custo (40%) e de gestores que não entendem a tecnologia (37%). <span class="flag">percepção de executivos</span></p>
+<p>Integração não é só técnica. É saber <b>em que momento</b> a recomendação aparece, <b>em que tela</b>, para <b>quem</b>, e <b>o que essa pessoa pode fazer com ela</b>. Por isso a condição 2 do ELO pergunta pela integração ao fluxo de trabalho, e a condição 3 pela tradução em ação.</p>
+
+<h3>Adoção custa dinheiro, e precisa estar no orçamento</h3>
+<p>Fountaine, McCarthy e Saleh (2019), da McKinsey, relatam que quase <b>90% das empresas que conseguiram escalar a IA gastaram mais da metade do orçamento de analytics em adoção</b>: treinamento, redesenho de processo, gestão da mudança. Entre as demais, só 23% fizeram isso. A regra que propõem: gastar com adoção pelo menos o mesmo que com tecnologia. <span class="flag">levantamento de consultoria</span></p>
+
+<div class="q">
+  <div class="k">Perguntas do bloco E</div>
+  <ol>
+    <li><b>A recomendação chega antes da decisão?</b> Desenhe a linha do tempo: dado disponível → modelo roda → recomendação aparece → decisão é tomada.</li>
+    <li><b>Como o uso fica registrado?</b> O sistema grava se a recomendação foi <i>aberta</i>, <i>aceita</i>, <i>ajustada</i> ou <i>ignorada</i>? Sem esse registro, ninguém saberá se a solução foi usada.</li>
+    <li><b>O ajuste humano é registrado?</b> Quem mudou, quanto mudou, em que direção e por quê.</li>
+    <li><b>Quem é dono da ação, e tem recurso para agir?</b> Um alerta de manutenção sem técnico disponível, ou uma sugestão de compra sem orçamento, não vira resultado.</li>
+  </ol>
+</div>
+
+<!-- 5 -->
+<div class="part"><span class="tag">5 · Bloco E</span><h2>O ajuste humano</h2></div>
+
+<p>Na maior parte das operações, a IA recomenda e uma pessoa decide. Esse filtro humano pode melhorar ou piorar o resultado. Três estudos revisados por pares ajudam a entender como.</p>
+
+<h3>Ajustes pequenos e otimistas costumam piorar</h3>
+<p>Fildes, Goodwin, Lawrence e Nikolopoulos (2009) analisaram <b>mais de 60.000 previsões</b> em quatro empresas de supply chain. Os planejadores ajustavam as previsões do sistema. Em três das quatro empresas, os ajustes melhoraram a acurácia em média. Mas o detalhe importa: <b>ajustes pequenos frequentemente pioraram</b> a previsão, e <b>ajustes para cima</b> erraram de direção com mais frequência. Os autores sugerem viés de otimismo. Ajustes grandes, feitos quando a pessoa sabe algo que o sistema não sabe (uma promoção, uma obra na rua), tenderam a ajudar mais.</p>
+
+<h3>As pessoas usam mais o algoritmo se puderem mexer um pouco</h3>
+<p>Dietvorst, Simmons e Massey (2018) mostraram, em experimentos com tarefas de previsão, que as pessoas abandonam algoritmos depois de vê-los errar, mesmo quando o algoritmo é melhor que elas. Mas foram</p>
+<div class="quote">“muito mais propensas a usar o algoritmo imperfeito quando podiam modificar suas previsões.” <span class="src">Dietvorst et al., 2018 (tradução livre)</span></div>
+<p>E o desempenho final foi melhor. Curiosamente, o tamanho permitido do ajuste quase não importou: as pessoas querem <i>algum</i> controle, não controle total.</p>
+
+<h3>A confiança cai rápido depois de um erro visível</h3>
+<p>Glikson e Woolley (2020) revisaram duas décadas de pesquisa sobre confiança em IA. Para a IA “embutida” em sistemas, como um planejador de demanda dentro do ERP, a confiança <b>começa alta, cai de forma abrupta depois de erros e se recupera devagar</b>. Na prática: uma ruptura visível, causada pela recomendação, pode derrubar o uso por meses.</p>
+
+<div class="warn"><b>Implicação para o Canvas.</b> Desenhe o ajuste humano de propósito. Permita um ajuste limitado, peça uma justificativa curta para ajustes grandes e registre tudo. Assim, depois de alguns meses, dá para saber se a combinação “sistema + pessoa” está ganhando do sistema sozinho, ou da pessoa sozinha.</div>
+
+<!-- 6 -->
+<div class="part"><span class="tag">6 · Bloco F</span><h2>Medir com uma comparação</h2></div>
+
+<p>O degrau 4 da escada exige duas coisas: um <b>indicador com linha de base</b> (como estava antes) e um <b>grupo de comparação no mesmo período</b> (quem não usou a solução). Sem o grupo de comparação, qualquer mudança de mercado, de estação ou de preço se confunde com o efeito da IA.</p>
+
+<h3>Onde há comparação, os ganhos são modestos</h3>
+<p>O caso Zara é um exemplo raro de resultado medido com comparação. A empresa passou a decidir as remessas de seus centros de distribuição para cerca de 1.500 lojas com um modelo matemático de otimização alimentado por previsão de demanda. O efeito foi avaliado num experimento de campo controlado: <b>aumento estimado de 3% a 4% nas vendas</b> (Caro, Gallien et al., 2010). <span class="flag ind">independente · finalista de prêmio com júri</span> Os autores também relatam dificuldades técnicas e humanas significativas na implantação.</p>
+<p>O padrão se repete na pesquisa que sustenta este seminário: onde há júri ou experimento, os ganhos ficam na faixa de <b>1% a 4%</b>. As cifras grandes e redondas (“40% mais acurado”, “acurácia 15 vezes maior”) costumam ser <span class="flag auto">auto-reportadas</span> e sem comparação.</p>
+
+<div class="ex keep">
+  <div class="h"><b>Exemplo de comparação fraca</b> · Walmart e negociação automatizada</div>
+  <div class="b">
+    <p>Num piloto de três meses no Walmart Canadá, um robô de negociação fechou acordo com <b>64% dos fornecedores, contra uma meta de 20%</b>, com economia média de 1,5%. <span class="flag auto">auto-reportado · coautoria da empresa</span> O comparador foi uma <b>meta</b>, não um grupo de fornecedores negociados por humanos no mesmo período. E a alternativa real era não negociar esses contratos pequenos. O ganho mais defensável é de <i>cobertura</i>, não de habilidade de negociação.</p>
+  </div>
+</div>
+
+<h3>Percepção não é medição</h3>
+<p>O exemplo mais forte vem de fora de operações. Num experimento da METR (2025), com sorteio de tarefas, 16 desenvolvedores experientes resolveram 246 tarefas reais com e sem IA. Com IA, <b>levaram 19% mais tempo</b>. Antes, previam ganhar 24%. Depois, <b>ainda acreditavam ter sido 20% mais rápidos</b>. <span class="flag">pré-registrado · não revisado por pares</span></p>
+<p>Na mesma linha, Humlum e Vestergaard (2025) cruzaram respostas de cerca de 25.000 trabalhadores dinamarqueses com registros administrativos. A economia de tempo declarada foi de 2,8% das horas. O efeito medido em salários e horas trabalhadas foi próximo de zero.</p>
+
+<div class="q">
+  <div class="k">Perguntas do bloco F</div>
+  <ol>
+    <li><b>Qual indicador e qual linha de base?</b> Ex.: taxa de ruptura por loja nas últimas 12 semanas, antes da solução.</li>
+    <li><b>Qual grupo de comparação, no mesmo período?</b> Ex.: metade das lojas com o sistema e metade sem, sorteadas; ou um grupo de categorias de produto que fica de fora por três meses.</li>
+    <li><b>Quem paga pelo ganho?</b> (próxima seção)</li>
+  </ol>
+</div>
+
+<!-- 7 -->
+<div class="part"><span class="tag">7 · Bloco F</span><h2>Quem paga pelo ganho</h2></div>
+
+<p>Um ganho no indicador ainda não é valor líquido. Duas perguntas ajudam a chegar lá.</p>
+<p><b>O ganho foi criado ou só mudou de lugar?</b> Um modelo que prioriza os clientes ou produtos mais valiosos pode melhorar o serviço deles à custa dos demais. O indicador do piloto sobe, e a perda aparece em outro lugar. A pesquisa não encontrou estudos em operações que quantifiquem esse efeito. Trate como hipótese a verificar, não como fato. Mas inclua na medição: olhe também quem <i>não</i> recebeu a prioridade.</p>
+<p><b>Quanto custa manter funcionando?</b> Engenheiros do Google descreveram a “dívida técnica escondida” dos sistemas de aprendizado de máquina (Sculley et al., 2015). Construir e implantar é relativamente rápido e barato.</p>
+<div class="quote">“…mas mantê-los ao longo do tempo é difícil e caro.” <span class="src">Sculley et al., 2015 (tradução livre)</span></div>
+<p>Num sistema maduro, o código que “aprende” pode ser no máximo 5% do total; o resto é integração, dados e monitoramento. E o mundo muda: na pandemia, uma métrica interna de acurácia da Instacart caiu de 93% para 61%, porque os dados de treino não refletiam a nova realidade. Retreinar, monitorar e corrigir são custos recorrentes. Culot et al. (2024) também notam que o custo de manutenção cresce com a complexidade da solução.</p>
+
+<div class="warn"><b>Conta mínima para o Canvas:</b> ganho medido (com comparação) − custo da tecnologia − custo de adoção (treino, redesenho, gestão da mudança) − custo recorrente de manutenção e monitoramento − ganho que apenas mudou de lugar = <b>valor líquido</b>.</div>
+
+<!-- 8 -->
+<div class="part"><span class="tag">8 · Checklist</span><h2>Para levar à Sessão 2</h2></div>
+
+<p>Traga o Canvas da Sessão 1. Com o grupo, rascunhe as respostas abaixo antes da aula. Onde faltar informação, escreva “não sei”: é uma resposta válida e útil. O coach de IA pode oferecer dados hipotéticos, sempre sinalizados como didáticos.</p>
+
+<div class="ex keep">
+  <div class="h"><b>D</b> · Evidência</div>
+  <div class="b"><ul class="chk">
+    <li>Que prova existe de que soluções parecidas funcionam? Em que degrau da escada ela está (1, 2, 3 ou 4)?</li>
+    <li>Quem mediu? Quem mediu vende a solução ou tem interesse no resultado?</li>
+    <li><span class="blk">D2</span>Quão boa a solução precisa ser, medida no nível de detalhe da decisão (uma decisão, não um dado)? Qual o mínimo aceitável?</li>
+  </ul></div>
+</div>
+
+<div class="ex keep">
+  <div class="h"><b>E</b> · Implantação · condições 2 e 3 do ELO</div>
+  <div class="b"><ul class="chk">
+    <li>A recomendação chega antes da decisão? Em que momento, em que tela, para quem?</li>
+    <li>Como o uso é registrado: aberta, aceita, ajustada, ignorada?</li>
+    <li>O ajuste humano é registrado (quem, quanto, em que direção, por quê)?</li>
+    <li>Quem é dono da ação? Há recursos (pessoas, orçamento, capacidade) para agir?</li>
+  </ul></div>
+</div>
+
+<div class="ex keep">
+  <div class="h"><b>F</b> · Resultado e valor · condições 4 e 5 do ELO</div>
+  <div class="b"><ul class="chk">
+    <li>Qual indicador operacional e qual linha de base?</li>
+    <li>Qual grupo de comparação, no mesmo período?</li>
+    <li>Quem paga pelo ganho? O ganho foi criado ou mudou de lugar? Quais os custos de adoção e manutenção?</li>
+  </ul></div>
+</div>
+
+<div class="ex keep">
+  <div class="h"><b>G</b> · ELO antes da adoção</div>
+  <div class="b">
+    <p class="small">As seis condições do ELO (Lima &amp; Araujo, COPPEAD/UFRJ, pesquisa em andamento). Marque uma coluna por linha.</p>
+    <table class="d elo">
+      <tr><th>Condição</th><th class="c">Sim</th><th class="c">Em parte</th><th class="c">Não</th><th class="c">Não sei</th></tr>
+      <tr><td><b>0</b> · Base de evidência: há prova, em degrau alto, de que soluções assim funcionam?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+      <tr><td><b>1</b> · Capacidade técnica em operação: funciona com os nossos dados, no nosso nível de detalhe, ao longo do tempo?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+      <tr><td><b>2</b> · Integração ao fluxo de trabalho: chega a tempo, no lugar certo, e o uso é registrado?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+      <tr><td><b>3</b> · Tradução em ação: alguém dono da ação decide e age, com recursos?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+      <tr><td><b>4</b> · Resultado organizacional: o indicador muda, contra um grupo de comparação?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+      <tr><td><b>5</b> · Valor líquido: o ganho supera os custos e não apenas mudou de lugar?</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td><td class="c">☐</td></tr>
+    </table>
+    <p style="margin-top:2.5mm"><b>Onde a corrente deve quebrar primeiro?</b> Escolha uma condição e explique em uma frase. É essa a hipótese que o grupo vai testar na Sessão 3.</p>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="part"><span class="tag">9</span><h2>Referências</h2></div>
+<div class="refs">
+  <p>Caro, F., Gallien, J., et al. (2010). Zara uses operations research to reengineer its global distribution process. <i>Interfaces</i>, 40(1), 71–84. <a href="https://econpapers.repec.org/RePEc:inm:orinte:v:40:y:2010:i:1:p:71-84">econpapers.repec.org/RePEc:inm:orinte:v:40:y:2010:i:1:p:71-84</a></p>
+  <p>Culot, G., Podrecca, M., &amp; Nassimbeni, G. (2024). Artificial intelligence in supply chain management: A systematic literature review of empirical studies and research directions. <i>Computers in Industry</i>, 162, 104132. <a href="https://aisberg.unibg.it/bitstream/10446/276769/1/Culot%20et%20al.%2c%202024%20-%20CII.pdf">aisberg.unibg.it/bitstream/10446/276769</a></p>
+  <p>Davenport, T. H., &amp; Ronanki, R. (2018). Artificial intelligence for the real world. <i>Harvard Business Review</i>. <a href="https://www.deloitte.com/content/dam/Deloitte/us/Documents/deloitte-analytics/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf">deloitte.com · us-deloitte-analytics-hbr-ai-for-the-real-world.pdf</a></p>
+  <p>Dietvorst, B. J., Simmons, J. P., &amp; Massey, C. (2018). [Aversão a algoritmos e modificação de previsões]. <i>Management Science</i>, 64(3), 1155–1170. <a href="https://ideas.repec.org/a/inm/ormnsc/v64y2018i3p1155-1170.html">ideas.repec.org/a/inm/ormnsc/v64y2018i3p1155-1170.html</a></p>
+  <p>Fildes, R., Goodwin, P., Lawrence, M., &amp; Nikolopoulos, K. (2009). Effective forecasting and judgmental adjustments: An empirical evaluation and strategies for improvement in supply-chain planning. <i>International Journal of Forecasting</i>, 25(1), 3–23. <a href="https://econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23">econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23</a></p>
+  <p>Fountaine, T., McCarthy, B., &amp; Saleh, T. (2019). Building the AI-powered organization. <i>Harvard Business Review</i>, jul.–ago. 2019 (R1904C). <a href="https://www.investkl.gov.my/clients/asset_28B5D799-69B3-4BCB-B61B-D284619547A3/uploads/R1904C-PDF-ENG_FINAL.PDF">R1904C-PDF-ENG_FINAL.PDF</a></p>
+  <p>Glikson, E., &amp; Woolley, A. W. (2020). Human trust in artificial intelligence: Review of empirical research. <i>Academy of Management Annals</i>, 14(2), 627–660. <a href="https://doi.org/10.5465/annals.2018.0057">doi.org/10.5465/annals.2018.0057</a></p>
+  <p>Humlum, A., &amp; Vestergaard, E. (2025). <i>Large language models, small labor market effects</i> (BFI Working Paper 2025-56). University of Chicago. <a href="https://bfi.uchicago.edu/wp-content/uploads/2025/04/BFI_WP_2025-56-3.pdf">bfi.uchicago.edu · BFI_WP_2025-56-3.pdf</a></p>
+  <p>Lima, T. F., &amp; Araujo, C. A. S. (em andamento). <i>ELO: Evidência, Lógica organizacional e Operação</i>. Pesquisa de pós-doutorado, COPPEAD/UFRJ.</p>
+  <p>Makridakis, S., Spiliotis, E., &amp; Assimakopoulos, V. (2022). M5 accuracy competition: Results, findings, and conclusions. <i>International Journal of Forecasting</i>, 38(4). <a href="https://statmodeling.stat.columbia.edu/wp-content/uploads/2021/10/M5_accuracy_competition.pdf">pré-print · M5_accuracy_competition.pdf</a> · editorial do número especial: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9232271">pmc.ncbi.nlm.nih.gov/articles/PMC9232271</a></p>
+  <p>METR (2025). Estudo controlado sobre o efeito de ferramentas de IA na produtividade de desenvolvedores experientes (pré-registrado, não revisado por pares). Resumo em DX: <a href="https://getdx.com/blog/metr-study-on-how-ai-affects-developer-productivity/">getdx.com/blog/metr-study-on-how-ai-affects-developer-productivity</a></p>
+  <p>Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., &amp; Dennison, D. (2015). Hidden technical debt in machine learning systems. <i>NeurIPS 2015</i>. <a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">proceedings.neurips.cc · 86df7dcf…-Paper.pdf</a></p>
+  <p>Instacart (queda de acurácia na pandemia): Fortune, 9 jun. 2020. <a href="https://fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence">fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence</a></p>
+  <p>Walmart e negociação automatizada (números auto-reportados): ProcureCon. <a href="https://procureconsupplychain.wbresearch.com/blog/walmart-ai-chatbot-automate-supplier-negotiations">procureconsupplychain.wbresearch.com · walmart-ai-chatbot-automate-supplier-negotiations</a></p>
+</div>
+
+</body>
+</html>
