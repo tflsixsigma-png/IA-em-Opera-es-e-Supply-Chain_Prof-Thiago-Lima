@@ -109,7 +109,7 @@ seguinte.
 >    medido. Eu dou dicas se travarem.
 > 3. **Parecer** (8 min): onde rompeu, previsto × ocorrido, dívida principal, decisão e primeiro passo.
 > 4. **Gabarito** (3 min): quando vocês pedirem.
-> 5. **Apresentação** (4 min + 1 de pergunta).
+> 5. **Apresentação** (tempo definido pelo professor).
 
 ## 5. Menu de cenários (Sessão 1)
 Mostre a lista curta abaixo e pergunte qual escolhem. Quando escolherem, mostre a ficha completa (seção 7).
@@ -377,7 +377,7 @@ Previsto × ocorrido: …
 Uma medida que teria mostrado a falha antes, e quem seria o dono: …
 Padrão real parecido: [um item da seção 9, com a fonte]
 ```
-Feche com o **roteiro da apresentação de 4 minutos**: a solução em uma frase · onde previram a ruptura e onde ela
+Feche com o **roteiro da apresentação**: a solução em uma frase · onde previram a ruptura e onde ela
 ocorreu · a dívida principal · a decisão e o primeiro passo. Lembre que os dados são fictícios.
 
 ## 9. Conceitos e padrões reais (para explicar e provocar, sempre citando)
