@@ -355,9 +355,6 @@
   .refrow a{word-break:break-all;overflow-wrap:anywhere}
   @media (max-width:760px){.evt{font-size:12.5px}.evt td:first-child{white-space:normal}}
 </style>
-</head>
-<body>
-
 <style id="disc-back-css">
 .disc-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;margin-right:12px;padding:6px 11px;border-radius:6px;
 background:#e3b54e;color:#0a1628!important;font:700 13px/1.1 'DM Sans',system-ui,sans-serif;text-decoration:none!important;white-space:nowrap;letter-spacing:0;text-transform:none}
@@ -687,7 +684,7 @@ background:#e3b54e;color:#0a1628!important;font:700 13px/1.1 'DM Sans',system-ui
     <div class="introcredit">Material produzido por Prof. Dr. Thiago Lima · COPPEAD/UFRJ</div>
     <div class="ptag">Comece por aqui · como usar</div>
     <h2>O que precisa ser verdade para a IA virar resultado?</h2>
-    <p class="lead">Modelos com 92% de acurácia convivem com indicadores que não se mexem. O seminário pergunta <b>o que precisa ser verdade, além do algoritmo funcionar</b>, para que a IA produza um resultado que a empresa consiga medir. Três sessões: a filosofia que a IA carrega (Schrage &amp; Kiron), onde ela entra em operações e supply chain (Culot et al.), e o <b>ELO</b>, seis condições entre a ferramenta e o resultado. Este app organiza o tema nas seguintes áreas:</p>
+    <p class="lead">Modelos com 92% de acurácia convivem com indicadores que não se mexem. O seminário pergunta <b>o que precisa ser verdade, além do algoritmo funcionar</b>, para que a IA produza um resultado que a empresa consiga medir. Três sessões: onde a IA já está em operações e supply chain (Culot et al.), a filosofia que ela carrega (Schrage &amp; Kiron) e o <b>ELO</b>, seis condições entre a ferramenta e o resultado, usado antes de comprar. Este app organiza o tema nas seguintes áreas:</p>
     <div class="introsteps">
       <div class="s"><span class="sw" style="background:var(--core)"></span><div><b>Mapa Conceitual</b> · clique nas bolinhas para abrir cada conceito com sua explicação, o autor de referência e as conexões. Cada conceito leva ao slide correspondente.</div></div>
       <div class="s"><span class="sw" style="background:var(--pratica)"></span><div><b>Apresentação</b> · os slides das três sessões, navegáveis e em tela cheia; clique no slide para saltar ao conceito no mapa.</div></div>
@@ -748,6 +745,12 @@ const SHORT = {
   "Dívida filosófica":"Dívida filosófica",
   "Modelo VCAP · V = C × (A + P)":"VCAP · V = C×(A+P)",
   "Competir em analytics":"Competir em analytics",
+  "Maturidade analítica · da descritiva à agêntica":"Maturidade analítica",
+  "Trade-off custo × nível de serviço":"Trade-off custo × serviço",
+  "Modelo SCOR · processos da cadeia":"Modelo SCOR",
+  "Supply chain agêntica · da recomendação à delegação":"Supply chain agêntica",
+  "Teoria da Agência · o dilema de delegar":"Teoria da Agência",
+  "Jensen & Meckling · 1976":"Jensen & Meckling",
   "Quatro temas dos estudos empíricos":"Quatro temas",
   "Paradoxo automação–aumento":"Automação × aumento",
   "Curva J da produtividade":"Curva J",
@@ -852,6 +855,21 @@ const NODES = [
    bullets:["Teste: o que a empresa saberá fazer depois, sem o sistema? Se ninguém responde em uma frase, é A","Ponte entre a filosofia da Sessão 1 e o business case"]},
   {id:"analytics", label:"Competir em analytics", cat:"teoria", r:21, author:"Davenport, 2006 · Davenport & Harris, 2007",
    desc:"As empresas que competem em analytics têm patrocínio da alta direção, cultura de teste e medida, analistas próximos da decisão e dados tratados como ativo. O software é a parte barata. Vinte anos antes da IA generativa, a mesma lição: é decisão de organização, não de ferramenta.",bullets:[]},
+  {id:"maturidade", label:"Maturidade analítica · da descritiva à agêntica", cat:"teoria", r:21, author:"Escala popularizada pela Gartner · Davenport & Harris, 2007",
+   desc:"Quatro perguntas em escada: o que aconteceu (descritiva), por que aconteceu (diagnóstica), o que vai acontecer (preditiva) e o que fazer (prescritiva). A IA agêntica é o passo seguinte, como extensão didática: o sistema não só recomenda, mas age. Cada degrau desloca uma parte do julgamento para a máquina.",
+   bullets:["Pergunta de diagnóstico: em que degrau está a principal ferramenta analítica da sua área, e quem faz o julgamento e a ação a partir dela?","Subir de degrau sem dados, processo e pessoas preparados repete o erro de comprar ativo achando que é capacidade (VCAP)","Davenport & Harris descrevem estágios de maturidade das organizações que competem em analytics; a escala das quatro perguntas é a forma mais difundida, associada à Gartner"]},
+  {id:"tradeoff", label:"Trade-off custo × nível de serviço", cat:"teoria", r:20, author:"Fundamento de logística e operações",
+   desc:"Para elevar o nível de serviço, o custo logístico cresce cada vez mais rápido. A pergunta de abertura do seminário: a IA desloca essa fronteira (mesmo serviço com menor custo) ou só ajuda a escolher melhor o ponto sobre a mesma curva?",
+   bullets:["Deslocar a fronteira exige evidência de resultado medido com comparação (degrau 4 da escada)","Mover-se sobre a curva também tem valor, mas desloca custo para outro lugar: quem paga pelo ganho? (condição 5)"]},
+  {id:"scor", label:"Modelo SCOR · processos da cadeia", cat:"teoria", r:20, author:"ASCM (antigo Supply Chain Council)",
+   desc:"Modelo de referência que organiza a cadeia em processos: Planejar, Suprir (comprar), Produzir, Entregar, Retornar e Habilitar. No seminário, serve de mapa para localizar onde cada aplicação de IA entra e que decisão ela apoia.",
+   bullets:["Planejar: previsão de demanda, S&OP · Suprir: risco de fornecedor, negociação automatizada · Produzir: manutenção preditiva, inspeção visual","Entregar: roteirização, previsão de chegada · Retornar: previsão e triagem de devoluções · Habilitar: força de trabalho, copilotos","A concentração de estudos e modelos está em Planejar; há menos implantação medida em compras, entrega e devolução (Culot et al., 2024)"]},
+  {id:"agentica", label:"Supply chain agêntica · da recomendação à delegação", cat:"teoria", r:21, author:"Tema emergente (2024–2026); evidência ainda majoritariamente auto-reportada",
+   desc:"Sistemas que não só preveem e recomendam, mas executam ações na cadeia (reabastecer, renegociar, reprogramar) com autonomia crescente: recomenda e a pessoa decide; executa com aprovação; age sozinho e a pessoa supervisiona. Quanto mais autonomia, mais pesa a pergunta: quem definiu o que o agente deve querer, e quem responde quando ele erra?",
+   bullets:["Exemplo citado com cautela: negociação automatizada com fornecedores de cauda longa (Walmart–Pactum), resultados divulgados pelas empresas","Pesquisas de mercado (McKinsey, 2025) indicam que poucas empresas já escalam agentes de IA; confira o número antes de citar","Ponte com a Teoria da Agência: muda o agente, permanece o dilema de delegar sob incerteza"]},
+  {id:"agencia", label:"Teoria da Agência · o dilema de delegar", cat:"teoria", r:21, author:"Jensen & Meckling, 1976",
+   desc:"Quando um principal delega uma tarefa a um agente, surgem informação assimétrica, objetivos desalinhados e custos de monitoramento. Com IA agêntica, o agente passa a ser um algoritmo ou uma cadeia híbrida humano–máquina; o dilema permanece. Em um algoritmo, o desalinhamento vem da especificação do objetivo, não de interesse próprio.",
+   bullets:["Teleologia = o contrato: o que o agente foi mandado querer","Epistemologia = a verificação: como o principal sabe o que o agente sabe","Ontologia = o que o agente enxerga, e o que não","Tecnologias mudam; o problema de delegar responsabilidade sob incerteza permanece estrutural"]},
   {id:"temas4", label:"Quatro temas dos estudos empíricos", cat:"teoria", r:22, author:"Culot, Podrecca & Nassimbeni, 2024",
    desc:"A revisão sistemática dos estudos empíricos sobre IA em supply chain organiza os achados em quatro temas: requisitos de dados e sistemas; processo de implantação da tecnologia; integração organizacional e interorganizacional; implicações de desempenho. Restringir-se a estudos empíricos é a forma de atravessar o hype.",
    bullets:["Dados e sistemas → condição 1","Implantação → condições 1 e 4","Integração → condições 2 e 3","Desempenho → condições 4 e 5"]},
@@ -866,6 +884,8 @@ const NODES = [
   // ---- autores
   {id:"schrage", label:"Schrage & Kiron · 2025", cat:"autor", r:20, author:"MIT Sloan Management Review",
    desc:"Philosophy Eats AI. Teleologia, epistemologia e ontologia como as três perguntas que toda organização precisa responder sobre seus sistemas de IA, antes que o sistema as responda sozinho.",bullets:[]},
+  {id:"jensen", label:"Jensen & Meckling · 1976", cat:"autor", r:16, author:"Journal of Financial Economics",
+   desc:"Theory of the firm: managerial behavior, agency costs and ownership structure. Fundamenta a Teoria da Agência: custos de delegar decisões a quem tem informação e objetivos próprios.",bullets:[]},
   {id:"davenport", label:"Davenport · 2006", cat:"autor", r:19, author:"Harvard Business Review",
    desc:"Competing on Analytics. A capacidade analítica como vantagem competitiva depende de liderança, cultura e pessoas, não de software.",bullets:[]},
   {id:"culot", label:"Culot, Podrecca & Nassimbeni · 2024", cat:"autor", r:21, author:"Computers in Industry",
@@ -986,6 +1006,9 @@ const NODES = [
 ];
 
 const LINKS = [
+  ["maturidade","analytics","estágios"],["maturidade","agentica","próximo degrau"],["maturidade","predicao","previsão → ação"],["maturidade","vcap","ativo × capacidade"],
+  ["tradeoff","escada","deslocar exige degrau 4"],["tradeoff","c5","quem paga"],["scor","previsao","Planejar"],["scor","compras","Suprir"],["scor","manutencao","Produzir"],["scor","rotas","Entregar"],["scor","capacidade","Habilitar"],["scor","culot","onde há evidência"],
+  ["agentica","agencia","dilema de delegar"],["agentica","automacao","autonomia"],["agentica","compras","negociação automatizada"],["agencia","jensen","proposto por"],["agencia","teleologia","o contrato"],["agencia","epistemologia","a verificação"],["agencia","ontologia","o que vê"],["agencia","aii","quem decide"],
   ["elo","c0","condição 0"],["elo","c1","condição 1"],["elo","c2","condição 2"],["elo","c3","condição 3"],["elo","c4","condição 4"],["elo","c5","condição 5"],
   ["c0","c1","precede"],["c1","c2","precede"],["c2","c3","precede"],["c3","c4","precede"],["c4","c5","precede"],
   ["elo","classificador","alimentado por"],["classificador","c0","informa"],["classificador","c4","informa"],
@@ -1122,29 +1145,193 @@ const CASES = [
 ];
 
 const APS = [
-  {t:"Abertura · IA em Operações e Supply Chain", nodes:["elo"], h:`<div class="sl-cover"><div class="eyebrow">Seminário · Ênfase em IA · Prof. Dr. Thiago Lima</div><h2>IA aplicada a Operações, Processos e Supply Chain</h2><p class="big">O que precisa ser verdade, além do algoritmo funcionar, para que a IA produza um resultado que a empresa consiga medir?</p><div class="sl-foot">Três sessões · Filosofia da IA · Aplicações e evidência · Framework ELO</div></div>`},
-  {t:"S1 · O que a sua IA foi mandada querer?", nodes:["teleologia","pilares"], h:`<div class="eyebrow">Sessão 1 · prompt · escreva antes</div><h2>O que a sua IA foi mandada querer?</h2><p class="big">Em uma linha: o número que a solução de IA da sua empresa tenta maximizar ou minimizar. Não o objetivo de negócio. O número.</p><p class="note">"Reduzir ruptura" é objetivo. "Minimizar erro de previsão semanal por SKU" é o que o sistema faz. A distância entre os dois é a teleologia não escrita.</p>`},
-  {t:"S1 · Três perguntas que ninguém escreveu", nodes:["pilares","teleologia","epistemologia","ontologia"], h:`<div class="eyebrow">Schrage &amp; Kiron (2025) · Philosophy Eats AI</div><h2>Três perguntas que ninguém escreveu</h2><div class="cols3"><div><h3>Teleologia</h3><p>O que o sistema foi mandado querer; quando objetivos conflitam, qual vence</p></div><div><h3>Epistemologia</h3><p>O que ele pode contar como saber; sabe quando não sabe?</p></div><div><h3>Ontologia</h3><p>O que ele consegue ver; qual variável que importa não existe para ele</p></div></div><p class="note">A pergunta não é se o sistema é bom. É se a organização escreveu a premissa.</p>`},
-  {t:"S1 · Dívida filosófica", nodes:["divida","lima"], h:`<div class="eyebrow">Lima (2026), cap. 5</div><h2>Dívida filosófica</h2><ul><li>O que se acumula quando as três perguntas ficam sem resposta escrita</li><li>A premissa que ninguém registrou é a que ninguém pode auditar nem melhorar</li><li>Teleologia é barata antes da implantação e cara depois de dois anos de o sistema agir sobre a hierarquia implícita</li><li>No parecer: dívida técnica, filosófica, de adoção, de capacidade</li></ul>`},
-  {t:"S1 · Em que termo entra a sua ferramenta?", nodes:["vcap","convergencia"], h:`<div class="eyebrow">Sessão 1 · prompt · escreva antes</div><h2>V = C × (A + P): em que termo entra a sua ferramenta?</h2><div class="formula">V = C × (A + P)</div><ul><li><b>A</b> ativos: compráveis · <b>P</b> processos: mudam o fluxo · <b>C</b> capacidade de melhorar: coeficiente</li><li>Quase sempre A; às vezes A e P. Raramente C</li><li>Pagar por A e contabilizar como C é o erro que destrói business cases</li></ul>`},
-  {t:"S1 · Competir em analytics é decisão de organização", nodes:["analytics","davenport"], h:`<div class="eyebrow">Davenport (2006)</div><h2>O software é a parte barata</h2><div class="cols2"><div><h3>O que os competidores analíticos têm</h3><p>Patrocínio do topo, cultura de teste e medida, analistas junto à decisão, dados como ativo</p></div><div><h3>O que a IA generativa não mudou</h3><p>Vinte anos depois, a mesma lição: a vantagem é organizacional, e a ferramenta é o que todos podem comprar</p></div></div>`},
-  {t:"S2 · Onde a sua ferramenta entra?", nodes:["previsao","estoque","compras","rotas"], h:`<div class="eyebrow">Sessão 2 · prompt · marque no mapa de processos</div><h2>Onde a sua ferramenta entra?</h2><div class="phases"><div><b>P</b><span>Planejar</span><em>previsão · S&amp;OP · estoque</em></div><div><b>C</b><span>Comprar</span><em>sourcing · risco</em></div><div><b>F</b><span>Fazer</span><em>manutenção · qualidade</em></div><div><b>E</b><span>Entregar</span><em>rotas · torre de controle</em></div></div><p class="note">A concentração em planejar reproduz a literatura: muita modelagem, pouca implantação medida.</p>`},
-  {t:"S2 · Quatro temas dos estudos empíricos", nodes:["temas4","culot","dados"], h:`<div class="eyebrow">Culot, Podrecca &amp; Nassimbeni (2024)</div><h2>Só estudos empíricos: quatro temas</h2><ul><li><b>Requisitos de dados e sistemas</b> · o modelo tem o que precisa, no grão e na latência?</li><li><b>Processo de implantação</b> · quem configurou o limiar, houve piloto com comparador?</li><li><b>Integração (inter)organizacional</b> · o resultado atravessa a fronteira entre áreas e empresas?</li><li><b>Implicações de desempenho</b> · em qual objetivo o efeito aparece, à custa de qual?</li></ul>`},
-  {t:"S2 · O que o gestor recebe como prova de valor", nodes:["classificador","percepcao"], h:`<div class="eyebrow">Classificador de evidência</div><h2>O que o gestor recebe como prova de valor?</h2><div class="cols2"><div><h3>Mede o algoritmo</h3><p>Métrica de modelo (acurácia, MAPE, AUROC) · Simulação sobre dados históricos</p></div><div><h3>Mede a organização</h3><p>Resultado organizacional observado após a implantação, com comparador concorrente</p></div></div><p class="note">Percepção e autorrelato divergem do registro. A maior parte do que se apresenta para no modelo.</p>`},
-  {t:"S2 · 88% usam, 6% têm resultado", nodes:["surveys","jcurve","percepcao"], h:`<div class="eyebrow">O que as pesquisas de praticantes medem</div><h2>88% usam IA. ~6% têm resultado.</h2><div class="cols3"><div><h3>McKinsey 2025</h3><p>88% usam regularmente; 39% atribuem algum impacto no EBIT, a maioria abaixo de 5%; ~6% high performers</p></div><div><h3>MIT SMR/BCG 2020</h3><p>Só 10% obtêm benefício financeiro significativo (>3.000 gestores)</p></div><div><h3>MIT NANDA 2025</h3><p>5% dos pilotos de GenAI chegam a impacto mensurável em P&amp;L; viés de amostra admitido</p></div></div><p class="note">Tudo auto-relato. A distância entre 88% e 6% é o que as condições 2 a 5 do ELO explicam.</p>`},
-  {t:"S2 · Escada de evidência", nodes:["escada","culot","makridakis"], h:`<div class="eyebrow">Culot et al. (2024) · M5 (2022)</div><h2>Em que degrau está a prova que você recebeu?</h2><div class="phases"><div><b>1</b><span>Métrica de modelo</span><em>acurácia, MAPE, AUROC</em></div><div><b>2</b><span>Benefício esperado</span><em>simulação, business case</em></div><div><b>3</b><span>Percepção</span><em>survey, entrevista</em></div><div><b>4</b><span>Dado transacional</span><em>antes/depois com comparador</em></div></div><p class="note">123 estudos empíricos com dados reais: benefícios 'frequentemente expectativas ou resultados percebidos'. M5: +22% no agregado, ~3% no produto-loja, sem ligação a custo.</p>`},
-  {t:"S2 · O ganho auditado vem da otimização", nodes:["auditado","caro","otim","genai"], h:`<div class="eyebrow">Edelman/INFORMS 2010–2026</div><h2>Auditado: 1 a 4%, e é otimização</h2><div class="cols2"><div><h3>Com júri ou experimento</h3><p>Zara +3–4% vendas (2010) · UPS ORION US$ 300–400 mi/ano (2016) · Walmart US$ 91,5 mi (2023) · ECCO –1,09% custos · Microsoft –50% ciclo (2026)</p></div><div><h3>Auto-reportado, sem comparador</h3><p>'–30% rupturas' · 'acurácia 15× melhor' · '–45% downtime' · '40% mais acurado'</p></div></div><p class="note">Único resultado auditado com LLM: o LLM explica, o otimizador decide. Isso não diz que ML não gera valor; diz que ninguém o mediu de forma independente.</p>`},
-  {t:"S2 · Percepção diverge da medida", nodes:["percepcao","c4"], h:`<div class="eyebrow">Sessão 2 · prompt · escreva antes</div><h2>"40% menos tempo de planejamento"</h2><p class="big">Um fornecedor relata a economia, medida por pesquisa com os planejadores. O que você pediria antes de acreditar?</p><p class="note">O log do sistema: tempo registrado por ciclo, antes e depois, com comparador concorrente. Em implementações reais, economias relatadas não foram confirmadas pelos registros.</p>`},
-  {t:"S3 · Funcionava e não foi usada", nodes:["adocao","execucao"], h:`<div class="eyebrow">Sessão 3 · prompt · escreva antes</div><h2>Funcionava e não foi usada</h2><p class="big">Lembre uma ferramenta que funcionava tecnicamente e não produziu nada. Em uma palavra: o que faltou?</p><p class="note">Dono, tempo, gente, chegava tarde, ninguém abria. São os mecanismos de falha das condições 2 e 3. Não são propriedades da ferramenta; são capacidades da organização.</p>`},
-  {t:"S3 · Seis condições entre a ferramenta e o resultado", nodes:["elo","c0","c1","c2","c3","c4","c5"], h:`<div class="eyebrow">Framework ELO · Lima &amp; Araujo</div><h2>Seis condições entre a ferramenta e o resultado</h2><div class="cols3"><div><h3>A ferramenta</h3><p><b>0</b> Base de evidências<br><b>1</b> Capacidade técnica em operação</p></div><div><h3>A organização</h3><p><b>2</b> Integração ao fluxo<br><b>3</b> Tradução em ação</p></div><div><h3>O resultado</h3><p><b>4</b> Resultado organizacional<br><b>5</b> Valor líquido</p></div></div><p class="note">Cada uma é necessária; nenhuma é suficiente. Veja a aba Diagrama.</p>`},
-  {t:"S3 · O modelo acerta 92%. E daí?", nodes:["c1","c2","c3","c4","c5"], h:`<div class="eyebrow">Sessão 3 · prompt · escreva antes</div><h2>O modelo acerta 92%. E daí?</h2><p class="big">Um score de risco de atraso de fornecedor tem 92% de acurácia. Liste o que ainda precisa ser verdade para que o atraso evitado apareça no OTIF.</p><p class="note">Acurácia local no limiar em uso (1) · chega ao comprador antes de o pedido fechar e é lido (2) · dono, fornecedor alternativo, alçada (3) · OTIF com linha de base e comparador (4) · custo do frete expresso contado (5).</p>`},
-  {t:"S3 · O resultado é modelo + override", nodes:["aversao","fildes09","dietvorst","confianca"], h:`<div class="eyebrow">Condição 3 · Fildes et al. (2009) · Dietvorst et al. (2018)</div><h2>O resultado no P&amp;L é modelo + ajuste humano</h2><ul><li>>60.000 previsões em quatro empresas: ajustes pequenos e para cima pioram a acurácia (viés de otimismo)</li><li>Pessoas abandonam o algoritmo depois de um erro visível, mesmo quando ele é melhor</li><li>Usam muito mais se puderem modificá-lo, ainda que pouco: algum controle, não controle máximo</li><li>Confiança em IA embutida cai abruptamente após erros e recupera devagar (Glikson &amp; Woolley)</li></ul><p class="note">Comparador que já existe e raramente é logado: a previsão estatística não ajustada.</p>`},
-  {t:"S3 · Quem decide e quem responde", nodes:["aiact","pl2338","iso42001","gestaoalg"], h:`<div class="eyebrow">Governança · AI Act Art. 26 · PL 2338/2023</div><h2>O deployer responde</h2><div class="cols2"><div><h3>AI Act (UE), deveres de quem implanta alto risco</h3><p>Supervisão humana competente · dados de entrada representativos · logs por 6 meses · informar trabalhadores antes do uso. Anexo III adiado para 02/12/2027 (Omnibus, a confirmar no Jornal Oficial)</p></div><div><h3>Brasil</h3><p>PL 2338: Senado 10/12/2024; Câmara aguardando parecer em nov/2026. Enquanto isso: ISO/IEC 42001 (certificável) e NIST AI RMF (voluntário)</p></div></div><p class="note">As condições 0, 2 e 3 do ELO transformadas em obrigação legal. Competência interna não se terceiriza ao fornecedor.</p>`},
-  {t:"S3 · Veredito sem nota", nodes:["veredito","medir"], h:`<div class="eyebrow">Relatório ELO</div><h2>Veredito sem nota</h2><ul><li>A primeira condição que não é um "sim" claro: o achado</li><li>As medidas que faltam: adoção, recursos da ação, comparador, medida objetiva</li><li>Onde há IA: quantos pilares ninguém escreveu</li><li>Decisão: prosseguir · sob condições nomeadas · pausar · não prosseguir, com primeiro passo e dono</li></ul><p class="note">Se a resposta é "não medido", o próximo passo é medir, não gastar.</p>`},
-  {t:"S3 · E daí para a segunda-feira?", nodes:["elo","divida","vcap"], h:`<div class="eyebrow">Na sua organização</div><h2>E daí para a segunda-feira?</h2><ol><li>Escreva o número que o seu sistema otimiza e qual objetivo vence no conflito</li><li>Classifique cada prova de valor recebida: modelo, simulação, resultado, percepção</li><li>Nomeie quem recebe o resultado, quando, e quem é dono da ação</li><li>Defina indicador, fonte, linha de base e comparador antes de assinar</li><li>Diga em uma frase o que a empresa saberá fazer sem o sistema</li></ol>`},
-  {t:"Explore o mapa conceitual", nodes:[], h:`<div class="sl-cover"><div class="eyebrow">Ferramenta interativa</div><h2>Explore o mapa</h2><p class="big">Conceitos, autores, aplicações, mecanismos de falha, casos e referências conectados. Clique em qualquer slide para saltar ao conceito correspondente.</p></div>`},
+ {
+  "t": "Abertura · IA em Operações e Supply Chain",
+  "nodes": [
+   "elo"
+  ],
+  "h": "<div class=\"sl-cover\"><div class=\"eyebrow\">Seminário · Ênfase em IA · Prof. Dr. Thiago Lima</div><h2>IA aplicada a Operações, Processos e Supply Chain</h2><p class=\"big\">O que precisa ser verdade, além do algoritmo funcionar, para que a IA produza um resultado que a empresa consiga medir?</p><div class=\"sl-foot\">Três sessões · Aplicações · Filosofia da IA · Evidência e ELO</div></div>"
+ },
+ {
+  "t": "S1 · Onde a sua ferramenta entra?",
+  "nodes": [
+   "previsao",
+   "estoque",
+   "compras",
+   "rotas"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 2 · prompt · marque no mapa de processos</div><h2>Onde a sua ferramenta entra?</h2><div class=\"phases\"><div><b>P</b><span>Planejar</span><em>previsão · S&amp;OP · estoque</em></div><div><b>C</b><span>Comprar</span><em>sourcing · risco</em></div><div><b>F</b><span>Fazer</span><em>manutenção · qualidade</em></div><div><b>E</b><span>Entregar</span><em>rotas · torre de controle</em></div></div><p class=\"note\">A concentração em planejar reproduz a literatura: muita modelagem, pouca implantação medida.</p>"
+ },
+ {
+  "t": "S1 · Quatro temas dos estudos empíricos",
+  "nodes": [
+   "temas4",
+   "culot",
+   "dados"
+  ],
+  "h": "<div class=\"eyebrow\">Culot, Podrecca &amp; Nassimbeni (2024)</div><h2>Só estudos empíricos: quatro temas</h2><ul><li><b>Requisitos de dados e sistemas</b> · o modelo tem o que precisa, no grão e na latência?</li><li><b>Processo de implantação</b> · quem configurou o limiar, houve piloto com comparador?</li><li><b>Integração (inter)organizacional</b> · o resultado atravessa a fronteira entre áreas e empresas?</li><li><b>Implicações de desempenho</b> · em qual objetivo o efeito aparece, à custa de qual?</li></ul>"
+ },
+ {
+  "t": "S1 · O que o gestor recebe como prova de valor",
+  "nodes": [
+   "classificador",
+   "percepcao"
+  ],
+  "h": "<div class=\"eyebrow\">Classificador de evidência</div><h2>O que o gestor recebe como prova de valor?</h2><div class=\"cols2\"><div><h3>Mede o algoritmo</h3><p>Métrica de modelo (acurácia, MAPE, AUROC) · Simulação sobre dados históricos</p></div><div><h3>Mede a organização</h3><p>Resultado organizacional observado após a implantação, com comparador concorrente</p></div></div><p class=\"note\">Percepção e autorrelato divergem do registro. A maior parte do que se apresenta para no modelo.</p>"
+ },
+ {
+  "t": "S1 · 88% usam, 6% têm resultado",
+  "nodes": [
+   "surveys",
+   "jcurve",
+   "percepcao"
+  ],
+  "h": "<div class=\"eyebrow\">O que as pesquisas de praticantes medem</div><h2>88% usam IA. ~6% têm resultado.</h2><div class=\"cols3\"><div><h3>McKinsey 2025</h3><p>88% usam regularmente; 39% atribuem algum impacto no EBIT, a maioria abaixo de 5%; ~6% high performers</p></div><div><h3>MIT SMR/BCG 2020</h3><p>Só 10% obtêm benefício financeiro significativo (>3.000 gestores)</p></div><div><h3>MIT NANDA 2025</h3><p>5% dos pilotos de GenAI chegam a impacto mensurável em P&amp;L; viés de amostra admitido</p></div></div><p class=\"note\">Tudo auto-relato. A distância entre 88% e 6% é o que as condições 2 a 5 do ELO explicam.</p>"
+ },
+ {
+  "t": "S2 · O que a sua IA foi mandada querer?",
+  "nodes": [
+   "teleologia",
+   "pilares"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 1 · prompt · escreva antes</div><h2>O que a sua IA foi mandada querer?</h2><p class=\"big\">Em uma linha: o número que a solução de IA da sua empresa tenta maximizar ou minimizar. Não o objetivo de negócio. O número.</p><p class=\"note\">\"Reduzir ruptura\" é objetivo. \"Minimizar erro de previsão semanal por SKU\" é o que o sistema faz. A distância entre os dois é a teleologia não escrita.</p>"
+ },
+ {
+  "t": "S2 · Três perguntas que ninguém escreveu",
+  "nodes": [
+   "pilares",
+   "teleologia",
+   "epistemologia",
+   "ontologia"
+  ],
+  "h": "<div class=\"eyebrow\">Schrage &amp; Kiron (2025) · Philosophy Eats AI</div><h2>Três perguntas que ninguém escreveu</h2><div class=\"cols3\"><div><h3>Teleologia</h3><p>O que o sistema foi mandado querer; quando objetivos conflitam, qual vence</p></div><div><h3>Epistemologia</h3><p>O que ele pode contar como saber; sabe quando não sabe?</p></div><div><h3>Ontologia</h3><p>O que ele consegue ver; qual variável que importa não existe para ele</p></div></div><p class=\"note\">A pergunta não é se o sistema é bom. É se a organização escreveu a premissa.</p>"
+ },
+ {
+  "t": "S2 · Dívida filosófica",
+  "nodes": [
+   "divida",
+   "lima"
+  ],
+  "h": "<div class=\"eyebrow\">Lima (2026), cap. 5</div><h2>Dívida filosófica</h2><ul><li>O que se acumula quando as três perguntas ficam sem resposta escrita</li><li>A premissa que ninguém registrou é a que ninguém pode auditar nem melhorar</li><li>Teleologia é barata antes da implantação e cara depois de dois anos de o sistema agir sobre a hierarquia implícita</li><li>No parecer: dívida técnica, filosófica, de adoção, de capacidade</li></ul>"
+ },
+ {
+  "t": "S2 · Em que termo entra a sua ferramenta?",
+  "nodes": [
+   "vcap",
+   "convergencia"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 1 · prompt · escreva antes</div><h2>V = C × (A + P): em que termo entra a sua ferramenta?</h2><div class=\"formula\">V = C × (A + P)</div><ul><li><b>A</b> ativos: compráveis · <b>P</b> processos: mudam o fluxo · <b>C</b> capacidade de melhorar: coeficiente</li><li>Quase sempre A; às vezes A e P. Raramente C</li><li>Pagar por A e contabilizar como C é o erro que destrói business cases</li></ul>"
+ },
+ {
+  "t": "S2 · Competir em analytics é decisão de organização",
+  "nodes": [
+   "analytics",
+   "davenport"
+  ],
+  "h": "<div class=\"eyebrow\">Davenport (2006)</div><h2>O software é a parte barata</h2><div class=\"cols2\"><div><h3>O que os competidores analíticos têm</h3><p>Patrocínio do topo, cultura de teste e medida, analistas junto à decisão, dados como ativo</p></div><div><h3>O que a IA generativa não mudou</h3><p>Vinte anos depois, a mesma lição: a vantagem é organizacional, e a ferramenta é o que todos podem comprar</p></div></div>"
+ },
+ {
+  "t": "S3 · Escada de evidência",
+  "nodes": [
+   "escada",
+   "culot",
+   "makridakis"
+  ],
+  "h": "<div class=\"eyebrow\">Culot et al. (2024) · M5 (2022)</div><h2>Em que degrau está a prova que você recebeu?</h2><div class=\"phases\"><div><b>1</b><span>Métrica de modelo</span><em>acurácia, MAPE, AUROC</em></div><div><b>2</b><span>Benefício esperado</span><em>simulação, business case</em></div><div><b>3</b><span>Percepção</span><em>survey, entrevista</em></div><div><b>4</b><span>Dado transacional</span><em>antes/depois com comparador</em></div></div><p class=\"note\">123 estudos empíricos com dados reais: benefícios 'frequentemente expectativas ou resultados percebidos'. M5: +22% no agregado, ~3% no produto-loja, sem ligação a custo.</p>"
+ },
+ {
+  "t": "S3 · O ganho auditado vem da otimização",
+  "nodes": [
+   "auditado",
+   "caro",
+   "otim",
+   "genai"
+  ],
+  "h": "<div class=\"eyebrow\">Edelman/INFORMS 2010–2026</div><h2>Auditado: 1 a 4%, e é otimização</h2><div class=\"cols2\"><div><h3>Com júri ou experimento</h3><p>Zara +3–4% vendas (2010) · UPS ORION US$ 300–400 mi/ano (2016) · Walmart US$ 91,5 mi (2023) · ECCO –1,09% custos · Microsoft –50% ciclo (2026)</p></div><div><h3>Auto-reportado, sem comparador</h3><p>'–30% rupturas' · 'acurácia 15× melhor' · '–45% downtime' · '40% mais acurado'</p></div></div><p class=\"note\">Único resultado auditado com LLM: o LLM explica, o otimizador decide. Isso não diz que ML não gera valor; diz que ninguém o mediu de forma independente.</p>"
+ },
+ {
+  "t": "S3 · Percepção diverge da medida",
+  "nodes": [
+   "percepcao",
+   "c4"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 2 · prompt · escreva antes</div><h2>\"40% menos tempo de planejamento\"</h2><p class=\"big\">Um fornecedor relata a economia, medida por pesquisa com os planejadores. O que você pediria antes de acreditar?</p><p class=\"note\">O log do sistema: tempo registrado por ciclo, antes e depois, com comparador concorrente. Em implementações reais, economias relatadas não foram confirmadas pelos registros.</p>"
+ },
+ {
+  "t": "S3 · Funcionava e não foi usada",
+  "nodes": [
+   "adocao",
+   "execucao"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 3 · prompt · escreva antes</div><h2>Funcionava e não foi usada</h2><p class=\"big\">Lembre uma ferramenta que funcionava tecnicamente e não produziu nada. Em uma palavra: o que faltou?</p><p class=\"note\">Dono, tempo, gente, chegava tarde, ninguém abria. São os mecanismos de falha das condições 2 e 3. Não são propriedades da ferramenta; são capacidades da organização.</p>"
+ },
+ {
+  "t": "S3 · Seis condições entre a ferramenta e o resultado",
+  "nodes": [
+   "elo",
+   "c0",
+   "c1",
+   "c2",
+   "c3",
+   "c4",
+   "c5"
+  ],
+  "h": "<div class=\"eyebrow\">Framework ELO · Lima &amp; Araujo</div><h2>Seis condições entre a ferramenta e o resultado</h2><div class=\"cols3\"><div><h3>A ferramenta</h3><p><b>0</b> Base de evidências<br><b>1</b> Capacidade técnica em operação</p></div><div><h3>A organização</h3><p><b>2</b> Integração ao fluxo<br><b>3</b> Tradução em ação</p></div><div><h3>O resultado</h3><p><b>4</b> Resultado organizacional<br><b>5</b> Valor líquido</p></div></div><p class=\"note\">Cada uma é necessária; nenhuma é suficiente. Veja a aba Diagrama.</p>"
+ },
+ {
+  "t": "S3 · O modelo acerta 92%. E daí?",
+  "nodes": [
+   "c1",
+   "c2",
+   "c3",
+   "c4",
+   "c5"
+  ],
+  "h": "<div class=\"eyebrow\">Sessão 3 · prompt · escreva antes</div><h2>O modelo acerta 92%. E daí?</h2><p class=\"big\">Um score de risco de atraso de fornecedor tem 92% de acurácia. Liste o que ainda precisa ser verdade para que o atraso evitado apareça no OTIF.</p><p class=\"note\">Acurácia local no limiar em uso (1) · chega ao comprador antes de o pedido fechar e é lido (2) · dono, fornecedor alternativo, alçada (3) · OTIF com linha de base e comparador (4) · custo do frete expresso contado (5).</p>"
+ },
+ {
+  "t": "S3 · O resultado é modelo + override",
+  "nodes": [
+   "aversao",
+   "fildes09",
+   "dietvorst",
+   "confianca"
+  ],
+  "h": "<div class=\"eyebrow\">Condição 3 · Fildes et al. (2009) · Dietvorst et al. (2018)</div><h2>O resultado no P&amp;L é modelo + ajuste humano</h2><ul><li>>60.000 previsões em quatro empresas: ajustes pequenos e para cima pioram a acurácia (viés de otimismo)</li><li>Pessoas abandonam o algoritmo depois de um erro visível, mesmo quando ele é melhor</li><li>Usam muito mais se puderem modificá-lo, ainda que pouco: algum controle, não controle máximo</li><li>Confiança em IA embutida cai abruptamente após erros e recupera devagar (Glikson &amp; Woolley)</li></ul><p class=\"note\">Comparador que já existe e raramente é logado: a previsão estatística não ajustada.</p>"
+ },
+ {
+  "t": "S3 · Quem decide e quem responde",
+  "nodes": [
+   "aiact",
+   "pl2338",
+   "iso42001",
+   "gestaoalg"
+  ],
+  "h": "<div class=\"eyebrow\">Governança · AI Act Art. 26 · PL 2338/2023</div><h2>O deployer responde</h2><div class=\"cols2\"><div><h3>AI Act (UE), deveres de quem implanta alto risco</h3><p>Supervisão humana competente · dados de entrada representativos · logs por 6 meses · informar trabalhadores antes do uso. Anexo III adiado para 02/12/2027 (Omnibus, a confirmar no Jornal Oficial)</p></div><div><h3>Brasil</h3><p>PL 2338: Senado 10/12/2024; Câmara aguardando parecer em nov/2026. Enquanto isso: ISO/IEC 42001 (certificável) e NIST AI RMF (voluntário)</p></div></div><p class=\"note\">As condições 0, 2 e 3 do ELO transformadas em obrigação legal. Competência interna não se terceiriza ao fornecedor.</p>"
+ },
+ {
+  "t": "S3 · Veredito sem nota",
+  "nodes": [
+   "veredito",
+   "medir"
+  ],
+  "h": "<div class=\"eyebrow\">Relatório ELO</div><h2>Veredito sem nota</h2><ul><li>A primeira condição que não é um \"sim\" claro: o achado</li><li>As medidas que faltam: adoção, recursos da ação, comparador, medida objetiva</li><li>Onde há IA: quantos pilares ninguém escreveu</li><li>Decisão: prosseguir · sob condições nomeadas · pausar · não prosseguir, com primeiro passo e dono</li></ul><p class=\"note\">Se a resposta é \"não medido\", o próximo passo é medir, não gastar.</p>"
+ },
+ {
+  "t": "S3 · E daí para a segunda-feira?",
+  "nodes": [
+   "elo",
+   "divida",
+   "vcap"
+  ],
+  "h": "<div class=\"eyebrow\">Na sua organização</div><h2>E daí para a segunda-feira?</h2><ol><li>Escreva o número que o seu sistema otimiza e qual objetivo vence no conflito</li><li>Classifique cada prova de valor recebida: modelo, simulação, resultado, percepção</li><li>Nomeie quem recebe o resultado, quando, e quem é dono da ação</li><li>Defina indicador, fonte, linha de base e comparador antes de assinar</li><li>Diga em uma frase o que a empresa saberá fazer sem o sistema</li></ol>"
+ },
+ {
+  "t": "Explore o mapa conceitual",
+  "nodes": [],
+  "h": "<div class=\"sl-cover\"><div class=\"eyebrow\">Ferramenta interativa</div><h2>Explore o mapa</h2><p class=\"big\">Conceitos, autores, aplicações, mecanismos de falha, casos e referências conectados. Clique em qualquer slide para saltar ao conceito correspondente.</p></div>"
+ }
 ];
-
 const NODE2SLIDE={}; APS.forEach((sl,i)=>(sl.nodes||[]).forEach(n=>{if(!(n in NODE2SLIDE))NODE2SLIDE[n]=i+1;}));
 (function(){const F={automacao:"S3 · Seis condições",predicao:"S3 · O modelo acerta",desempenho5:"S2 · Percepção diverge",schrage:"S1 · Três perguntas",toorajipour:"S2 · Onde a sua ferramenta",limaaraujo:"S3 · Seis condições",raisch:"S3 · Seis condições",brynjolfsson:"S2 · 88% usam",agrawal:"S3 · O modelo acerta",glikson:"S3 · O resultado é modelo",sculley:"S1 · Dívida filosófica",hendriksen:"S3 · Quem decide",kellogg:"S3 · Quem decide",blr2025:"S1 · Em que termo",fountaine:"S2 · 88% usam",fisher:"S2 · Onde a sua ferramenta",lee:"S2 · Onde a sua ferramenta",dividatec:"S1 · Dívida filosófica",aii:"S3 · Quem decide",manutencao:"S2 · Onde a sua ferramenta",capacidade:"S2 · Onde a sua ferramenta",ml:"S3 · Seis condições",llm:"S2 · O ganho auditado",deriva:"S2 · Escada",realocacao:"S3 · Veredito",proxy:"S1 · Três perguntas",baseSC:"S2 · Escada",validacao:"S3 · Veredito"};
 for(const k in F){if(!NODE2SLIDE[k]){const i=APS.findIndex(sl=>sl.t.startsWith(F[k]));if(i>-1)NODE2SLIDE[k]=i+1;}}})();
@@ -1249,6 +1436,7 @@ const REF_GROUPS = [
   {apa:"Schrage, M., & Kiron, D. (2025). Philosophy eats AI. <i>MIT Sloan Management Review</i> (online, 16 jan. 2025).", doi:"https://sloanreview.mit.edu/article/philosophy-eats-ai/"},
   {apa:"Schrage, M., & Kiron, D. (2024). Is philosophy the next LLM training frontier? <i>MIT Initiative on the Digital Economy</i> (entrevista, 3 dez. 2024).", doi:"https://ide.mit.edu/insights/is-philosophy-the-next-llm-training-frontier"},
   {apa:"Lima, T. F. (2026). <i>Excelência operacional: da estratégia à execução</i>. Atena Editora. Cap. 1 (Modelo VCAP) e cap. 5 (três pilares e dívida filosófica). [Obs.: a expressão 'dívida filosófica' é do livro; não aparece em Schrage & Kiron.]", doi:""},
+  {apa:"Jensen, M. C., & Meckling, W. H. (1976). Theory of the firm: Managerial behavior, agency costs and ownership structure. <i>Journal of Financial Economics, 3</i>(4), 305–360.", doi:"https://doi.org/10.1016/0304-405X(76)90026-X"},
   {apa:"Davenport, T. H. (2006). Competing on analytics. <i>Harvard Business Review, 84</i>(1), 98–107.", doi:"https://hbr.org/2006/01/competing-on-analytics"},
   {apa:"Davenport, T. H., & Harris, J. G. (2007). <i>Competing on analytics: The new science of winning</i>. Harvard Business School Press.", doi:""},
   {apa:"Agrawal, A., Gans, J., & Goldfarb, A. (2018). <i>Prediction machines: The simple economics of artificial intelligence</i>. Harvard Business Review Press.", doi:""},

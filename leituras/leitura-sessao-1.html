@@ -4,22 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leitura · Sessão 1</title>
-<meta name="description" content="Pré-leitura da Sessão 1 do Seminário IA aplicada a Operações, Processos e Supply Chain (COPPEAD/UFRJ): desenhar a solução de IA e escrever as premissas.">
+<meta name="description" content="Pré-leitura da Sessão 1 do Seminário IA aplicada a Operações, Processos e Supply Chain (COPPEAD/UFRJ): onde a IA já está em Operações e Supply Chain e como ler a promessa de um fornecedor.">
 <link rel="stylesheet" href="leitura.css">
 <style>
 .ex .b{padding:2.5mm 3.5mm}
 .ex .b p:last-child{margin-bottom:0}
 .ex .b ul{margin:1mm 0 0;padding-left:5mm}
 .ex .b li{margin-bottom:1mm}
-.fict{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--bad);border:1px solid var(--bad);padding:.3mm 1.5mm;margin-left:2mm;letter-spacing:.06em}
-.eq{font-family:Caladea,Georgia,serif;font-size:20pt;color:var(--navy);text-align:center;margin:3mm 0 2mm;letter-spacing:.04em}
-.eq small{display:block;font-family:Carlito,Calibri,sans-serif;font-size:9.5pt;color:var(--ink2);letter-spacing:0;margin-top:1mm}
-.pillar{border:1.5px solid var(--navy);margin:3mm 0;break-inside:avoid}
-.pillar .ph{display:flex;justify-content:space-between;align-items:baseline;background:var(--cream);border-bottom:1.5px solid var(--navy);padding:1.8mm 3.5mm}
-.pillar .ph b{font-family:Caladea,Georgia,serif;font-size:13pt;color:var(--navy)}
-.pillar .ph span{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--gold-dk);text-transform:uppercase;letter-spacing:.08em}
-.pillar .pb2{padding:2.5mm 3.5mm}
-.pillar .pb2 p:last-child{margin-bottom:0}
+.fict{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--bad);border:1px solid var(--bad);padding:.3mm 1.5mm;margin-left:2mm;letter-spacing:.06em;background:#fff}
+.tagv{font-family:"DejaVu Sans Mono",monospace;font-size:7pt;padding:.2mm 1.3mm;border:1px solid;white-space:nowrap}
+.tagv.auto{color:var(--bad);border-color:var(--bad)}
+.tagv.ind{color:#155c30;border-color:#155c30}
 .ask{background:var(--navy);color:#fff;padding:2mm 3.5mm;font-size:10pt}
 .ask b{color:var(--gold)}
 .check{border:2px solid var(--navy);margin:4mm 0;break-inside:avoid}
@@ -31,11 +26,29 @@
 .check ul{list-style:none;margin:0;padding:0}
 .check li{padding-left:6mm;position:relative;margin-bottom:1.1mm;font-size:10.5pt}
 .check li::before{content:"";position:absolute;left:0;top:1mm;width:3mm;height:3mm;border:1.5px solid var(--navy)}
+.check .link{padding:2mm 3.5mm;border-top:1.5px solid var(--navy);background:var(--cream);font-size:10pt}
+.check .link a{color:var(--navy);font-family:"DejaVu Sans Mono",monospace;font-size:8pt;word-break:break-all;font-weight:bold}
 table.d td.k{font-family:"DejaVu Sans Mono",monospace;font-size:8.5pt;color:var(--navy);font-weight:bold;white-space:nowrap}
-.fict{background:#fff}
 table.d{break-inside:avoid}
-ul.sig{break-inside:avoid}
+table.scor{font-size:9.2pt;break-inside:auto}
+table.scor tr{break-inside:avoid}
+@media print{body{font-size:10.5pt;line-height:1.42}}
+table.scor td,table.scor th{padding:1.6mm 2.2mm}
+table.scor td.k{font-size:8pt}
 .lead{font-size:12pt;color:var(--ink2);margin:5mm 0 3mm}
+.refs p{font-size:8.6pt;margin-bottom:1mm}
+.check li{margin-bottom:.8mm}
+.fig{border:1px solid var(--line);margin:3mm 0;padding:2.5mm 3mm;break-inside:avoid;background:#fff}
+.fig svg{display:block;width:100%;height:auto;max-width:108mm;margin:0 auto}
+.fig .cap{font-size:9pt;color:var(--ink2);margin-top:1.5mm}
+.fig .cap b{color:var(--navy)}
+.qbox{border-left:3px solid var(--gold);padding:1mm 0 1mm 4mm;margin:3.5mm 0 2mm;break-inside:avoid}
+.qbox .k{font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dk)}
+.qbox h3{margin:.8mm 0 1.2mm}
+.qbox p:last-child{margin-bottom:0}
+.big{font-family:Caladea,Georgia,serif;font-size:14pt;color:var(--navy);text-align:center;margin:4mm 0 2mm;line-height:1.3}
+.flow div{font-size:9.5pt}
+.keep{break-inside:avoid}
 @media screen{
   body{max-width:820px;margin:0 auto;padding:0 16px 40px;background:#fff}
   .band{margin:0 -16px}
@@ -47,10 +60,9 @@ ul.sig{break-inside:avoid}
   .part{flex-wrap:wrap;gap:8px}
   .part h2{font-size:21px}
   .flow{flex-direction:column}
-  table.d{font-size:13px}
+  table.d{font-size:13px;display:block;overflow-x:auto}
   table.d td,table.d th{padding:6px}
   table.d td.k{white-space:normal}
-  .eq{font-size:22px}
 }
 </style>
 </head>
@@ -58,198 +70,226 @@ ul.sig{break-inside:avoid}
 
 <header class="band">
   <div class="eb">Pré-leitura · Sessão 1 · Ênfase em IA · COPPEAD/UFRJ</div>
-  <h1>Antes de comprar: desenhar a solução de IA e escrever as premissas</h1>
-  <div class="sub">Seminário “IA aplicada a Operações, Processos e Supply Chain” — leitura de preparação para o exercício do Canvas, blocos A a C.</div>
-  <div class="meta"><span>Prof. Dr. Thiago Lima</span><span>Leitura ≈ 25 min</span><span>Leve para a aula: um problema real da sua área</span></div>
+  <h1>Onde a IA já está: aplicações em Operações e Supply Chain</h1>
+  <div class="sub">Seminário “IA aplicada a Operações, Processos e Supply Chain” — leitura de preparação para a dinâmica do comitê de investimento.</div>
+  <div class="meta"><span>Prof. Dr. Thiago Lima</span><span>Leitura ≈ 25 min</span><span>Leve para a aula: uma promessa de fornecedor que você já ouviu</span></div>
 </header>
 
-<p class="lead">Esta leitura não ensina a programar nada. Ela ensina a fazer as perguntas certas <b>antes</b> de assinar um contrato de IA. Na Sessão 1, seu grupo vai desenhar uma solução de IA para um problema de operação, com apoio de um assistente (o “coach”). O resultado será um Canvas com três blocos: problema e decisão, solução, e premissas. O texto abaixo segue essa mesma ordem.</p>
+<p class="lead">Esta leitura não ensina a construir modelos. Ela mostra onde a IA já trabalha numa cadeia de suprimentos, o que ela de fato entrega e como ler a promessa de quem a vende. Na aula, seu grupo fará parte de um <b>comitê de investimento</b>. Vai receber a proposta de um fornecedor e terá de recomendar: aprovar ou vetar.</p>
 
 <!-- 1 -->
-<div class="part"><span class="tag">1</span><h2>Uma cena conhecida</h2></div>
+<div class="part"><span class="tag">1</span><h2>Três propostas na mesma semana</h2></div>
 
 <div class="ex">
-  <div class="h">Vinheta <b>· Distribuidora Atlântica</b> <span class="fict">CASO FICTÍCIO</span></div>
+  <div class="h">Vinheta <b>· Rede Horizonte</b> <span class="fict">CASO FICTÍCIO</span></div>
   <div class="b">
-    <p>A Distribuidora Atlântica entrega medicamentos e materiais a 180 hospitais e clínicas do estado do Rio. O indicador que tira o sono da diretoria é a <b>ruptura</b>: em 9% dos pedidos falta pelo menos um item. Os compradores trabalham com planilhas e com a memória de quem está há vinte anos na casa.</p>
-    <p>Um fornecedor apresenta um módulo de previsão de demanda “com inteligência artificial”. A demonstração é bonita. O erro de previsão cai pela metade nos dados de teste. O contrato é assinado em março.</p>
-    <p>Seis meses depois, o erro médio de previsão de fato caiu. A ruptura, não. Ao investigar, a equipe descobre três coisas. Primeiro, os compradores continuam ajustando a previsão “por segurança”, quase sempre para cima — e o estoque sobe sem que a falta diminua. Segundo, o modelo foi ajustado para acertar a média de todos os itens; acerta muito bem a soro fisiológico e erra justamente os itens de UTI, que vendem pouco e não podem faltar. Terceiro, o sistema aprende com as <b>vendas</b> registradas. Quando o item falta, a venda não acontece — e o modelo conclui que a demanda caiu.</p>
-    <p>Ninguém mentiu. O software funciona. O que faltou foi responder, por escrito, a perguntas que não são técnicas: <i>que decisão isso vai apoiar? Que número deve perseguir? O que ele enxerga no lugar da demanda real?</i></p>
+    <p>Marina é diretora de supply chain da Rede Horizonte, uma rede de farmácias com 240 lojas. Na mesma semana, três fornecedores pedem uma reunião.</p>
+    <ul>
+      <li>O primeiro vende previsão de demanda. O slide principal diz: <b>“92% de acurácia”</b>.</li>
+      <li>O segundo vende reabastecimento automático das lojas. Promete <b>“até 30% menos perdas”</b> por vencimento.</li>
+      <li>O terceiro vende um agente que <b>negocia sozinho</b> com centenas de pequenos fornecedores, sem comprador no meio.</li>
+    </ul>
+    <p>Os três têm casos de clientes, logotipos conhecidos e demonstrações impressionantes. Marina terá trinta minutos no comitê de investimento para recomendar um, dois, três ou nenhum.</p>
+    <p>Ela não precisa saber como os modelos funcionam por dentro. Precisa saber <i>onde</i> cada solução entra na operação, <i>quem</i> mediu cada número e <i>o que</i> pode dar errado depois da assinatura.</p>
   </div>
 </div>
 
-<p>Guarde esta cena. Cada seção a seguir volta a ela.</p>
+<p>Os números e empresas desta vinheta são inventados. As perguntas de Marina, não. São as mesmas que o seu grupo vai responder na aula.</p>
 
 <!-- 2 -->
-<div class="part"><span class="tag">2</span><h2>O que a IA faz, de fato, numa operação</h2></div>
+<div class="part"><span class="tag">2</span><h2>A curva que todo diretor de operações conhece</h2></div>
 
-<p>Uma forma útil de pensar a IA vem de três economistas, Agrawal, Gans e Goldfarb (2018). A ideia central é simples: <b>a IA torna a predição barata</b>. Predição, aqui, é usar dados que você tem para estimar algo que você não tem. Quanto vamos vender na semana que vem. Qual máquina deve quebrar primeiro. Qual nota fiscal parece errada.</p>
+<p>Toda operação vive um conflito antigo: <b>custo contra nível de serviço</b>. Nível de serviço é a chance de o cliente encontrar o que quer, no prazo. Para subir esse número, a empresa precisa de mais estoque, mais capacidade ou mais transporte. Tudo isso custa.</p>
 
-<p>Toda decisão tem dois ingredientes: predição e julgamento. Julgamento é saber o que importa e quanto custa errar para cada lado. A IA leva a predição para a máquina, mas o julgamento continua com a organização. Nas palavras de Gans, a predição é “transferida para a máquina e separada do julgamento” (tradução livre).</p>
+<p>O custo não sobe de forma linear. Sair de 90% para 95% de disponibilidade custa um tanto. Sair de 98% para 99% costuma custar muito mais. A incerteza da demanda obriga a guardar estoque “para o caso de”. Quanto mais perto de 100%, mais caro fica cada ponto.</p>
 
-<div class="quote">Predição mais barata só gera benefício quando outras atividades também mudam.<br><span class="src">Gans, entrevista ao IESE Insight, sobre Agrawal, Gans &amp; Goldfarb (paráfrase)</span></div>
+<div class="fig">
+<svg viewBox="0 0 520 250" role="img" aria-label="Curva de trade-off entre custo e nível de serviço, com dois movimentos possíveis">
+  <rect x="0" y="0" width="520" height="250" fill="#fff"/>
+  <line x1="60" y1="215" x2="500" y2="215" stroke="#0a1628" stroke-width="2"/>
+  <line x1="60" y1="215" x2="60" y2="15" stroke="#0a1628" stroke-width="2"/>
+  <text x="280" y="242" font-family="Carlito,Calibri,sans-serif" font-size="14" fill="#0a1628" text-anchor="middle">Nível de serviço →</text>
+  <text x="22" y="115" font-family="Carlito,Calibri,sans-serif" font-size="14" fill="#0a1628" text-anchor="middle" transform="rotate(-90 22 115)">Custo total →</text>
+  <path d="M80,190 C230,180 350,160 410,110 C440,82 455,55 462,25" fill="none" stroke="#0a1628" stroke-width="3"/>
+  <path d="M80,205 C240,198 370,185 430,145 C460,122 476,92 484,55" fill="none" stroke="#7a5f12" stroke-width="3" stroke-dasharray="8 6"/>
+  <circle cx="300" cy="170" r="6" fill="#0a1628"/>
+  <text x="290" y="160" font-family="Carlito,Calibri,sans-serif" font-size="13" fill="#0a1628" text-anchor="end" font-weight="bold">Empresa hoje</text>
+  <path d="M310,166 C350,155 375,140 392,124" fill="none" stroke="#8f1d21" stroke-width="2.2" marker-end="url(#ar)"/>
+  <text x="340" y="118" font-family="Carlito,Calibri,sans-serif" font-size="13" fill="#8f1d21" font-weight="bold">A · mover-se sobre a curva</text>
+  <path d="M302,178 L322,191" fill="none" stroke="#7a5f12" stroke-width="2.2" marker-end="url(#ag)"/>
+  <text x="250" y="210" font-family="Carlito,Calibri,sans-serif" font-size="13" fill="#7a5f12" font-weight="bold">B · deslocar a fronteira?</text>
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8f1d21"/></marker>
+    <marker id="ag" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#7a5f12"/></marker>
+  </defs>
+</svg>
+<div class="cap"><b>Figura 1.</b> Linha cheia: a melhor combinação de custo e serviço que a empresa consegue hoje. <b>A</b>: mais serviço, pagando mais. <b>B</b>: o mesmo serviço por menos (ou mais serviço pelo mesmo custo) — a fronteira inteira se desloca. Esquema ilustrativo, sem escala.</div>
+</div>
 
-<p>É aqui que muitos projetos travam. Comprar uma previsão melhor é fácil. Mudar quem decide, com que regra e em que momento do processo é difícil. Os autores observam que soluções isoladas, como uma previsão de demanda, já funcionam. As mudanças que exigem redesenhar várias atividades ligadas — reposição automática, novo rito de planejamento — ainda são raras.</p>
+<p>A linha cheia é a <b>fronteira</b> da empresa: o melhor que ela consegue com os processos, dados e pessoas que tem hoje. Há dois movimentos possíveis. No movimento <b>A</b>, a empresa escolhe outro ponto da mesma curva: compra mais serviço com mais estoque. Isso não exige tecnologia nova, só orçamento. No movimento <b>B</b>, a curva inteira desce. A empresa entrega o mesmo serviço gastando menos. Para isso, algo de fato mudou: menos incerteza, decisões mais rápidas, menos desperdício.</p>
 
-<p>Thomas Davenport já dizia algo parecido em 2006, antes da onda atual. No artigo “Competing on Analytics”, ele descreve empresas que fizeram da análise de dados uma forma de competir. O ponto que nos interessa: nessas empresas, usar dados para decidir foi uma <b>decisão da organização</b>, sustentada pela liderança — não a compra de uma ferramenta por um departamento.</p>
-
-<p>Os números recentes mostram a distância entre usar e ganhar. Na pesquisa global da McKinsey de 2025, <b>88%</b> dos respondentes dizem que suas organizações usam IA com regularidade em pelo menos uma função. Só cerca de <b>6%</b> se enquadram como “alto desempenho”: impacto relevante no resultado operacional. Esses poucos têm quase três vezes mais chance de ter redesenhado seus fluxos de trabalho. Atenção: são respostas dos próprios executivos, não resultados auditados. Mesmo assim, a mensagem é clara. Usar IA virou comum. Transformar IA em resultado, não.</p>
+<p>Esta é a primeira pergunta da aula. Quando um fornecedor promete “mais disponibilidade e menos perdas” ao mesmo tempo, ele está prometendo o movimento B. <b>A IA desloca a fronteira, ou só ajuda a empresa a escolher outro ponto dela?</b> Não há resposta pronta. A leitura dá ferramentas para o seu grupo examinar cada caso.</p>
 
 <!-- 3 -->
-<div class="part"><span class="tag">3</span><h2>Anatomia de uma solução: decisão primeiro, modelo depois</h2></div>
+<div class="part"><span class="tag">3</span><h2>O que a IA faz: prever, julgar, agir</h2></div>
 
-<p>A pergunta errada é “que IA podemos usar?”. A pergunta certa começa pelo número de gestão que está ruim e pela decisão que mexe nesse número. Só depois vem o modelo. O Canvas da Sessão 1 segue essa ordem.</p>
+<p>Três economistas de Toronto, Agrawal, Gans e Goldfarb (2018), deram uma resposta simples à pergunta “o que a IA faz?”. Ela torna a <b>previsão</b> barata. Previsão, aqui, é usar dados que você tem para estimar algo que você não tem. Quanto vamos vender na semana que vem. Qual máquina deve falhar primeiro. Quando o caminhão vai chegar.</p>
+
+<p>Toda decisão tem dois ingredientes: previsão e <b>julgamento</b>. Julgamento é saber o que importa e quanto custa errar para cada lado. Faltar um remédio custa mais do que sobrar uma caixa? Depende do remédio. Com a IA, a previsão passa para a máquina e se separa do julgamento. O julgamento continua com a organização. Depois vem a <b>ação</b>: alguém faz o pedido, muda a rota, para a máquina.</p>
 
 <div class="flow">
-  <div><b>1 · Número ruim</b>Ruptura de 9%</div>
-  <div><b>2 · Decisão</b>Quanto comprar de cada item</div>
-  <div><b>3 · Quem e quando</b>Comprador, toda segunda</div>
-  <div><b>4 · Entrega da IA</b>Previsão + alerta de risco</div>
-  <div><b>5 · Ação</b>Pedido ajustado ao fornecedor</div>
+  <div><b>Dados</b>Vendas, estoques, ordens, sensores</div>
+  <div><b>1 · Previsão</b>A máquina estima o que não se sabe</div>
+  <div><b>2 · Julgamento</b>A organização decide o que importa e quanto custa errar</div>
+  <div><b>3 · Ação</b>Alguém (ou algo) executa: pedido, rota, parada</div>
+  <div><b>Resultado</b>Custo, serviço, perdas</div>
 </div>
 
-<h3>Bloco A — Problema e decisão</h3>
-<p>Comece pelo indicador. Seja específico: “ruptura de 9% dos pedidos”, não “melhorar o estoque”. Depois, nomeie a <b>decisão</b> que a IA vai apoiar. Uma decisão tem dono e frequência. Quem decide? Com que frequência? Em que etapa do processo? “O comprador, toda segunda-feira, ao montar o pedido semanal” é uma resposta útil. “A área de suprimentos” não é.</p>
+<p>A consequência prática é forte. Uma previsão melhor só vira resultado se a decisão e a ação mudarem junto. Gans resume: os benefícios da predição “exigem mudanças em outras atividades relacionadas” (tradução livre). Os autores distinguem soluções <b>pontuais</b>, que melhoram uma tarefa isolada, de soluções <b>de sistema</b>, que exigem redesenhar várias atividades ligadas. A previsão de demanda já funciona como solução isolada. A reposição redesenhada de ponta a ponta, segundo eles, ainda é rara: estamos num “meio do caminho”.</p>
 
-<h3>Bloco B — A solução</h3>
-<p>Uma solução de IA entrega uma coisa concreta. Em operações, quase sempre é uma destas cinco:</p>
-
-<table class="d">
-  <tr><th>Entrega</th><th>Exemplo em operações</th><th>Quem recebe e o que faz</th></tr>
-  <tr><td class="k">Previsão</td><td>Demanda de cada item para as próximas 4 semanas</td><td>Comprador define a quantidade do pedido</td></tr>
-  <tr><td class="k">Alerta</td><td>“Esta bomba de infusão tem sinal de falha próxima”</td><td>Engenharia clínica agenda a manutenção</td></tr>
-  <tr><td class="k">Lista priorizada</td><td>Notas fiscais ordenadas por risco de erro</td><td>Analista fiscal confere as 50 primeiras</td></tr>
-  <tr><td class="k">Sugestão</td><td>Rota de entrega proposta para o dia</td><td>Despachante aceita, altera ou recusa</td></tr>
-  <tr><td class="k">Texto</td><td>Resumo de reclamações de clientes da semana</td><td>Gerente de qualidade decide o que investigar</td></tr>
-</table>
-
-<p style="margin-top:2.5mm">Para cada entrega, responda três coisas. <b>De que histórico ela aprende?</b> (vendas, ordens de serviço, notas, chamados). <b>Quem recebe?</b> (uma pessoa com nome de cargo). <b>O que essa pessoa faz</b> de diferente quando recebe? Se ninguém faz nada diferente, não há solução — há um relatório a mais.</p>
-
-<div class="ex">
-  <div class="h">Caso real <b>· Zillow Offers, 2021</b></div>
-  <div class="b">
-    <p>A Zillow, portal imobiliário americano, comprava casas para revender. O preço de compra era apoiado por modelos próprios de precificação. Em novembro de 2021, a empresa encerrou o negócio. Registrou baixa de estoque de cerca de <b>US$ 304 milhões</b> no trimestre, por ter comprado imóveis “a preços acima das estimativas atuais de preço futuro de venda”, e anunciou corte de cerca de 25% do quadro. O CEO resumiu: a imprevisibilidade na previsão de preços “excedeu em muito o que antecipamos” (tradução livre).</p>
-    <p><b>Leitura para o Canvas</b> (nossa, não da empresa): o problema não foi só a qualidade da previsão do modelo de precificação do Zillow Offers. Foi a <b>decisão</b> acoplada a ela — comprar em grande escala — sem uma regra escrita sobre quanta incerteza o balanço aguentava. Decisão primeiro, modelo depois.</p>
-    <p class="src">Fonte: Zillow Group, 8-K e Ex. 99.1, 02/11/2021 (SEC).</p>
-  </div>
-</div>
+<p>Guarde esta cadeia. Na dinâmica, a pergunta “quem age depois da previsão?” vai separar boas propostas de propostas que só entregam um número a mais.</p>
 
 <!-- 4 -->
-<div class="part"><span class="tag">4</span><h2>VCAP: o que você está comprando, afinal?</h2></div>
+<div class="part"><span class="tag">4</span><h2>Maturidade analítica: quatro perguntas e um passo a mais</h2></div>
 
-<p>Ainda no Bloco B, o Canvas pede uma classificação. A solução que vocês desenharam é um <b>ativo</b>, uma <b>mudança de processo</b> ou uma <b>capacidade</b> que fica na empresa? A lente vem do capítulo 1 de <i>Excelência Operacional</i> (Lima, 2026):</p>
-
-<div class="eq">V = C × (A + P)<small>Valor = Capacidade × (Ativos + Processos)</small></div>
+<p>Outra forma de localizar uma solução é perguntar <b>que tipo de pergunta</b> ela responde. Uma escada de quatro degraus é muito usada para isso. Ela é em geral atribuída à consultoria Gartner, que a popularizou. Davenport e Harris, no livro <i>Competing on Analytics</i> (2007), descreveram estágios de maturidade analítica com lógica parecida. Os nomes variam entre autores; a ideia central, não.</p>
 
 <table class="d">
-  <tr><th>Letra</th><th>O que é</th><th>Na Distribuidora Atlântica</th></tr>
-  <tr><td class="n">A</td><td><b>Ativo.</b> Algo que se compra e se instala: software, licença, modelo pronto, equipamento.</td><td>O módulo de previsão de demanda</td></tr>
-  <tr><td class="n">P</td><td><b>Processo.</b> Uma mudança na forma de trabalhar: nova regra, novo rito, novo fluxo.</td><td>Reunião semanal em que o comprador só altera a previsão com justificativa registrada</td></tr>
-  <tr><td class="n">C</td><td><b>Capacidade.</b> O que a empresa sabe fazer e que fica nela quando o fornecedor sai: gente que entende e questiona o modelo, dados bem cuidados, regras de decisão escritas.</td><td>Equipe que sabe ler o erro por família de itens, corrigir o histórico de vendas perdidas e decidir quando não confiar na previsão</td></tr>
+  <tr><th>Degrau</th><th>Pergunta</th><th>Exemplo em supply chain</th><th>Quem decide e age</th></tr>
+  <tr><td class="k">Descritiva</td><td>O que aconteceu?</td><td>Painel de ruptura por loja no mês passado</td><td>Pessoa</td></tr>
+  <tr><td class="k">Diagnóstica</td><td>Por que aconteceu?</td><td>A ruptura veio de atraso do fornecedor ou de pico de demanda?</td><td>Pessoa</td></tr>
+  <tr><td class="k">Preditiva</td><td>O que vai acontecer?</td><td>Demanda de cada item nas próximas quatro semanas</td><td>Pessoa, com apoio</td></tr>
+  <tr><td class="k">Prescritiva</td><td>O que devemos fazer?</td><td>Quantidade de pedido e rota recomendadas</td><td>Pessoa aprova a recomendação</td></tr>
+  <tr><td class="k">Agêntica</td><td>— (o sistema faz)</td><td>O sistema emite o pedido ou fecha o acordo</td><td>Sistema, dentro de regras dadas</td></tr>
 </table>
 
-<p style="margin-top:2.5mm">A fórmula diz duas coisas. Ativos e processos <b>se somam</b> — e ambos podem ser comprados ou copiados. A capacidade <b>multiplica</b>. Se a capacidade é perto de zero, o valor também é, por mais caro que seja o ativo.</p>
+<p style="margin-top:2.5mm">Dois pontos importam para o comitê. Primeiro, a maior parte do que se chama “IA” em operações está no degrau <b>preditivo</b>. As revisões de literatura chegam a classificar os estudos por esse nível de análise (Riahi et al., 2021). Segundo, os resultados mais bem documentados no degrau <b>prescritivo</b> vêm, quase sempre, de <b>otimização</b> — matemática de pesquisa operacional que calcula a melhor decisão dadas as regras. O aprendizado de máquina entra, quando entra, como insumo de previsão. É o caso da Zara, da UPS e da ECCO, que veremos adiante.</p>
 
-<p>Agora o ponto prático. A IA que se compra é quase sempre <b>A</b>. Às vezes vem com um pouco de <b>P</b> (o fornecedor ajuda a redesenhar o fluxo). Raramente é <b>C</b>. A pesquisa econômica aponta na mesma direção: o retorno de tecnologias de uso geral depende de investimentos complementares, muitas vezes invisíveis no balanço, que cada empresa precisa construir (Tambe et al., 2020).</p>
-
-<div class="warn"><b>Erro clássico:</b> pagar por A e contabilizar como C. A diretoria acredita que “agora a empresa tem IA”. Na verdade, tem uma licença. Quando o mundo muda, ninguém de dentro sabe ajustar.</div>
+<p>A última linha da tabela é a novidade. Na IA <b>agêntica</b>, o sistema não só recomenda: ele age. A pergunta deixa de ser “o que fazer?” e passa a ser “o que deixamos o sistema fazer sozinho?”. Voltamos a ela na seção 7.</p>
 
 <!-- 5 -->
-<div class="part"><span class="tag">5</span><h2>Os três pilares: as premissas que ninguém escreve</h2></div>
+<div class="part"><span class="tag">5</span><h2>Onde a IA entra: um mapa pelos processos SCOR</h2></div>
 
-<p>Michael Schrage e David Kiron publicaram em 2025 um ensaio na <i>MIT Sloan Management Review</i> com um título provocador: “Philosophy Eats AI” — a filosofia come a IA. A tese: o valor de um sistema de IA depende de escolhas que parecem abstratas, mas são muito concretas. Para que o sistema serve. O que ele considera conhecimento. Como ele representa a realidade. Essas escolhas existem em todo sistema. Se a empresa não as faz, elas vêm prontas do fornecedor — ou do acaso.</p>
+<p>O modelo SCOR organiza a cadeia em seis processos: <b>Planejar, Suprir (Comprar), Produzir, Entregar, Retornar e Habilitar</b>. Habilitar reúne o que sustenta os demais: dados, pessoas, regras, sistemas. A tabela mostra o que já existe em cada processo e o que costuma faltar quando se procura evidência de resultado.</p>
 
-<p>Os autores usam três palavras da filosofia. Não se assuste com elas. Cada uma vira uma pergunta simples de gestão. É um ensaio de praticantes, não um estudo com dados — use-o como lente, não como prova.</p>
+<table class="d scor">
+  <tr><th>Processo</th><th>Exemplos de aplicação</th><th>Decisão que apoia</th><th>O que costuma faltar</th></tr>
+  <tr><td class="k">Planejar</td><td>Previsão de demanda; S&amp;OP; estoque de segurança</td><td>Quanto produzir e estocar, por item e período</td><td>Ligar a acurácia a custo e serviço. A maior competição de previsão (M5) não fez essa ligação</td></tr>
+  <tr><td class="k">Suprir</td><td>Reposição automática; classificação de gastos; risco de fornecedor; negociação automatizada</td><td>Quando pedir, quanto, de quem e em que condições</td><td>Comparador: o que um comprador humano teria obtido. Risco de fornecedor sem estudo independente</td></tr>
+  <tr><td class="k">Produzir</td><td>Manutenção preditiva; inspeção visual; programação da produção</td><td>Quando parar a máquina; aprovar ou rejeitar a peça</td><td>Resultado medido em planta real (parada, OEE). Falsos alarmes acima dos do piloto</td></tr>
+  <tr><td class="k">Entregar</td><td>Roteirização; previsão de horário de chegada; torre de controle; robôs de armazém</td><td>Qual rota; que prazo prometer ao cliente</td><td>Evidência independente para torres de controle. Números de armazém são do próprio fabricante</td></tr>
+  <tr><td class="k">Retornar</td><td>Logística reversa; triagem de devoluções</td><td>O que reaproveitar, revender ou descartar</td><td>Quase tudo: é processo periférico na literatura</td></tr>
+  <tr><td class="k">Habilitar</td><td>Escalas de trabalho; assistentes de IA generativa; qualidade de dados</td><td>Quantas pessoas por turno; que informação chega a quem</td><td>Resultado com comparador. IA generativa sem estudo revisado por pares com resultado</td></tr>
+</table>
 
-<div class="pillar">
-  <div class="ph"><b>Teleologia</b><span>para quê?</span></div>
-  <div class="pb2">
-    <p><b>O que é:</b> o objetivo que o sistema persegue. Todo modelo é ajustado para melhorar algum número. A questão é se esse número é o que a organização quer.</p>
-    <p><b>Exemplo:</b> na Distribuidora Atlântica, o modelo foi ajustado para reduzir o erro médio de todos os itens. A diretoria queria zero falta nos itens de UTI. Os dois objetivos brigam: o modelo acerta muito o item que vende muito e pouco o item raro e crítico.</p>
-  </div>
-  <div class="ask"><b>Pergunte:</b> que número o sistema persegue? Quando dois objetivos entram em conflito — custo × nível de serviço, velocidade × segurança — qual ganha, e quem decidiu isso?</div>
-</div>
+<p style="margin-top:2.5mm">Três padrões aparecem quando se lê o mapa com cuidado.</p>
 
-<div class="pillar">
-  <div class="ph"><b>Epistemologia</b><span>o que conta como saber?</span></div>
-  <div class="pb2">
-    <p><b>O que é:</b> o que o sistema trata como conhecimento. Um modelo aprendido de dados “sabe” o que o passado mostrou. Ele não sabe, sozinho, quando o passado deixou de valer.</p>
-    <p><b>Exemplo real:</b> a Instacart, de entregas de supermercado nos EUA, tinha um modelo que estimava se um produto estaria na gôndola. Em março de 2020, com a pandemia, a acurácia medida caiu de <b>93% para 61%</b>. Os dados de treino não refletiam a nova realidade de estoques esvaziados. A correção foi de processo: treinar com dados de até dez dias, em vez de semanas, e recalcular a cada hora (Fortune, 2020).</p>
-  </div>
-  <div class="ask"><b>Pergunte:</b> o que conta como “saber” para este sistema? Ele avisa quando não sabe? Que evento invalida os dados dele — uma pandemia, uma greve, um novo concorrente, uma mudança de tabela?</div>
-</div>
+<p><b>A evidência está concentrada.</b> A revisão sistemática mais rigorosa disponível (Culot, Podrecca &amp; Nassimbeni, 2024) partiu de 3.173 artigos e reteve 123 estudos com dados reais. Produzir e Habilitar são os processos mais estudados. Planejar e Suprir vêm depois. Entregar e Retornar são periféricos. Mesmo nesses 123 estudos, os benefícios são, na maior parte, “expectativas ou resultados percebidos”.</p>
 
-<div class="pillar">
-  <div class="ph"><b>Ontologia</b><span>o que ele enxerga?</span></div>
-  <div class="pb2">
-    <p><b>O que é:</b> como o sistema representa a realidade. Nenhum sistema vê a coisa que importa. Ele vê um <b>substituto</b> registrado em algum banco de dados.</p>
-    <p><b>Exemplo:</b> na Distribuidora Atlântica, o modelo recebe “vendas” no lugar de “demanda”. Quando falta o item, a venda some e a demanda parece cair. Outro caso comum <span class="fict">ILUSTRATIVO</span>: um sistema que prioriza manutenção a partir de ordens de serviço abertas. Ele não vê os defeitos que o operador resolve no improviso e nunca registra.</p>
-  </div>
-  <div class="ask"><b>Pergunte:</b> o que o sistema recebe no lugar do que realmente importa? O que ele não consegue ver? Quem revisa essa representação, e com que frequência?</div>
-</div>
+<p><b>O ganho auditado vem da otimização.</b> Onde um júri independente examinou os números — o Prêmio Edelman, da INFORMS —, os ganhos são modestos e a técnica central é otimização. A Zara aumentou vendas em cerca de 3–4%, medidos por experimento de campo controlado. A ECCO automatizou cerca de 300 mil ordens de reabastecimento por mês e reduziu custos operacionais-chave em 1,09%. O ORION, da UPS, economiza de US$ 300 a 400 milhões por ano em rotas. Nenhum desses é “IA” no sentido popular do termo.</p>
+
+<p><b>Os números grandes vêm de quem vende.</b> “–30% de gôndolas vazias”, “acurácia 15 vezes maior”, “–40% de paradas”: cifras desse tamanho aparecem em material de fornecedores ou das próprias empresas, sem grupo de comparação. Não quer dizer que sejam falsas. Quer dizer que ninguém de fora as conferiu. Uma regra prática do seminário: quanto mais “IA” no nome do produto e menos “otimização” na descrição técnica, menor a chance de existir resultado auditado.</p>
 
 <!-- 6 -->
-<div class="part"><span class="tag">6</span><h2>Dívida filosófica</h2></div>
+<div class="part"><span class="tag">6</span><h2>Como ler a promessa de um fornecedor</h2></div>
 
-<p>Todo gestor conhece a dívida técnica: atalhos de hoje que viram custo amanhã. Engenheiros do Google mostraram que, em sistemas de aprendizado de máquina, essa dívida “se acumula silenciosamente” (Sculley et al., 2015). O sistema parece funcionar enquanto os problemas crescem por baixo.</p>
+<p>Um número de fornecedor não é mentira nem verdade. É uma <b>afirmação</b> que precisa de contexto. Quatro perguntas dão esse contexto. Cada uma vem com um padrão verificado na literatura.</p>
 
-<p>A <b>dívida filosófica</b> é a versão gerencial desse fenômeno. O termo é do capítulo 5 de <i>Excelência Operacional</i> (Lima, 2026), inspirado em Schrage &amp; Kiron — não é expressão desses autores. Ela é o que se acumula quando as premissas dos três pilares não são escritas.</p>
-
-<div class="quote">Premissa não escrita é premissa que ninguém audita.</div>
-
-<p>Na Distribuidora Atlântica, ninguém escreveu que o objetivo era o erro médio (teleologia), que o histórico de vendas não registra a falta (ontologia), nem que um surto de dengue mudaria o padrão de consumo (epistemologia). Cada omissão parecia pequena. Juntas, explicam por que a ruptura não caiu. E, como nada estava escrito, ninguém tinha como cobrar, revisar ou corrigir.</p>
-
-<div style="break-inside:avoid"><p>Sinais de que uma solução já carrega dívida filosófica:</p>
-<ul class="sig">
-  <li>Ninguém sabe dizer, em uma frase, que número o sistema otimiza.</li>
-  <li>O indicador do modelo melhora e o indicador do negócio não.</li>
-  <li>Os usuários “corrigem” a saída por conta própria, sem registro.</li>
-  <li>Não existe uma lista de eventos que obrigam a revisar o modelo.</li>
-  <li>A única pessoa que entende as premissas é o consultor do fornecedor.</li>
-</ul></div>
-
-<p>O Bloco C do Canvas existe para pagar essa dívida antes de ela começar: escrever as premissas enquanto ainda é barato.</p>
-
-<!-- 7 -->
-<div class="part"><span class="tag">7</span><h2>Para levar à Sessão 1</h2></div>
-
-<p>Antes da aula, pense em <b>um problema real</b> da sua área — finanças, pessoas, saúde, engenharia, setor público. Não precisa ter dados nem conhecer tecnologia. Se faltar informação, o coach vai sugerir dados hipotéticos, sempre sinalizados como didáticos. Use a lista abaixo como roteiro.</p>
-
-<div class="check">
-  <div class="h">Canvas <b>· Blocos A–C</b> · checklist de preparação</div>
-  <div class="blk"><div class="t">A · Problema e decisão</div>
-    <ul>
-      <li>Qual número de gestão está ruim? (com valor atual, se souber)</li>
-      <li>Que decisão a IA vai apoiar? Quem decide e com que frequência?</li>
-      <li>Em que etapa do processo essa decisão acontece?</li>
-    </ul></div>
-  <div class="blk"><div class="t">B · Solução</div>
-    <ul>
-      <li>O que ela entrega: previsão, alerta, lista priorizada, sugestão ou texto?</li>
-      <li>De que histórico ela aprende?</li>
-      <li>Quem recebe a entrega e o que passa a fazer de diferente?</li>
-      <li>VCAP: é ativo (A), mudança de processo (P) ou capacidade que fica na empresa (C)? O que precisaria existir para virar C?</li>
-    </ul></div>
-  <div class="blk"><div class="t">C · Pilares filosóficos</div>
-    <ul>
-      <li><b>Teleologia:</b> que número o sistema persegue? Em conflito, qual objetivo ganha?</li>
-      <li><b>Epistemologia:</b> o que conta como saber? Ele sabe quando não sabe? Que evento invalida os dados?</li>
-      <li><b>Ontologia:</b> o que ele recebe no lugar do que importa? O que não vê? Quem revisa?</li>
-      <li>Qual destas premissas, se ficar sem escrever, vira a maior dívida filosófica?</li>
-    </ul></div>
+<div class="qbox">
+  <div class="k">Pergunta 1</div>
+  <h3>Quem mediu?</h3>
+  <p>A empresa que vende? A empresa cliente? Um terceiro independente? O caso mais citado de negociação por IA é o da Walmart com a Pactum (HBR, 2022). No piloto, 64% dos fornecedores fecharam acordo, contra meta de 20%, com economia média de 1,5%. Mais tarde, a empresa reportou 68% e cerca de 3%. Os números são reais, mas <span class="tagv auto">auto-reportados</span>: o artigo tem coautores da própria Walmart. Compare com a ECCO (–1,09% em custos), <span class="tagv ind">auditada</span> pelo júri do Edelman. O número menor é o mais confiável.</p>
 </div>
 
+<div class="qbox">
+  <div class="k">Pergunta 2</div>
+  <h3>Em que nível de detalhe — e em que época?</h3>
+  <p>Na competição M5, com dados reais da Walmart, o método vencedor foi 22,4% mais preciso que o melhor método estatístico tradicional, na média de todos os níveis. No total da empresa, a vantagem passou de 40%. Mas no nível em que o reabastecimento acontece — <b>cada produto, em cada loja</b> — caiu para cerca de 3% (Makridakis et al., 2022). Um “92% de acurácia” pode ser medido no total da rede, onde os erros se compensam. A loja vive no detalhe.</p>
+  <p>A época também conta. O modelo da Instacart que estimava se um item estaria na prateleira tinha acurácia medida de 93%. Em março de 2020, com a pandemia, caiu para 61%. Os dados de treino “não levavam em conta a nova realidade” (Fortune, 2020). A métrica valia para um mundo que deixou de existir.</p>
+</div>
+
+<div class="qbox">
+  <div class="k">Pergunta 3</div>
+  <h3>Comparou contra o quê?</h3>
+  <p>“30% menos perdas” em relação a quê? Ao ano anterior, que pode ter sido atípico? A uma planilha mal feita? A um bom método simples? Na M5, só <b>7,5%</b> das 5.507 equipes bateram uma suavização exponencial bem configurada — um método estatístico clássico e barato. No caso Walmart–Pactum, o comparador foi uma meta, não um grupo de fornecedores negociado por pessoas no mesmo período. O ganho mais defensável é de <b>cobertura</b>: contratos pequenos que antes ninguém negociava passaram a ser negociados.</p>
+</div>
+
+<div class="qbox">
+  <div class="k">Pergunta 4</div>
+  <h3>Quem age depois da previsão?</h3>
+  <p>Volte à cadeia da seção 3. Davenport e Ronanki (2018) estudaram 152 projetos e ouviram 250 executivos. O obstáculo número um foi <b>integrar a IA aos processos e sistemas existentes</b>, citado por 47%. Em quatro empresas de supply chain, com mais de 60 mil previsões, os planejadores ajustavam a previsão do sistema; ajustes pequenos e ajustes para cima tendiam a piorá-la (Fildes et al., 2009). E o modelo de precificação do Zillow Offers alimentava compras de casas em grande escala. Em 2021, a empresa encerrou a operação e registrou baixa de estoque de cerca de US$ 304 milhões (Zillow, 8-K). O problema não estava só na previsão. Estava na decisão acoplada a ela.</p>
+</div>
+
+<p>Na Sessão 3, essas quatro perguntas se organizam numa escada de evidência completa. Por enquanto, elas bastam para o comitê.</p>
+
+<!-- 7 -->
+<div class="part"><span class="tag">7</span><h2>Supply chain agêntica: do apoio à decisão à delegação</h2></div>
+
+<p>Até aqui, a IA entregava algo a uma pessoa: uma previsão, um alerta, uma recomendação. A pessoa decidia. A próxima fronteira é diferente. Na IA <b>agêntica</b>, o sistema recebe um objetivo e regras e <b>executa</b>: emite o pedido, reprograma a entrega, fecha o acordo.</p>
+
+<p>Isso já existe em formas simples. O reabastecimento automático da ECCO emite cerca de 300 mil ordens por mês sem que alguém aprove cada uma. O agente da Pactum negocia com milhares de fornecedores ao mesmo tempo. Vale notar: ele não “inventa” a negociação. Segue uma <b>função de valor</b> e limites de troca definidos pelo comprador — e é anterior aos grandes modelos de linguagem atuais. Os resultados da Walmart com ele são <span class="tagv auto">auto-reportados</span>.</p>
+
+<p>Christian Hendriksen (2023) propôs uma forma útil de ver essa transição. Ele cruza dois eixos. Um é o alcance: a IA atua em parte da cadeia ou na cadeia toda? O outro é o papel: a IA <b>assiste</b> a decisão humana ou decide de forma <b>autônoma</b>? A maioria das empresas está no canto “parcial e assistiva”. Os fornecedores de IA agêntica vendem o canto oposto. O autor alerta para o risco de delegar demais e para um efeito chicote da IA: empresas que confiam na mesma análise falha propagam o mesmo erro.</p>
+
+<p>A adoção ainda é pequena. Na pesquisa global da McKinsey de 2025, 23% dos respondentes dizem escalar agentes de IA em algum lugar da empresa, mas em nenhuma função mais de 10% o fazem. São respostas dos próprios executivos, não dados auditados. Mesmo onde há resultado auditado com IA generativa — o sistema de planejamento da Microsoft premiado no Edelman 2026 —, o modelo de linguagem é a camada que explica e simula cenários. Quem decide é um otimizador com regras escritas por pessoas.</p>
+
+<p>Repare no que muda quando o sistema age. Na decisão assistida, o julgamento humano entra a cada ciclo: o comprador olha a previsão e decide. Na delegação, o julgamento entra uma vez, no começo, embutido nas regras e no objetivo que alguém configurou. Depois, o sistema persegue esse objetivo milhares de vezes por dia, sem perguntar de novo.</p>
+
+<div class="keep"><div class="big">Quando a IA age sozinha,<br>quem disse a ela o que querer?</div>
+
+<p style="text-align:center;color:var(--ink2);font-size:10pt">Esta é a pergunta que abre a Sessão 2.</p></div>
+
 <!-- 8 -->
+<div class="part"><span class="tag">8</span><h2>Para o comitê</h2></div>
+
+<p>Na aula, cada grupo recebe a proposta de um fornecedor. Use o mapa conceitual do seminário para montar um parecer com <b>quatro achados</b>. Depois, o grupo vota.</p>
+
+<div class="check">
+  <div class="h">Comitê de investimento <b>· parecer em 4 achados</b></div>
+  <div class="blk"><div class="t">Achado 1 · Onde entra no SCOR</div>
+    <ul>
+      <li>Em que processo a solução atua: Planejar, Suprir, Produzir, Entregar, Retornar ou Habilitar?</li>
+      <li>Que decisão ela apoia (ou toma)? Em que degrau: preditiva, prescritiva ou agêntica?</li>
+    </ul></div>
+  <div class="blk"><div class="t">Achado 2 · Quem mediu a promessa</div>
+    <ul>
+      <li>O número vem do fornecedor, do cliente ou de um terceiro independente?</li>
+      <li>Em que nível de detalhe, em que época e contra que comparador foi medido?</li>
+    </ul></div>
+  <div class="blk"><div class="t">Achado 3 · Que mecanismo de falha a ameaça</div>
+    <ul>
+      <li>Qual mecanismo do mapa é o mais provável: deriva de dados, override humano, integração ao fluxo, proxy no lugar do objetivo, percepção diferente da medida?</li>
+      <li>Quem age depois da previsão — e o que acontece se essa pessoa não confiar no sistema?</li>
+    </ul></div>
+  <div class="blk"><div class="t">Achado 4 · Qual o contraponto auditado</div>
+    <ul>
+      <li>Existe caso independente parecido (Edelman, estudo revisado por pares, regulador)? Que ordem de grandeza ele mostra?</li>
+      <li>A distância entre a promessa e o contraponto é explicável?</li>
+    </ul></div>
+  <div class="blk"><div class="t">Voto</div>
+    <ul>
+      <li><b>Aprovar</b> (com que condição?) ou <b>vetar</b> (o que faria o grupo mudar de ideia?).</li>
+    </ul></div>
+  <div class="link">Mapa conceitual do seminário: <a href="https://tflsixsigma-png.github.io/IA-em-Opera-es-e-Supply-Chain_Prof-Thiago-Lima/mapa/">tflsixsigma-png.github.io/IA-em-Opera-es-e-Supply-Chain_Prof-Thiago-Lima/mapa/</a></div>
+</div>
+
+<!-- 9 -->
 <div class="part"><span class="tag">Ref.</span><h2>Referências</h2></div>
 <div class="refs">
   <p>Agrawal, A., Gans, J., &amp; Goldfarb, A. (2018). <i>Prediction Machines: The Simple Economics of Artificial Intelligence</i>. Harvard Business Review Press. Ideias citadas via entrevista de J. Gans ao IESE Insight: <a href="https://www.iese.edu/insight/articles/artificial-intelligence-between-promise-and-adoption-joshua-gans">iese.edu/insight/articles/artificial-intelligence-between-promise-and-adoption-joshua-gans</a></p>
-  <p>Davenport, T. H. (2006). Competing on analytics. <i>Harvard Business Review</i>, 84(1), 98–107. <a href="https://hbr.org/2006/01/competing-on-analytics">hbr.org/2006/01/competing-on-analytics</a></p>
+  <p>Caro, F., Gallien, J., et al. (2010). Zara uses operations research to reengineer its global distribution process. <i>Interfaces</i>, 40(1), 71–84. <a href="https://econpapers.repec.org/RePEc:inm:orinte:v:40:y:2010:i:1:p:71-84">econpapers.repec.org/RePEc:inm:orinte:v:40:y:2010:i:1:p:71-84</a></p>
+  <p>Culot, G., Podrecca, M., &amp; Nassimbeni, G. (2024). Artificial intelligence in supply chain management: A systematic literature review of empirical studies and research directions. <i>Computers in Industry</i>, 162, 104132. <a href="https://aisberg.unibg.it/bitstream/10446/276769/1/Culot%20et%20al.%2c%202024%20-%20CII.pdf">aisberg.unibg.it/bitstream/10446/276769/1/Culot et al., 2024 - CII.pdf</a></p>
+  <p>Davenport, T. H., &amp; Ronanki, R. (2018). Artificial intelligence for the real world. <i>Harvard Business Review</i>, jan.–fev. 2018. <a href="https://www.deloitte.com/content/dam/Deloitte/us/Documents/deloitte-analytics/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf">deloitte.com/…/us-deloitte-analytics-hbr-ai-for-the-real-world.pdf</a></p>
+  <p>Fildes, R., Goodwin, P., Lawrence, M., &amp; Nikolopoulos, K. (2009). Effective forecasting and judgmental adjustments: an empirical evaluation and strategies for improvement in supply chain planning. <i>International Journal of Forecasting</i>, 25(1), 3–23. <a href="https://econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23">econpapers.repec.org/RePEc:eee:intfor:v:25:y:2009:i:1:p:3-23</a></p>
   <p>Fortune. (2020, 9 de junho). Reportagem sobre a queda de acurácia dos modelos da Instacart na pandemia. <a href="https://fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence">fortune.com/2020/06/09/instacart-coronavirus-artificial-intelligence</a></p>
-  <p>Lima, T. F. (2026). <i>Excelência Operacional</i>. Cap. 1 (VCAP: V = C × (A + P)) e cap. 5 (dívida filosófica).</p>
+  <p>Hendriksen, C. (2023). Artificial intelligence for supply chain management: Disruptive innovation or innovative disruption? <i>Journal of Supply Chain Management</i>, 59(3), 65–76. <a href="https://research-api.cbs.dk/ws/portalfiles/portal/94384084/christian_hendriksen_ai_for_supply_chain_management_publishersversion.pdf">research-api.cbs.dk/…/christian_hendriksen_ai_for_supply_chain_management_publishersversion.pdf</a></p>
+  <p>INFORMS. (2016). UPS On-Road Integrated Optimization and Navigation (ORION) — Edelman 2016. <a href="https://www.informs.org/Impact/O.R.-Analytics-Success-Stories/UPS-On-Road-Integrated-Optimization-and-Navigation-ORION-Project">informs.org/Impact/O.R.-Analytics-Success-Stories/UPS-On-Road-Integrated-Optimization-and-Navigation-ORION-Project</a></p>
+  <p>INFORMS. (2026). INFORMS names six finalists for the 2026 Franz Edelman Award (ECCO). <a href="https://www.informs.org/News-Room/INFORMS-Releases/Awards-Releases/INFORMS-Names-Six-Finalists-for-the-2026-Franz-Edelman-Award-the-World-s-Leading-Honor-in-Analytics-Operations-Research-and-Management-Science">informs.org/News-Room/…/INFORMS-Names-Six-Finalists-for-the-2026-Franz-Edelman-Award…</a></p>
+  <p>INFORMS. (2026). Microsoft awarded the 2026 INFORMS Edelman Award. <a href="https://www.informs.org/News-Room/INFORMS-Releases/Awards-Releases/Microsoft-Awarded-the-2026-INFORMS-Edelman-Award-for-Cloud-Supply-Chain-Optimization-and-Generative-AI-Innovation">informs.org/News-Room/…/Microsoft-Awarded-the-2026-INFORMS-Edelman-Award…</a></p>
+  <p>Makridakis, S., Spiliotis, E., &amp; Assimakopoulos, V. (2022). M5 accuracy competition: Results, findings, and conclusions. <i>International Journal of Forecasting</i>, 38(4), 1346–1364. <a href="https://econpapers.repec.org/RePEc:eee:intfor:v:38:y:2022:i:4:p:1346-1364">econpapers.repec.org/RePEc:eee:intfor:v:38:y:2022:i:4:p:1346-1364</a></p>
   <p>McKinsey &amp; Company. (2025). <i>The state of AI in 2025</i>. Pesquisa global, dados auto-relatados. <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-2025">mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-2025</a></p>
-  <p>Schrage, M., &amp; Kiron, D. (2025). Philosophy eats AI. <i>MIT Sloan Management Review</i>. <a href="https://sloanreview.mit.edu/article/philosophy-eats-ai/">sloanreview.mit.edu/article/philosophy-eats-ai</a></p>
-  <p>Sculley, D., et al. (2015). Hidden technical debt in machine learning systems. <i>Advances in Neural Information Processing Systems 28</i> (NeurIPS). <a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf</a></p>
-  <p>Tambe, P., Hitt, L., Rock, D., &amp; Brynjolfsson, E. (2020). <i>Digital capital and superstar firms</i> (NBER Working Paper 28285). <a href="https://www.nber.org/papers/w28285">nber.org/papers/w28285</a></p>
+  <p>Riahi, Y., et al. (2021). Artificial intelligence applications in supply chain: A descriptive bibliometric analysis and future research directions. <i>Expert Systems with Applications</i>, 173, 114702. <a href="https://repository.adu.ac.ae/items/e186e982-2412-4d96-b417-5a48fdb86d75/full">repository.adu.ac.ae/items/e186e982-2412-4d96-b417-5a48fdb86d75/full</a></p>
+  <p>Van Hoek, R., DeWitt, M., Lacity, M., &amp; Johnson, T. (2022). How Walmart automated supplier negotiations. <i>Harvard Business Review</i>, nov. 2022. <a href="https://hbr.org/2022/11/how-walmart-automated-supplier-negotiations">hbr.org/2022/11/how-walmart-automated-supplier-negotiations</a>. Números de rollout: Gizmodo/Bloomberg (2023), <a href="https://gizmodo.com/walmart-ai-chatbot-inflation-gpt-1850385783">gizmodo.com/walmart-ai-chatbot-inflation-gpt-1850385783</a></p>
   <p>Zillow Group. (2021, 2 de novembro). Form 8-K, Exhibit 99.1 — resultados do 3º trimestre de 2021. SEC. <a href="https://www.sec.gov/Archives/edgar/data/1617640/000161764021000085/q32021991.htm">sec.gov/Archives/edgar/data/1617640/000161764021000085/q32021991.htm</a></p>
 </div>
 
