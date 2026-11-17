@@ -10,7 +10,7 @@ Ajuda grupos do Seminário de IA em Operações e Supply Chain (COPPEAD/UFRJ) a 
 suas premissas e planejar evidência e implantação com o ELO antes da adoção.
 
 ## Instruções
-Cole todo o conteúdo do arquivo `instrucoes_do_gpt.txt` (7.008 caracteres; o limite é 8.000).
+Cole todo o conteúdo do arquivo `instrucoes_do_gpt.txt` (7.203 caracteres; o limite é 8.000).
 
 ## Frases iniciais (conversation starters)
 1. Somos o Grupo 1 e vamos começar a Sessão 2.
@@ -32,8 +32,8 @@ Publique como **Qualquer pessoa com o link** e envie o link para a turma. Quem f
 ChatGPT; a disponibilidade de GPTs personalizados para contas gratuitas pode variar.
 
 ## Teste antes da aula
-1. Abra o GPT e escreva "Somos o Grupo 1 e vamos começar a Sessão 2". Ele deve mostrar o plano da sessão e o
-   menu de cenários, e parar.
+1. Abra o GPT e escreva "Somos o Grupo 1 e vamos começar a Sessão 2". Ele deve mostrar o plano da sessão e
+   perguntar se o grupo traz o caso do seu quadro ou um dos cenários, e parar.
 2. Escolha um cenário e responda "não sei" a uma pergunta de dado. Ele deve oferecer um valor marcado como
    **[DADO DIDÁTICO]**.
 3. Responda "não sei" a uma pergunta de decisão (ex.: qual objetivo vence no conflito). Ele deve oferecer 2 ou 3
