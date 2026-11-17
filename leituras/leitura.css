@@ -10,7 +10,7 @@ h1,h2,h3{font-family:Caladea,Cambria,Georgia,serif;color:var(--navy);margin:0;li
 .band h1{color:#fff;font-size:28pt;margin-top:4mm}
 .band .sub{font-size:12.5pt;color:#e6e0d2;margin-top:2mm;max-width:150mm}
 .band .meta{margin-top:5mm;display:flex;gap:3mm;flex-wrap:wrap}
-.band .meta span{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;border:1px solid var(--gold);color:var(--gold);padding:1mm 2.2mm;border-radius:2px}
+.band .meta span{font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:var(--gold);padding:1mm 0;margin-right:4mm}
 .part{break-after:avoid;display:flex;align-items:baseline;gap:4mm;margin:8mm 0 3mm;padding-bottom:2mm;border-bottom:2px solid var(--navy)}
 .part .tag{font-family:"DejaVu Sans Mono",monospace;font-size:8pt;letter-spacing:.12em;text-transform:uppercase;background:var(--navy);color:#fff;padding:1mm 2.5mm}
 .part h2{font-size:18pt}

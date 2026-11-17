@@ -20,7 +20,7 @@ h3{font-size:12.5pt;margin:3.5mm 0 1.2mm}
 .flag{font-family:"DejaVu Sans Mono",monospace;font-size:7pt;padding:.2mm 1.2mm;border:1px solid var(--ink2);color:var(--ink2);border-radius:2px;white-space:nowrap;vertical-align:1px}
 .flag.ind{color:var(--ok);border-color:var(--ok)}
 .flag.auto{color:var(--bad);border-color:var(--bad)}
-.fict{display:inline-block;font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:#fff;background:var(--bad);padding:.3mm 1.6mm;letter-spacing:.06em;vertical-align:middle}
+.fict{display:inline-block;font-family:"DejaVu Sans Mono",monospace;font-size:7.5pt;color:inherit;font-weight:bold;letter-spacing:.06em;vertical-align:middle}
 .big{display:flex;gap:3mm;margin:3mm 0;break-inside:avoid}
 .big div{flex:1;border:1.5px solid var(--navy);padding:2.5mm;text-align:center}
 .big b{display:block;font-family:Caladea,Georgia,serif;font-size:22pt;color:var(--navy);line-height:1.1}
@@ -103,18 +103,18 @@ table.d tr{break-inside:avoid}
   </table>
 </div>
 
-<p>Junto com o degrau, faça mais duas perguntas: <b>quem mediu?</b> e <b>quem mediu vende a solução?</b> Um número do próprio fornecedor é <span class="flag auto">auto-reportado</span>. Um número de pesquisadores independentes, de um júri ou de um regulador é <span class="flag ind">independente</span>. Os dois podem ser verdadeiros. Mas valem pesos diferentes.</p>
+<p>Junto com o degrau, faça mais duas perguntas: <b>quem mediu?</b> e <b>quem mediu vende a solução?</b> Um número do próprio fornecedor é. Um número de pesquisadores independentes, de um júri ou de um regulador é. Os dois podem ser verdadeiros. Mas valem pesos diferentes.</p>
 
 <h3>Por que quase tudo está nos degraus 1 a 3</h3>
 <p>Culot, Podrecca e Nassimbeni (2024) revisaram a literatura sobre IA em supply chain. Partiram de 3.173 artigos e ficaram com <b>123 estudos empíricos com dados reais</b> de empresas. Simulações foram excluídas de propósito. É o “melhor da turma”. Mesmo assim, concluem que os benefícios relatados</p>
 <div class="quote">“são frequentemente expectativas ou resultados percebidos.” <span class="src">Culot et al., 2024 (tradução livre)</span></div>
 <p>Os autores notam também que as decisões de custo-benefício costumam ser “de percepção”: poucas empresas montam um business case estruturado. E um dos estudos revisados relata que <b>50% a 80% do tempo de projeto vai para coletar e limpar dados</b>.</p>
-<p>Onde há comparação, os ganhos são modestos. No caso Zara, um modelo de otimização passou a decidir as remessas para cerca de 1.500 lojas. Um experimento de campo controlado estimou <b>aumento de 3% a 4% nas vendas</b> (Caro, Gallien et al., 2010) <span class="flag ind">independente · finalista de prêmio com júri</span>. Na pesquisa que sustenta este seminário, onde há júri ou experimento, os ganhos ficam em geral entre <b>1% e 4%</b>. As cifras grandes e redondas costumam ser auto-reportadas e sem comparação.</p>
+<p>Onde há comparação, os ganhos são modestos. No caso Zara, um modelo de otimização passou a decidir as remessas para cerca de 1.500 lojas. Um experimento de campo controlado estimou <b>aumento de 3% a 4% nas vendas</b> (Caro, Gallien et al., 2010). Na pesquisa que sustenta este seminário, onde há júri ou experimento, os ganhos ficam em geral entre <b>1% e 4%</b>. As cifras grandes e redondas costumam ser auto-reportadas e sem comparação.</p>
 
 <!-- 3 -->
 <div class="part"><span class="tag">3 · Blocos D2 e E</span><h2>Acerta no total, erra no detalhe</h2></div>
 
-<p>A melhor evidência independente sobre previsão de demanda vem de uma competição internacional, a <b>M5</b> (Makridakis, Spiliotis &amp; Assimakopoulos, 2022) <span class="flag ind">independente</span>. Mais de 5.500 equipes tentaram prever as vendas de produtos do Walmart, em 42.840 séries de dados.</p>
+<p>A melhor evidência independente sobre previsão de demanda vem de uma competição internacional, a <b>M5</b> (Makridakis, Spiliotis &amp; Assimakopoulos, 2022). Mais de 5.500 equipes tentaram prever as vendas de produtos do Walmart, em 42.840 séries de dados.</p>
 
 <div class="big">
   <div><b>~22%</b><span>melhor que o método estatístico de referência, na média dos níveis (cerca de 40% no total da empresa)</span></div>
@@ -159,17 +159,17 @@ table.d tr{break-inside:avoid}
     <tr><th>Cond.</th><th>Caso real</th><th>Sinal de alerta antes de comprar</th></tr>
     <tr><td class="n">0</td><td><b>Epic Sepsis Model.</b> Validação externa achou desempenho bem abaixo do informado pelo fornecedor (detalhes abaixo).</td><td>A única prova é do fornecedor, de outros clientes, em degrau 1 ou 2.</td></tr>
     <tr><td class="n">1</td><td><b>Instacart, 2020.</b> Na pandemia, o acerto do modelo de disponibilidade caiu de 93% para 61% (abaixo). Na M5, o ganho no detalhe foi ~3%.</td><td>O acerto prometido é do total; ninguém disse o que muda o histórico.</td></tr>
-    <tr><td class="n">2</td><td><b>ORION, UPS.</b> As primeiras rotas não funcionaram no campo; o algoritmo teve de “pensar mais como um motorista” (INFORMS, 2016). Integração foi o obstáculo nº 1 em 47% de 152 projetos (Davenport &amp; Ronanki, 2018) <span class="flag">percepção de executivos</span>.</td><td>Não se sabe a que horas a recomendação chega, nem como o uso será registrado.</td></tr>
+    <tr><td class="n">2</td><td><b>ORION, UPS.</b> As primeiras rotas não funcionaram no campo; o algoritmo teve de “pensar mais como um motorista” (INFORMS, 2016). Integração foi o obstáculo nº 1 em 47% de 152 projetos (Davenport &amp; Ronanki, 2018).</td><td>Não se sabe a que horas a recomendação chega, nem como o uso será registrado.</td></tr>
     <tr><td class="n">3</td><td><b>O modelo de precificação do Zillow Offers.</b> A empresa comprou mais casas do que conseguia reformar e revender (abaixo).</td><td>Ninguém é dono da ação; não há gente, alçada ou capacidade para agir no volume previsto.</td></tr>
-    <tr><td class="n">4</td><td><b>METR, 2025.</b> Desenvolvedores com IA levaram 19% mais tempo, mas acreditavam ter sido 20% mais rápidos <span class="flag">pré-registrado · não revisado por pares</span>.</td><td>O plano mede “antes e depois”, ou por pesquisa de satisfação, sem grupo de comparação.</td></tr>
+    <tr><td class="n">4</td><td><b>METR, 2025.</b> Desenvolvedores com IA levaram 19% mais tempo, mas acreditavam ter sido 20% mais rápidos.</td><td>O plano mede “antes e depois”, ou por pesquisa de satisfação, sem grupo de comparação.</td></tr>
     <tr><td class="n">5</td><td><b>Manutenção escondida.</b> Sistemas de aprendizado de máquina são rápidos de construir, mas “difíceis e caros de manter” (Sculley et al., 2015).</td><td>A conta tem só a licença; faltam adoção, retreino e quem perde com a prioridade.</td></tr>
   </table>
 </div>
 
 <h3>Três casos para a aula</h3>
-<div class="pat"><b class="k">Condição 0 · Epic Sepsis Model</b>Modelo de alerta de sepse usado por cerca de 170 clientes da Epic. Uma validação externa na Universidade de Michigan, com 38.455 internações, encontrou AUC de 0,63, contra 0,76 a 0,83 informados (Wong et al., <i>JAMA Internal Medicine</i>, 2021). A AUC é uma nota de 0,5 (igual a sortear) a 1,0 (separa perfeitamente quem tem e quem não tem a doença). O modelo deixou de detectar 67% dos casos de sepse e alertou 18% de todos os pacientes. A Epic contestou o limite de alerta usado no estudo. <span class="flag">dados lidos via editorial e imprensa; artigo original não consultado</span></div>
-<div class="pat"><b class="k">Condição 1 · Instacart, março de 2020</b>Uma métrica interna de acerto do modelo de disponibilidade de itens caiu de 93% para 61% a partir de meados de março. Os dados de treino não refletiam a nova realidade. Com treino em até dez dias de dados e cálculo de hora em hora, voltou a ~85%, ainda abaixo do pré-pandemia (Fortune, 2020). Isso se chama <b>mudança nos dados</b>: o mundo deixa de se parecer com o histórico. <span class="flag">jornalismo com fala da empresa · métrica não definida na fonte</span></div>
-<div class="pat"><b class="k">Condição 3 · O modelo de precificação do Zillow Offers</b>No 3º trimestre de 2021, a Zillow comprou 9.680 casas e vendeu 3.032. A receita ficou em US$ 1,19 bi, abaixo da faixa esperada, por “renovation and resale capacity constraints” (Zillow, 2021). Em outubro, pausou novas compras. Em novembro, encerrou a operação. Note também: a métrica de retorno por casa que a empresa divulgava seguiu positiva (+2,37%), porque excluía a baixa contábil do estoque. No mesmo trimestre, o lucro bruto foi de −US$ 80.771 por casa vendida. Os dois números são verdadeiros. Só um sustenta uma decisão. <span class="flag auto">auto-reportado · documentos à SEC</span></div>
+<div class="pat"><b class="k">Condição 0 · Epic Sepsis Model</b>Modelo de alerta de sepse usado por cerca de 170 clientes da Epic. Uma validação externa na Universidade de Michigan, com 38.455 internações, encontrou AUC de 0,63, contra 0,76 a 0,83 informados (Wong et al., <i>JAMA Internal Medicine</i>, 2021). A AUC é uma nota de 0,5 (igual a sortear) a 1,0 (separa perfeitamente quem tem e quem não tem a doença). O modelo deixou de detectar 67% dos casos de sepse e alertou 18% de todos os pacientes. A Epic contestou o limite de alerta usado no estudo.</div>
+<div class="pat"><b class="k">Condição 1 · Instacart, março de 2020</b>Uma métrica interna de acerto do modelo de disponibilidade de itens caiu de 93% para 61% a partir de meados de março. Os dados de treino não refletiam a nova realidade. Com treino em até dez dias de dados e cálculo de hora em hora, voltou a ~85%, ainda abaixo do pré-pandemia (Fortune, 2020). Isso se chama <b>mudança nos dados</b>: o mundo deixa de se parecer com o histórico.</div>
+<div class="pat"><b class="k">Condição 3 · O modelo de precificação do Zillow Offers</b>No 3º trimestre de 2021, a Zillow comprou 9.680 casas e vendeu 3.032. A receita ficou em US$ 1,19 bi, abaixo da faixa esperada, por “renovation and resale capacity constraints” (Zillow, 2021). Em outubro, pausou novas compras. Em novembro, encerrou a operação. Note também: a métrica de retorno por casa que a empresa divulgava seguiu positiva (+2,37%), porque excluía a baixa contábil do estoque. No mesmo trimestre, o lucro bruto foi de −US$ 80.771 por casa vendida. Os dois números são verdadeiros. Só um sustenta uma decisão.</div>
 
 <div class="keep"><p>Três regras de leitura:</p>
 <ul class="tight">
@@ -202,7 +202,7 @@ table.d tr{break-inside:avoid}
   <li><b>Condição 0 ou 1:</b> pedir ao fornecedor prova num degrau mais alto, ou testar a solução nos nossos dados, no nível da decisão.</li>
   <li><b>Condição 2 ou 3:</b> desenhar com quem decide a linha do tempo (dado → recomendação → decisão) e o registro de uso; confirmar alçada e recursos para agir.</li>
   <li><b>Condição 4:</b> combinar um piloto com grupo de comparação no mesmo período, como no caso Zara.</li>
-  <li><b>Condição 5:</b> orçar a adoção, não só a tecnologia. Quase 90% das empresas que escalaram IA gastaram mais da metade do orçamento de analytics em adoção, contra 23% das demais (Fountaine et al., 2019) <span class="flag">levantamento de consultoria</span>.</li>
+  <li><b>Condição 5:</b> orçar a adoção, não só a tecnologia. Quase 90% das empresas que escalaram IA gastaram mais da metade do orçamento de analytics em adoção, contra 23% das demais (Fountaine et al., 2019).</li>
 </ul>
 <p>Um plano com vários “Não sei” não precisa ser descartado. Talvez precise de um passo menor antes da compra grande. Um plano com um “Não” num elo cedo (0, 1 ou 2) pede revisão antes de qualquer valor ser prometido.</p>
 
@@ -217,8 +217,8 @@ table.d tr{break-inside:avoid}
   <tr><td>Registros (logs) guardados por pelo menos seis meses (§6)</td><td class="n">2 · 4</td></tr>
   <tr><td>Informar trabalhadores e seus representantes antes do uso no local de trabalho (§7)</td><td class="n">2</td></tr>
 </table>
-<p style="margin-top:2.5mm"><b>Prazos.</b> Os deveres para os usos de alto risco do Anexo III valeriam em 02/08/2026. O acordo político do <i>Digital Omnibus</i>, de 06/05/2026, adiou-os para 02/12/2027. <span class="flag auto">publicação no Jornal Oficial a confirmar</span></p>
-<p><b>Brasil.</b> O PL 2338/2023 foi aprovado pelo Senado em 10/12/2024. Em novembro de 2026, segue na Câmara, aguardando o parecer do relator na Comissão Especial. <span class="flag">fonte de tramitação secundária</span></p>
+<p style="margin-top:2.5mm"><b>Prazos.</b> Os deveres para os usos de alto risco do Anexo III valeriam em 02/08/2026. O acordo político do <i>Digital Omnibus</i>, de 06/05/2026, adiou-os para 02/12/2027.</p>
+<p><b>Brasil.</b> O PL 2338/2023 foi aprovado pelo Senado em 10/12/2024. Em novembro de 2026, segue na Câmara, aguardando o parecer do relator na Comissão Especial.</p>
 <p>Confiram no texto oficial se o uso de vocês está no Anexo III. A lista não foi verificada nesta pesquisa. O ponto para o comitê: a competência para supervisionar o modelo não se terceiriza ao fornecedor. A lei transforma as condições 2 e 3 em obrigação de quem compra.</p>
 
 <!-- 7 -->
