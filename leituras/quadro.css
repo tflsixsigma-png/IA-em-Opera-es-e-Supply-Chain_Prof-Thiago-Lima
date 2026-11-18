@@ -86,3 +86,18 @@
 @page qzland{size:A4 landscape;margin:10mm}
 @media print{.qz-screen{display:none}}
 #qz [hidden]{display:none!important}
+/* catálogo de tipos de problema */
+#qz .qz-cat{display:flex;flex-direction:row;align-items:flex-start;gap:8px;font-weight:normal;color:var(--ink);padding:7px 6px;border-bottom:1px solid var(--line);cursor:pointer}
+#qz .qz-cat:hover{background:var(--cream)}
+#qz .qz-cat input{width:auto;margin-top:3px}
+#qz .qz-cat b{display:block;color:var(--navy);font-size:14.5px}
+#qz .qz-cat small{display:block;font-size:13px}
+#qz .qz-outro{display:flex;margin:8px 0 0;width:100%}
+#qz .qz-outro input[type=text]{flex:1}
+#qz #f-uso{display:flex;flex-direction:column;gap:9px}
+#qz dialog{max-height:calc(100vh - 24px);overflow:auto}
+.qz-note.u-nao{background:#fff;border:1.5px dashed #5d6675;box-shadow:none}
+.qz-note.u-ns{background:#e9edf3;border-color:#8a94a6}
+.qz-note em.u-nao,.qz-note em.u-ns{color:#3c4352}
+.qz-note span{font-size:12px;color:#3a4352}
+@media print{#qz-report .rn.u-nao{background:#fff;border:1px dashed #555}#qz-report .rn.u-ns{background:#e9edf3;border-color:#8a94a6}}
